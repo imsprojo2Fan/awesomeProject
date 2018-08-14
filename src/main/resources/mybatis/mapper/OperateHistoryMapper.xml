@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.awesome.dao.OperateHistoryMapper" >
+  <resultMap id="BaseResultMap" type="com.awesome.model.OperateHistory" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="openId" property="openid" jdbcType="VARCHAR" />
+    <result column="filmId" property="filmid" jdbcType="INTEGER" />
+    <result column="musicId" property="musicid" jdbcType="INTEGER" />
+    <result column="picId" property="picid" jdbcType="INTEGER" />
+    <result column="updated" property="updated" jdbcType="TIMESTAMP" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, openId, filmId, musicId, picId, updated, created
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from operate_history
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from operate_history
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.awesome.model.OperateHistory" >
+    insert into operate_history (id, openId, filmId, 
+      musicId, picId, updated, 
+      created)
+    values (#{id,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, #{filmid,jdbcType=INTEGER}, 
+      #{musicid,jdbcType=INTEGER}, #{picid,jdbcType=INTEGER}, #{updated,jdbcType=TIMESTAMP}, 
+      #{created,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.awesome.model.OperateHistory" >
+    insert into operate_history
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="openid != null" >
+        openId,
+      </if>
+      <if test="filmid != null" >
+        filmId,
+      </if>
+      <if test="musicid != null" >
+        musicId,
+      </if>
+      <if test="picid != null" >
+        picId,
+      </if>
+      <if test="updated != null" >
+        updated,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="filmid != null" >
+        #{filmid,jdbcType=INTEGER},
+      </if>
+      <if test="musicid != null" >
+        #{musicid,jdbcType=INTEGER},
+      </if>
+      <if test="picid != null" >
+        #{picid,jdbcType=INTEGER},
+      </if>
+      <if test="updated != null" >
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.awesome.model.OperateHistory" >
+    update operate_history
+    <set >
+      <if test="openid != null" >
+        openId = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="filmid != null" >
+        filmId = #{filmid,jdbcType=INTEGER},
+      </if>
+      <if test="musicid != null" >
+        musicId = #{musicid,jdbcType=INTEGER},
+      </if>
+      <if test="picid != null" >
+        picId = #{picid,jdbcType=INTEGER},
+      </if>
+      <if test="updated != null" >
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.awesome.model.OperateHistory" >
+    update operate_history
+    set openId = #{openid,jdbcType=VARCHAR},
+      filmId = #{filmid,jdbcType=INTEGER},
+      musicId = #{musicid,jdbcType=INTEGER},
+      picId = #{picid,jdbcType=INTEGER},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="listAllCount" parameterType="Map" resultType="java.lang.Integer">
+    select count(*) from operate_history
+    <if test="searchKey !=null and searchKey!=''">
+      where ( account like '%${searchKey}%' OR nickname LIKE '%${searchKey}%' )
+    </if>
+  </select>
+
+  <select id="listByPage" parameterType="Map" resultType="Map">
+    select * from operate_history
+
+    <if test="searchKey !=null and searchKey!=''">
+      where (account like '%${searchKey}%' OR nickname LIKE '%${searchKey}%')
+    </if>
+    <if test="sortCol !=null and sortCol!='' ">
+      Order by ${sortCol} ${sortType}
+    </if>
+
+    LIMIT ${pageNow},${pageSize}
+  </select>
+
+  <select id="searchByKey" parameterType="Map" resultType="Map">
+    select * from operate_history where ${key} = #{value}
+  </select>
+
+</mapper>

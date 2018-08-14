@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.awesome.dao.ResourceMapper" >
+  <resultMap id="BaseResultMap" type="com.awesome.model.Resource" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="eid" property="eid" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="director" property="director" jdbcType="VARCHAR" />
+    <result column="actor" property="actor" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="detailType" property="detailType" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="language" property="language" jdbcType="VARCHAR" />
+    <result column="publish" property="publish" jdbcType="VARCHAR" />
+    <result column="length" property="length" jdbcType="VARCHAR" />
+    <result column="imgSrc1" property="imgSrc1" jdbcType="VARCHAR" />
+    <result column="imgSrc2" property="imgSrc2" jdbcType="VARCHAR" />
+    <result column="imgSrc3" property="imgSrc3" jdbcType="VARCHAR" />
+    <result column="isOn" property="isOn" jdbcType="INTEGER" />
+    <result column="views" property="views" jdbcType="INTEGER" />
+    <result column="comments" property="comments" jdbcType="INTEGER" />
+    <result column="collects" property="collects" jdbcType="INTEGER" />
+    <result column="likes" property="likes" jdbcType="INTEGER" />
+    <result column="updated" property="updated" jdbcType="TIMESTAMP" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, eid,name, director, actor, type, detailType, area, language, publish, length,
+    imgSrc1, imgSrc2, imgSrc3, isOn, views, comments, collects, likes, updated, created
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from resource
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from resource
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.awesome.model.Resource" >
+    insert into resource (id, eid, name,
+      director, actor, type, 
+      detailType, area, language, 
+      publish, length, imgSrc1, 
+      imgSrc2, imgSrc3,isOn, views, comments,
+      collects, likes, updated, 
+      created)
+    values (#{id,jdbcType=INTEGER}, #{eid,jdbcType=VARCHAR} #{name,jdbcType=VARCHAR},
+      #{director,jdbcType=VARCHAR}, #{actor,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{detailType,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{language,jdbcType=VARCHAR}, 
+      #{publish,jdbcType=VARCHAR}, #{length,jdbcType=VARCHAR}, #{imgSrc1,jdbcType=VARCHAR}, 
+      #{imgSrc2,jdbcType=VARCHAR}, #{imgSrc3,jdbcType=VARCHAR},#{isOn,jdbcType=INTEGER}, #{views,jdbcType=INTEGER}, #{comments,jdbcType=INTEGER},
+      #{collects,jdbcType=INTEGER}, #{likes,jdbcType=INTEGER}, #{updated,jdbcType=TIMESTAMP}, 
+      #{created,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.awesome.model.Resource" >
+    insert into resource
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="eid != null" >
+        eid,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="director != null" >
+        director,
+      </if>
+      <if test="actor != null" >
+        actor,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="detailType != null" >
+        detailType,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="language != null" >
+        language,
+      </if>
+      <if test="publish != null" >
+        publish,
+      </if>
+      <if test="length != null" >
+        length,
+      </if>
+      <if test="imgSrc1 != null" >
+        imgSrc1,
+      </if>
+      <if test="imgSrc2 != null" >
+        imgSrc2,
+      </if>
+      <if test="imgSrc3 != null" >
+        imgSrc3,
+      </if>
+      <if test="isOn != null" >
+        isOn,
+      </if>
+      <if test="views != null" >
+        views,
+      </if>
+      <if test="comments != null" >
+        comments,
+      </if>
+      <if test="collects != null" >
+        collects,
+      </if>
+      <if test="likes != null" >
+        likes,
+      </if>
+      <if test="updated != null" >
+        updated,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="eid != null" >
+        #{eid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="director != null" >
+        #{director,jdbcType=VARCHAR},
+      </if>
+      <if test="actor != null" >
+        #{actor,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="detailType != null" >
+        #{detailType,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="language != null" >
+        #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="publish != null" >
+        #{publish,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null" >
+        #{length,jdbcType=VARCHAR},
+      </if>
+      <if test="imgSrc1 != null" >
+        #{imgSrc1,jdbcType=VARCHAR},
+      </if>
+      <if test="imgSrc2 != null" >
+        #{imgSrc2,jdbcType=VARCHAR},
+      </if>
+      <if test="imgSrc3 != null" >
+        #{imgSrc3,jdbcType=VARCHAR},
+      </if>
+      <if test="isOn != null" >
+        #{isOn,jdbcType=INTEGER},
+      </if>
+      <if test="views != null" >
+        #{views,jdbcType=INTEGER},
+      </if>
+      <if test="comments != null" >
+        #{comments,jdbcType=INTEGER},
+      </if>
+      <if test="collects != null" >
+        #{collects,jdbcType=INTEGER},
+      </if>
+      <if test="likes != null" >
+        #{likes,jdbcType=INTEGER},
+      </if>
+      <if test="updated != null" >
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.awesome.model.Resource" >
+    update resource
+    <set >
+      <if test="eid != null" >
+        eid = #{eid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="director != null" >
+        director = #{director,jdbcType=VARCHAR},
+      </if>
+      <if test="actor != null" >
+        actor = #{actor,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="detailType != null" >
+        detailType = #{detailType,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="language != null" >
+        language = #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="publish != null" >
+        publish = #{publish,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null" >
+        length = #{length,jdbcType=VARCHAR},
+      </if>
+      <if test="imgSrc1 != null" >
+        imgSrc1 = #{imgSrc1,jdbcType=VARCHAR},
+      </if>
+      <if test="imgSrc2 != null" >
+        imgSrc2 = #{imgSrc2,jdbcType=VARCHAR},
+      </if>
+      <if test="imgSrc3 != null" >
+        imgSrc3 = #{imgSrc3,jdbcType=VARCHAR},
+      </if>
+      <if test="isOn != null" >
+        isOn = #{isOn,jdbcType=INTEGER},
+      </if>
+      <if test="views != null" >
+        views = #{views,jdbcType=INTEGER},
+      </if>
+      <if test="comments != null" >
+        comments = #{comments,jdbcType=INTEGER},
+      </if>
+      <if test="collects != null" >
+        collects = #{collects,jdbcType=INTEGER},
+      </if>
+      <if test="likes != null" >
+        likes = #{likes,jdbcType=INTEGER},
+      </if>
+      <if test="updated != null" >
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.awesome.model.Resource" >
+    update resource
+    set eid = #{eid,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      director = #{director,jdbcType=VARCHAR},
+      actor = #{actor,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      detailType = #{detailType,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      language = #{language,jdbcType=VARCHAR},
+      publish = #{publish,jdbcType=VARCHAR},
+      length = #{length,jdbcType=VARCHAR},
+      imgSrc1 = #{imgSrc1,jdbcType=VARCHAR},
+      imgSrc2 = #{imgSrc2,jdbcType=VARCHAR},
+      imgSrc3 = #{imgSrc3,jdbcType=VARCHAR},
+      isOn = #{isOn,jdbcType=INTEGER},
+      views = #{views,jdbcType=INTEGER},
+      comments = #{comments,jdbcType=INTEGER},
+      collects = #{collects,jdbcType=INTEGER},
+      likes = #{likes,jdbcType=INTEGER},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="listAllCount" parameterType="Map" resultType="Map">
+    select r.*,s.* from resource r,series s where r.eid=s.rid
+    <if test="searchKey !=null and searchKey!=''">
+      and ( r.name like '%${searchKey}%' OR r.director LIKE '%${searchKey}%' OR r.actor LIKE '%${searchKey}%' OR r.detailType LIKE '%${searchKey}%' )
+    </if>
+  </select>
+
+  <select id="listByPage" parameterType="Map" resultType="Map">
+    select r.*,s.* from resource r,series s where r.eid=s.rid
+
+    <if test="searchKey !=null and searchKey!=''">
+      and (r.name like '%${searchKey}%' OR r.director LIKE '%${searchKey}%' OR r.actor LIKE '%${searchKey}%' OR r.detailType LIKE '%${searchKey}%')
+    </if>
+    <if test="sortCol !=null and sortCol!='' ">
+      Order by ${sortCol} ${sortType}
+    </if>
+
+    LIMIT ${pageNow},${pageSize}
+  </select>
+
+  <select id="searchByKey" parameterType="Map" resultType="Map">
+    select * from resource where ${key} = #{value}
+  </select>
+</mapper>

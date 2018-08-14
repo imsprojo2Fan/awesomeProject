@@ -1,0 +1,67 @@
+/*================================================================================
+	Item Name: Kode
+	Description: Premium Bootstrap Admin Template
+	Author: Egemen Kapusuz
+	Author URL: http://www.themeforest.net/user/egemem
+================================================================================*/
+
+/* ================================================
+Google Web Fonts
+================================================ */
+/* Montserrat */
+/*@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
+!* Open Sans *!
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,600,700,800,300);*/
+
+/* === Icons === */
+/* Font Awesome */
+@import url('font-awesome.min.css');
+
+/* ================================================
+Main Css
+================================================ */
+/* Bootstrap Main Css File (unedited) */
+@import url('../plugins/bootstrap/bootstrap.css');
+
+
+
+
+
+
+/* ================================================
+Plugin Css
+================================================ */
+/* Awesome Bootstrap Checkbox *//* Theme Style */
+@import url('../css/style.css');
+
+/* Responsive Style */
+@import url('../css/responsive.css');
+
+@import url('../plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css');
+
+/* Bootstrap Select */
+@import url('../plugins/bootstrap/bootstrap-select/bootstrap-select.css');
+
+/* Bootstrap Select */
+@import url('../plugins/bootstrap/bootstrap-toggle/bootstrap-toggle.min.css');
+
+/* Bootstrap wysihtml5 */
+@import url('../plugins/bootstrap/bootstrap-wysihtml5/bootstrap-wysihtml5.css');
+
+
+/* Sweet Alert */
+@import url('../plugins/sweet-alert/sweet-alert.css');
+
+/* Data Tables */
+@import url('../plugins/datatables/datatables.css');
+
+/* Date Range Picker */
+@import url('../plugins/date-range-picker/daterangepicker-bs3.css');
+
+/* Full Calendar */
+@import url('../plugins/fullcalendar/fullcalendar.css');
+
+/* loading */
+@import url('../css/loaders.css');
+
+

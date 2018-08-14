@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>主页</title>
+        <!-- ========== Css Files ========== -->
+        <link href="../../css/root.css" rel="stylesheet">
+        <style>
+            html{
+                overflow-y:auto;
+            }
+        </style>
+
+    </head>
+    <body style="padding-bottom: 8%">
+        <div id="loading" class="loading-wrap" style="display: none">
+            <div class="loader" >
+                <div class="la-ball-clip-rotate-multiple la-3x">
+                    <div></div>
+                    <div></div>
+                </div>
+                <div class="loaderTxt">数据交互中...</div>
+            </div>
+        </div>
+
+        <div style="position: fixed;top:0px;width: 100%;z-index: 99">
+
+            <div  id="blank" style="width: 100%;height: 60px;background-color:#6195FF"></div>
+            <!-- Start Page Header -->
+            <div class="page-header" style="margin: 0 0">
+                <h1 class="title">主页</h1>
+                <!--<ol class="breadcrumb">
+                    <li><a class="active" href="javascript:void(0)">数据列表</a></li>
+                    <li><a href="javascript:void(0)">新增数据</a></li>
+                </ol>-->
+            </div>
+
+        </div>
+
+        <!-- //////////////////////////////////////////////////////////////////////////// -->
+        <!-- START CONTENT -->
+        <div class="content">
+
+
+            <!-- //////////////////////////////////////////////////////////////////////////// -->
+            <!-- START CONTAINER -->
+            <div class="container-padding" >
+
+                <!-- Start Row -->
+                <div class="row">
+
+                    <!-- Start Panel -->
+                    <div id="panel" class="col-sm-12">
+                        <div class="panel panel-default">
+
+                        </div>
+                    </div>
+                    <!-- End Panel -->
+
+                </div>
+                <!-- End Row -->
+
+
+            </div>
+            <!-- END CONTAINER -->
+            <!-- //////////////////////////////////////////////////////////////////////////// -->
+
+
+        </div>
+        <!-- End Content -->
+        <!-- //////////////////////////////////////////////////////////////////////////// -->
+
+        <!-- ================================================
+        jQuery Library
+        ================================================ -->
+        <script type="text/javascript" src="../../js/jquery.min.js"></script>
+
+        <!-- ================================================
+        Bootstrap Core JavaScript File
+        ================================================ -->
+        <script src="../../plugins/bootstrap/bootstrap.min.js"></script>
+
+
+
+        <script>
+            $(function () {
+                //调用父页面弹窗通知
+                //window.parent.swalInfo('TEST',666,'error')
+            });
+
+        </script>
+
+    </body>
+</html>

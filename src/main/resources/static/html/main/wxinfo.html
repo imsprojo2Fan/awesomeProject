@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>微信信息管理</title>
+    <!-- ========== Css Files ========== -->
+    <link href="../../css/root.css" rel="stylesheet">
+    <style>
+        html{
+            overflow-y:auto;
+        }
+        /*下拉框宽度设置*/
+        .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+            width: 140px;
+            height: 34px;
+        }
+        .red{
+            color: red;
+        }
+        .col-center-block {
+            float: none;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .modal-dialog{
+            /*margin-left:35%;*/
+        }
+        #tip{
+            color: red;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body style="padding-bottom: 8%">
+<div id="loading" class="loading-wrap">
+    <div class="loader" >
+        <div class="la-ball-clip-rotate-multiple la-3x">
+            <div></div>
+            <div></div>
+        </div>
+        <div class="loaderTxt">数据交互中...</div>
+    </div>
+</div>
+
+<div id="blank" style="width: 100%;height: 65px;background-color:#6195FF"></div>
+
+<!-- //////////////////////////////////////////////////////////////////////////// -->
+<!-- START CONTENT -->
+<div class="content">
+
+    <!-- Start Page Header -->
+    <div class="page-header">
+        <h1 class="title">微信信息管理</h1>
+        <!--<ol class="breadcrumb">
+            <li><a class="active" href="javascript:void(0)">数据列表</a></li>
+            <li><a href="javascript:void(0)">新增账号</a></li>
+        </ol>-->
+
+    </div>
+    <!-- End Page Header -->
+
+
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START CONTAINER -->
+    <div class="container-padding" >
+
+        <!-- Start Row -->
+        <div class="row">
+
+            <!-- Start Panel -->
+            <div id="panel" class="col-sm-12">
+                <div class="panel panel-default">
+                    <div id="tab1" class="panel-body table-responsive">
+                        <table id="myTable" class="table display">
+                        </table>
+                    </div>
+                    <div id="tab2" style="display: none">
+
+                        <div class="panel-body">
+                            <form class="form-horizontal">
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label form-label"></label>
+                                    <div class="col-sm-10">
+                                        <p class="form-control-static"></p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="account" class="col-sm-2 control-label form-label"><span class="red">*</span>系统账号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" maxlength="20" style="ime-mode:disabled" id="account" onKeyUp="value=value.replace(/[^/a-zA-Z0-9]/g,'')" placeholder="Account">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="password" class="col-sm-2 control-label form-label"><span class="red">*</span>账号密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="password" maxlength="30" placeholder="Password">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="password2" class="col-sm-2 control-label form-label"><span class="red">*</span>确认密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="password2" maxlength="30" placeholder="Password">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label form-label">账号类型</label>
+                                    <div class="col-sm-6">
+                                        <select class="selectpicker" >
+                                            <option value="3">高级管理员</option>
+                                            <option value="2">管理员</option>
+                                            <option selected value="1">普通用户</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="name" class="col-sm-2 control-label form-label">用户昵称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" maxlength="15" onkeyup="value=value.replace(/[^/a-zA-Z\0-9\u4E00-\u9FA5]/g,'')" class="form-control" id="name" placeholder="Name" >
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="phone" class="col-sm-2 control-label form-label">手机号码</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" class="form-control" maxlength="11" id="phone" placeholder="Phone" >
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email" class="col-sm-2 control-label form-label">用户邮箱</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" onKeyUp="value=value.replace(/[^/a-zA-Z0-9.@]/g,'')"  class="form-control" maxlength="40" id="email" placeholder="Email" >
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-6">
+                                        <a href="javascript:add()" class="btn btn-default">提交</a>&nbsp;&nbsp;
+                                        <a id="reset" href="javascript:reset()" class="btn btn-danger">重置</a>
+                                    </div>
+                                </div>
+
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Panel -->
+
+        </div>
+        <!-- End Row -->
+
+
+    </div>
+    <!-- END CONTAINER -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        查看详情
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="col-sm-offset-1">
+                        <span class="form-control-static" >头像：</span><img style="width: 45px" id="detail_avatar" src="../../image/icon.png">
+                    </div>
+                    <div class="col-sm-offset-1">
+                        <p class="form-control-static" >openid：<span id="detail_openid"></span></p>
+                    </div>
+                    <div class="col-sm-offset-1">
+                        <p class="form-control-static" >微信昵称：<span id="detail_nickName"></span></p>
+                    </div>
+                    <div class="col-sm-offset-1">
+                        <p class="form-control-static" >性别：<span id="detail_gender"></span></p>
+                    </div>
+                    <div class="col-sm-offset-1">
+                        <p class="form-control-static" >城市：<span id="detail_city"></span></p>
+                    </div>
+                    <div class="col-sm-offset-1">
+                        <p class="form-control-static" >创建时间：<span id="detail_created"></span></p>
+                    </div>
+                    <div class="col-sm-offset-1">
+                        <p class="form-control-static" >最近一次更新：<span id="detail_updated"></span></p>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title" id="editModalLabel">
+                        编辑信息&nbsp;&nbsp;<span id="tip"></span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label form-label"></label>
+                            <div class="col-sm-10">
+                                <p class="form-control-static"></p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="account" class="col-sm-2 control-label form-label"><span class="red">*</span>系统账号</label>
+                            <div class="col-sm-10">
+                                <input type="hidden" id="Eid">
+                                <input type="text" class="form-control" maxlength="20" style="ime-mode:disabled" id="Eaccount" onKeyUp="value=value.replace(/[^/a-zA-Z0-9]/g,'')" placeholder="Account" disabled>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="col-sm-2 control-label form-label"><span class="red">*</span>账号密码</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" id="Epassword" maxlength="30" placeholder="Password">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password2" class="col-sm-2 control-label form-label"><span class="red">*</span>确认密码</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" id="Epassword2" maxlength="30" placeholder="Password">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label form-label">账号类型</label>
+                            <div class="col-sm-6">
+                                <select id="Eselect" class="selectpicker" >
+                                    <option value="3">高级管理员</option>
+                                    <option value="2">管理员</option>
+                                    <option selected value="1">普通用户</option>
+                                </select>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label form-label">用户昵称</label>
+                            <div class="col-sm-10">
+                                <input type="text" onkeyup="value=value.replace(/[^/a-zA-Z\0-9\u4E00-\u9FA5]/g,'')" maxlength="15" class="form-control" id="Ename" placeholder="Name" >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone" class="col-sm-2 control-label form-label">手机号码</label>
+                            <div class="col-sm-10">
+                                <input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" class="form-control" maxlength="11" id="Ephone" placeholder="Phone" >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Eemail" class="col-sm-2 control-label form-label">用户邮箱</label>
+                            <div class="col-sm-10">
+                                <input type="email"  class="form-control" onKeyUp="value=value.replace(/[^/a-zA-Z0-9.@]/g,'')" maxlength="40" id="Eemail" placeholder="Email" >
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="edit()" class="btn btn-default">
+                        提交更新
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+</div>
+<!-- End Content -->
+<!-- //////////////////////////////////////////////////////////////////////////// -->
+
+<!-- ================================================
+jQuery Library
+================================================ -->
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+
+<!-- ================================================
+Bootstrap Core JavaScript File
+================================================ -->
+<script src="../../plugins/bootstrap/bootstrap.min.js"></script>
+
+<!-- ================================================
+Bootstrap Select
+================================================ -->
+<script type="text/javascript" src="../../plugins/bootstrap/bootstrap-select/bootstrap-select.js"></script>
+
+<!-- ================================================
+Data Tables
+================================================ -->
+<script src="../../plugins/datatables/datatables.min.js"></script>
+<!--sweet alert-->
+<script src="../../plugins/sweet-alert/sweet-alert.min.js"></script>
+
+<script>
+    var myTable;
+    $(document).ready(function() {
+
+        //调用父页面弹窗通知
+        //window.parent.swalInfo('TEST',666,'error')
+
+        //tab导航栏切换
+        $(".breadcrumb a").each(function (i,item) {
+            $(item).on("click",function () {
+                var isActive = $(item).attr("class");
+                if(isActive){
+                    return
+                }else{
+                    //移除所有已选中
+                    $(".breadcrumb a").each(function () {
+                        $(this).removeClass("active");
+                    });
+                    //选中当前项
+                    $(this).addClass("active");
+                    if(i==0){
+                        $('#tab2').fadeOut(100);
+                        $("#tab1").fadeIn(100);
+                        refresh();
+                    }else{
+                        $('#tab1').fadeOut(100);
+                        $("#tab2").fadeIn(100);
+                    }
+                }
+            });
+        });
+
+
+        //datatable setting
+        myTable =$('#myTable').DataTable({
+            /*scrollY:        '100vh',*/
+            autoWidth: true,
+            scrollCollapse: true,
+            "processing": true,
+            serverSide: true,
+            //bSort:false,//排序
+            "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0,1,2,3,5 ] }],//指定哪些列不排序
+            "order": [[ 4, "desc" ]],//默认排序
+            ajax: {
+                url: '/main/wxinfo/list',
+                type: 'POST'
+            },
+            columns: [
+                {title:'openid', data: 'openid'},
+                {title:'昵称', data: 'nickName',"render":function (data) {
+                        if(!data){
+                            data = "暂未填写";
+                        }
+                        return data;
+                    } },
+                {title:'性别',data: 'gender',"render":function (data) {
+                        if(data==0){
+                            data = "未知";
+                        }else if(data==1){
+                            data = "男性";
+                        }else{
+                            data = "女性";
+                        }
+                        return data;
+                    } },
+                {title:'城市', data: 'city'},
+                {title:'创建时间', data: 'created',"render":function (data,type,row,meta) {
+                        return data;
+                    }},
+                {title:'操作', data: null,"render":function () {
+                        var html = "<a href='javascript:void(0);'  class='delete btn btn-default btn-xs'>查看</a>&nbsp;"
+                        /*html += "<a href='javascript:void(0);' class='up btn btn-info btn-xs'></i>编辑</a>&nbsp;"*/
+                        html += "<a href='javascript:void(0);' class='down btn btn-danger btn-xs'>删除</a>"
+                        return html;
+                    } }
+            ],
+            language: {
+                url: '../plugins/datatables/zh_CN.json'
+            },
+            "createdRow": function ( row, data, index ) {//回调函数用于格式化返回数据
+                /*if(!data.name){
+                    $('td', row).eq(2).html("暂未填写");
+                }*/
+            }
+        });
+
+        $('.dataTables_wrapper .dataTables_filter input').css("background","blue");
+
+        var rowData;
+        $('#myTable').on("click",".btn-default",function(e){//查看
+            rowData = myTable.row($(this).closest('tr')).data();
+            console.log(rowData);
+            var avatar = rowData.avatar;
+            if(avatar){
+                $('#detail_avatar').attr("src",avatar);
+            }
+            $('#detail_openid').html(rowData.openid);
+            $('#detail_nickName').html(rowData.nickName);
+            var gender = rowData.gender;
+            if(gender==0){
+                gender = '未知';
+            }else if(gender==1){
+                gender = "男性";
+            }else{
+                gender = '女性';
+            }
+            $('#detail_gender').html(gender);
+            var city = rowData.city;
+            if(!city){
+                city = "暂未填写";
+            }
+            $('#detail_city').html(city);
+            var created = rowData.created;
+            var unixTimestamp = new Date(created) ;
+            var commonTime = unixTimestamp.toLocaleString('chinese',{hour12:false});
+            $('#detail_created').html(commonTime);
+
+            var updated = rowData.updated;
+            if(updated){
+                var unixTimestamp = new Date(updated) ;
+                updated = unixTimestamp.toLocaleString('chinese',{hour12:false});
+            }else{
+                updated = "暂无更新";
+            }
+
+            $('#detail_updated').html(updated);
+            $('#detailModal').modal("show");
+        });
+        $('#myTable').on("click",".btn-info",function(e){//编辑
+            rowData = myTable.row($(this).closest('tr')).data();
+            console.log(rowData);
+            $('#Eid').val(rowData.id);
+            $('#Eaccount').val(rowData.account);
+            $('#Epassword').val("123456");//后台判断为该值则不更新密码
+            $('#Epassword2').val("123456");
+            var type = rowData.type;
+            $("#Eselect").selectpicker('val',type);//默认选中 value=“1” 的option
+            $("#Eselect").selectpicker('refresh');
+            $('#Ename').val(rowData.nickname);
+            $('#Ephone').val(rowData.phone);
+            $('#Eemail').val(rowData.email);
+            $('#tip').html("");
+            $('#editModal').modal("show");
+        });
+        $('#myTable').on("click",".btn-danger",function(e){//删除
+            rowData = myTable.row($(this).closest('tr')).data();
+            console.log(rowData);
+            var id = rowData.id;
+            swal({
+                    title: "确定删除吗？",
+                    text: "删除将无法恢复该信息！",
+                    type: "warning",
+                    showCancelButton: true,
+                    cancelButtonText:"取消",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "确定",
+                    closeOnConfirm: false
+                },
+                function(){
+                    del(id);
+                });
+        });
+
+
+    } );
+
+    function add(){
+        var acc = $('#account').val().trim();
+        var password = $('#password').val().trim();
+        var password2 = $('#password2').val().trim();
+        var type = $('.selectpicker').val();
+        var name = $('#name').val().trim();
+        var phone = $('#phone').val().trim();
+        var email = $('#email').val().trim();
+        if (!acc){
+            swal("账号不能为空!",' ',"warning");
+            return;
+        }
+        if (acc.length>20){
+            swal("账号字符长度过长!",' ',"warning");
+            return;
+        }
+        if(!password){
+            swal("请输入密码!",' ',"warning");
+            return;
+        }
+        if(!password2){
+            swal("请再次确认密码!",' ',"warning");
+            return;
+        }
+        if(password.length<6){
+            swal("密码长度过短!",' ',"warning");
+            return;
+        }
+        if(password!==password2){
+            swal("两次密码输入不一致!",' ',"warning");
+            return;
+        }
+
+        $.ajax({
+            url : "/main/wxinfo/add",
+            type : "POST",
+            dataType : "json",
+            cache : false,
+            data : {
+                account:acc,
+                password:password,
+                type:type,
+                nickname:name,
+                phone:phone,
+                email:email
+            },
+            beforeSend:function(){
+                $('#loading').fadeIn(200);
+            },
+            success : function(r) {
+                var type = "error";
+                if (r.code == 1) {
+                    type = "success";
+                    reset();
+                }
+                swal(r.msg,' ',type);
+            },
+            complete:function () {
+                $('#loading').fadeOut(200);
+            }
+        })
+    }
+
+    function edit(){
+        var acc = $('#Eaccount').val().trim();
+        var password = $('#Epassword').val().trim();
+        var password2 = $('#Epassword2').val().trim();
+        var type = $('#Eselect').val();
+        var name = $('#Ename').val().trim();
+        var phone = $('#Ephone').val().trim();
+        var email = $('#Eemail').val().trim();
+        if (!acc){
+            $('#tip').html("账号不能为空!");
+            return;
+        }
+        if (acc.length>20){
+            $('#tip').html("账号字符长度过长!");
+            return;
+        }
+        if(!password){
+            $('#tip').html("请输入密码!");
+            return;
+        }
+        if(!password2){
+            $('#tip').html("请再次确认密码!");
+            return;
+        }
+        if(password.length<6){
+            $('#tip').html("密码长度过短!");
+            return;
+        }
+        if(password!==password2){
+            $('#tip').html("两次密码输入不一致!");
+            return;
+        }
+
+        $.ajax({
+            url : "/main/wxinfo/edit",
+            type : "POST",
+            dataType : "json",
+            cache : false,
+            data : {
+                id:$('#Eid').val(),
+                account:acc,
+                password:password,
+                type:type,
+                nickname:name,
+                phone:phone,
+                email:email
+            },
+            beforeSend:function(){
+                $('#loading').fadeIn(200);
+            },
+            success : function(r) {
+                var type = "error";
+                if (r.code == 1) {
+                    type = "success";
+                    $('#editModal').modal("hide");
+                    //刷新表格
+                    refresh();
+                    swal(r.msg,' ',type);
+                }else{
+                    $('#tip').html(r.msg);
+                }
+            },
+            complete:function () {
+                $('#loading').fadeOut(200);
+            }
+        })
+    }
+
+    function del(id){
+
+        $.ajax({
+            url : "/main/wxinfo/delete",
+            type : "POST",
+            dataType : "json",
+            cache : false,
+            data : {
+                id:id
+            },
+            beforeSend:function(){
+                $('#loading').fadeIn(200);
+            },
+            success : function(r) {
+                if (r.code == 1) {
+                    swal("删除成功", " ", "success");
+                    refresh();
+                }else{
+                    swal("删除失败", "请稍后再试!", "error");
+                }
+            },
+            complete:function () {
+                $('#loading').fadeOut(200);
+            }
+        })
+    }
+
+    function reset() {
+        $(":input").each(function () {
+            $(this).val("");
+        });
+        $(".selectpicker").selectpicker('val',1);//下拉框选中 value=“1” 的option
+        $(".selectpicker").selectpicker('refresh');
+    }
+
+    function refresh() {
+        myTable.ajax.reload();
+    }
+
+    function swal(title,msg,type) {
+        window.parent.swalInfo(title,msg,type);
+    }
+
+</script>
+
+
+</body>
+</html>

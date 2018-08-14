@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="keywords" content="" />
+  <link rel="shortcut  icon" type="image/x-icon" href="../../image/icon.png" media="screen"  />
+  <title>Page400</title>
+
+  <!-- ========== Css Files ========== -->
+  <link href="../../css/err.css" rel="stylesheet">
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <style type="text/css">
+    body{background: #F5F5F5;}
+  </style>
+      <script>
+          $(function () {
+              var path = window.location.pathname;
+              console.log(path);
+              var pathArr = path.split("/");
+              console.log(pathArr[1]);
+              if(pathArr[1]=="user"){
+                  $('#btn').html("刷新当前页");
+                  $('#btn').on("click",function () {
+                      location.reload();
+                  });
+              }else{
+                  $('#btn').on("click",function () {
+                      location.href = "/login";
+                  });
+              }
+          })
+      </script>
+  </head>
+  <body>
+
+    <div class="error-pages">
+
+        <img id="img" src="image/400.png" alt="400" class="icon" width="400" height="260">
+        <h1>Sorry but we couldn’t find this page</h1>
+        <h4>It seems that this page doesn’t exist or has been removed</h4>
+        <form>
+          <input type="text" class="form-control" placeholder="Search for Page">
+          <i class="fa fa-search"></i>
+        </form>
+
+        <div class="bottom-links">
+          <a href="javascript:void(0)" id="btn" class="btn btn-default">返回登录页</a>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.awesome.dao.CommentMapper" >
+  <resultMap id="BaseResultMap" type="com.awesome.model.Comment" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="fId" property="fid" jdbcType="INTEGER" />
+    <result column="mId" property="mid" jdbcType="INTEGER" />
+    <result column="pId" property="pid" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="zanCount" property="zancount" jdbcType="INTEGER" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, fId, mId, pId, uid, content, zanCount, created
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from comment
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from comment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.awesome.model.Comment" >
+    insert into comment (id, fId, mId, 
+      pId, uid, content, 
+      zanCount, created)
+    values (#{id,jdbcType=INTEGER}, #{fid,jdbcType=INTEGER}, #{mid,jdbcType=INTEGER}, 
+      #{pid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
+      #{zancount,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.awesome.model.Comment" >
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="fid != null" >
+        fId,
+      </if>
+      <if test="mid != null" >
+        mId,
+      </if>
+      <if test="pid != null" >
+        pId,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="zancount != null" >
+        zanCount,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="fid != null" >
+        #{fid,jdbcType=INTEGER},
+      </if>
+      <if test="mid != null" >
+        #{mid,jdbcType=INTEGER},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="zancount != null" >
+        #{zancount,jdbcType=INTEGER},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.awesome.model.Comment" >
+    update comment
+    <set >
+      <if test="fid != null" >
+        fId = #{fid,jdbcType=INTEGER},
+      </if>
+      <if test="mid != null" >
+        mId = #{mid,jdbcType=INTEGER},
+      </if>
+      <if test="pid != null" >
+        pId = #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="zancount != null" >
+        zanCount = #{zancount,jdbcType=INTEGER},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.awesome.model.Comment" >
+    update comment
+    set fId = #{fid,jdbcType=INTEGER},
+      mId = #{mid,jdbcType=INTEGER},
+      pId = #{pid,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      zanCount = #{zancount,jdbcType=INTEGER},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="listAllCount" parameterType="Map" resultType="java.lang.Integer">
+    select count(*) from comment
+    <if test="searchKey !=null and searchKey!=''">
+      where ( account like '%${searchKey}%' OR nickname LIKE '%${searchKey}%' )
+    </if>
+  </select>
+
+  <select id="listByPage" parameterType="Map" resultType="Map">
+    select * from comment
+
+    <if test="searchKey !=null and searchKey!=''">
+      where (account like '%${searchKey}%' OR nickname LIKE '%${searchKey}%')
+    </if>
+    <if test="sortCol !=null and sortCol!='' ">
+      Order by ${sortCol} ${sortType}
+    </if>
+
+    LIMIT ${pageNow},${pageSize}
+  </select>
+
+  <select id="searchByKey" parameterType="Map" resultType="Map">
+    select * from comment where ${key} = #{value}
+  </select>
+</mapper>

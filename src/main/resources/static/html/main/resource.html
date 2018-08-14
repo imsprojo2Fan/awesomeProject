@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>资源管理</title>
+        <!-- ========== Css Files ========== -->
+        <link href="../../css/root.css" rel="stylesheet">
+        <!--<link rel="stylesheet" type="text/css" href="../../css/check.css">-->
+        <link href="../../plugins/page/myPage.css" rel="stylesheet" type="text/css" />
+        <style>
+            html{
+                overflow-y:auto;
+            }
+            .red{
+                color: red;
+            }
+            /*下拉框宽度设置*/
+            .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+                width: 100px;
+                height: 34px;
+            }
+            .pagination > li > a:focus, .pagination > li > a:hover, .pagination > li > span:focus, .pagination > li > span{
+                color:#6195FF ;
+            }
+            .pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover{
+                background-color: #6195FF;
+                border-color: #6195FF;
+            }
+        </style>
+
+    </head>
+    <body style="padding-bottom: 8%">
+        <div id="loading" class="loading-wrap" style="display: block">
+            <div class="loader" >
+                <div class="la-ball-clip-rotate-multiple la-3x">
+                    <div></div>
+                    <div></div>
+                </div>
+                <div class="loaderTxt">数据加载中...</div>
+            </div>
+        </div>
+
+        <div style="position: fixed;top:0px;width: 100%;z-index: 99">
+
+            <div  id="blank" style="width: 100%;height: 60px;background-color:#6195FF"></div>
+            <!-- Start Page Header -->
+            <div class="page-header" style="margin: 0 0">
+                <h1 class="title">资源管理</h1>
+                <ol id="nav1" class="breadcrumb">
+                    <li><a class="active" href="javascript:void(0)">数据列表</a></li>
+                    <li><a href="javascript:void(0)">新增数据</a></li>
+                </ol>
+                <ol id="nav2" style="display: none" class="breadcrumb">
+                    <li><p style="font-weight: normal;color:#999">编辑数据</p></li>
+                </ol>
+            </div>
+
+        </div>
+
+        <!-- End Page Header -->
+
+        <!-- //////////////////////////////////////////////////////////////////////////// -->
+        <!-- START CONTENT -->
+        <div class="content">
+
+            <!-- //////////////////////////////////////////////////////////////////////////// -->
+            <!-- START CONTAINER -->
+            <div class="container-padding" >
+
+                <!-- Start Row -->
+                <div class="row">
+
+                    <!-- Start Panel -->
+                    <div id="panel" class="col-sm-12">
+                        <div id="list" class="panel panel-default">
+
+                            <br>
+
+                            <div>
+                                <form class="bs-example bs-example-form" role="form">
+                                    <div class="row" style="text-align: center">
+                                        <div class="col-md-3">
+                                            <div class="input-group">
+                                                <input id="key" type="text" placeholder="资源名称" class="form-control">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" onclick="refresh(1,10)" type="button" style="background-color: #6195FF">
+                                                        搜索
+                                                    </button>
+                                                </span>
+                                            </div><!-- /input-group -->
+                                        </div><!-- /.col-lg-6 -->
+                                    </div><!-- /.row -->
+                                </form>
+                            </div>
+                            <br>
+
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+
+                                    <div class="row" id="content">
+
+                                    </div>
+
+                                    <br><br><br>
+
+                                    <div id="page" class="row" style="text-align: center">
+                                        <div class="col-md-12">
+                                            <form id="form1" runat="server">
+                                                <div>
+                                                </div>
+                                                <div>
+                                                    <ul class="pagination" id="pagination">
+                                                    </ul>
+                                                    <input type="hidden" id="PageCount" runat="server" />
+                                                    <input type="hidden" id="PageSize" runat="server" value="12" />
+                                                    <input type="hidden" id="countindex" runat="server" value="1"/>
+                                                    <!--设置最多显示的页码数 可以手动设置 默认为6-->
+                                                    <input type="hidden" id="visiblePages" runat="server" value="6" />
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div id="add" style="display: none" class="panel panel-default">
+                            <div class="panel-body">
+                                <form class="form-horizontal">
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label form-label"></label>
+                                        <div class="col-sm-10">
+                                            <p class="form-control-static"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="name" class="col-sm-2 control-label form-label"><span class="red">*</span>资源名称</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" maxlength="40" style="ime-mode:disabled" id="name" placeholder="资源名称">
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="director" class="col-sm-2 control-label form-label"><span class="red">*</span>导演</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="director" maxlength="30" placeholder="导演">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="actor" class="col-sm-2 control-label form-label"><span class="red">*</span>演员</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="actor" maxlength="60" placeholder="演员以/间隔">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label form-label">资源类型</label>
+                                        <div class="col-sm-6">
+                                            <select id="typeSelect" class="selectpicker" >
+                                                <option selected value="1">电影</option>
+                                                <option value="2">电视剧</option>
+                                                <option value="3">综艺</option>
+                                                <option value="4">动漫</option>
+                                                <option value="5">纪录片</option>
+                                            </select>
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="line-height: 15px">
+                                        <label class="col-sm-2 control-label form-label">类型</label>
+                                        <div class="col-sm-10">
+                                            <div id="type">
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox1" value="动作">
+                                                    <label for="inlineCheckbox1">动作</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox2" value="喜剧">
+                                                    <label for="inlineCheckbox2">喜剧</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox3" value="爱情">
+                                                    <label for="inlineCheckbox3">爱情</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox4" value="科幻">
+                                                    <label for="inlineCheckbox4">科幻</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox5" value="恐怖">
+                                                    <label for="inlineCheckbox5">恐怖</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox6" value="剧情">
+                                                    <label for="inlineCheckbox6">剧情</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox7" value="战争">
+                                                    <label for="inlineCheckbox7">战争</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox13" value="犯罪">
+                                                    <label for="inlineCheckbox13">犯罪</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox8" value="古装">
+                                                    <label for="inlineCheckbox1">古装</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox9" value="都市家庭">
+                                                    <label for="inlineCheckbox2">都市家庭</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox10" value="悬疑">
+                                                    <label for="inlineCheckbox10">悬疑</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox11" value="青春">
+                                                    <label for="inlineCheckbox11">青春</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox12" value="武侠">
+                                                    <label for="inlineCheckbox11">武侠</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox14" value="灾难">
+                                                    <label for="inlineCheckbox14">灾难</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox15" value="奇幻">
+                                                    <label for="inlineCheckbox15">奇幻</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox16" value="治愈">
+                                                    <label for="inlineCheckbox16">治愈</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox17" value="音乐">
+                                                    <label for="inlineCheckbox17">音乐</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox18" value="冒险">
+                                                    <label for="inlineCheckbox18">冒险</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="areaSelect" class="col-sm-2 control-label form-label">地区</label>
+                                        <div class="col-sm-6">
+                                            <!--<input type="text" maxlength="15" onkeyup="value=value.replace(/[^/a-zA-Z\0-9\u4E00-\u9FA5]/g,'')" class="form-control" id="area" placeholder="地区" >-->
+                                            <select id="areaSelect" class="selectpicker" >
+                                                <option selected value="1">大陆</option>
+                                                <option value="2">港台</option>
+                                                <option value="3">日韩</option>
+                                                <option value="4">欧美</option>
+                                                <option value="5">其他</option>
+                                            </select>
+                                            <span class="help-block"></span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="language" class="col-sm-2 control-label form-label">语言</label>
+                                        <div class="col-sm-10">
+                                            <select  id="language" class="selectpicker" >
+                                                <option selected value="国语">国语</option>
+                                                <option value="粤语">粤语</option>
+                                                <option value="英语">英语</option>
+                                                <option value="日语">日语</option>
+                                                <option value="韩语">韩语</option>
+                                                <option value="法语">法语</option>
+                                                <option value="意大利语">意大利语</option>
+                                                <option value="俄语">俄语</option>
+                                            </select>
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="publish" class="col-sm-2 control-label form-label">发行时间</label>
+                                        <div class="col-sm-10">
+                                            <input type="date"   class="form-control" maxlength="40" id="publish" placeholder="发行时间" >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="length" class="col-sm-2 control-label form-label">片长</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" style="width: 80px"  class="form-control" maxlength="40" id="length" placeholder="片长" >
+                                        </div>
+                                    </div>
+
+                                    <div id="seriesWrap" >
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label form-label">新增剧集</label>
+                                            <div class="col-sm-10">
+                                                <a onclick="addItem()" class="btn btn-sm btn-info">新增剧集</a>
+                                                <br/>
+                                                <div id="itemWrap"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="description" class="col-sm-2 control-label form-label">简介</label>
+                                        <div class="col-sm-10">
+                                            <textarea type="text" style="min-height: 120px;resize: vertical" class="form-control" id="description" placeholder="简介" ></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="imgSrc" class="col-sm-2 control-label form-label">封面图片</label>
+                                        <div class="col-sm-10" id="imgSrc">
+                                            <input type="hidden" id="picVal">
+                                            <a id="uploadPic" class="btn btn-primary">上传图片</a>&nbsp;<span class="text-info" id="picName"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-6">
+                                            <a href="javascript:add()" class="btn btn-default">提交</a>&nbsp;&nbsp;
+                                            <a id="reset" href="javascript:reset()" class="btn btn-danger">重置</a>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                        <div id="edit" style="display: none" class="panel panel-default">
+                            <div class="panel-body">
+                                <form class="form-horizontal">
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label form-label"></label>
+                                        <div class="col-sm-10">
+                                            <p class="form-control-static"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="edit_name" class="col-sm-2 control-label form-label"><span class="red">*</span>资源名称</label>
+                                        <div class="col-sm-10">
+                                            <input type="hidden" id="id">
+                                            <input type="text" class="form-control" maxlength="40" style="ime-mode:disabled" id="edit_name" placeholder="资源名称">
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="edit_director" class="col-sm-2 control-label form-label"><span class="red">*</span>导演</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="edit_director" maxlength="30" placeholder="导演">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="edit_actor" class="col-sm-2 control-label form-label"><span class="red">*</span>演员</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="edit_actor" maxlength="60" placeholder="演员以/间隔">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label form-label">资源类型</label>
+                                        <div class="col-sm-6">
+                                            <select id="edit_typeSelect" class="selectpicker" >
+                                                <option selected value="1">电影</option>
+                                                <option value="2">电视剧</option>
+                                                <option value="3">综艺</option>
+                                                <option value="4">动漫</option>
+                                                <option value="5">纪录片</option>
+                                            </select>
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="line-height: 15px">
+                                        <label class="col-sm-2 control-label form-label">类型</label>
+                                        <div class="col-sm-10">
+                                            <div id="edit_type">
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox1" value="动作">
+                                                    <label for="edit_inlineCheckbox1">动作</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox2" value="喜剧">
+                                                    <label for="edit_inlineCheckbox2">喜剧</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox3" value="爱情">
+                                                    <label for="edit_inlineCheckbox3">爱情</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox4" value="科幻">
+                                                    <label for="edit_inlineCheckbox4">科幻</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox5" value="恐怖">
+                                                    <label for="edit_inlineCheckbox5">恐怖</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox6" value="剧情">
+                                                    <label for="edit_inlineCheckbox6">剧情</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox7" value="战争">
+                                                    <label for="edit_inlineCheckbox7">战争</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox13" value="犯罪">
+                                                    <label for="edit_inlineCheckbox13">犯罪</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox8" value="古装">
+                                                    <label for="edit_inlineCheckbox1">古装</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox9" value="都市家庭">
+                                                    <label for="edit_inlineCheckbox2">都市家庭</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox10" value="悬疑">
+                                                    <label for="edit_inlineCheckbox10">悬疑</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox11" value="青春">
+                                                    <label for="edit_inlineCheckbox11">青春</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox12" value="武侠">
+                                                    <label for="edit_inlineCheckbox12">武侠</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox14" value="灾难">
+                                                    <label for="edit_inlineCheckbox14">灾难</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox15" value="奇幻">
+                                                    <label for="edit_inlineCheckbox15">奇幻</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox16" value="治愈">
+                                                    <label for="edit_inlineCheckbox16">治愈</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox17" value="音乐">
+                                                    <label for="edit_inlineCheckbox17">音乐</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox18" value="冒险">
+                                                    <label for="edit_inlineCheckbox18">冒险</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="edit_areaSelect" class="col-sm-2 control-label form-label">地区</label>
+                                        <div class="col-sm-6">
+                                            <!--<input type="text" maxlength="15" onkeyup="value=value.replace(/[^/a-zA-Z\0-9\u4E00-\u9FA5]/g,'')" class="form-control" id="area" placeholder="地区" >-->
+                                            <select id="edit_areaSelect" class="selectpicker" >
+                                                <option selected value="1">大陆</option>
+                                                <option value="2">港台</option>
+                                                <option value="3">日韩</option>
+                                                <option value="4">欧美</option>
+                                                <option value="5">其他</option>
+                                            </select>
+                                            <span class="help-block"></span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="edit_language" class="col-sm-2 control-label form-label">语言</label>
+                                        <div class="col-sm-10">
+                                            <select  id="edit_language" class="selectpicker" >
+                                                <option selected value="国语">国语</option>
+                                                <option value="粤语">粤语</option>
+                                                <option value="英语">英语</option>
+                                                <option value="日语">日语</option>
+                                                <option value="韩语">韩语</option>
+                                                <option value="法语">法语</option>
+                                                <option value="意大利语">意大利语</option>
+                                                <option value="俄语">俄语</option>
+                                            </select>
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="edit_isOn" class="col-sm-2 control-label form-label">是否上映</label>
+                                        <div class="col-sm-10">
+                                            <select  id="edit_isOn" class="selectpicker" >
+                                                <option selected value="1">上映</option>
+                                                <option value="0">下架</option>
+                                            </select>
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="edit_publish" class="col-sm-2 control-label form-label">发行时间</label>
+                                        <div class="col-sm-10">
+                                            <input type="date"   class="form-control" maxlength="40" id="edit_publish" placeholder="发行时间" >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="edit_length" class="col-sm-2 control-label form-label">片长</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" style="width: 80px"  class="form-control" maxlength="40" id="edit_length" placeholder="片长" >
+                                        </div>
+                                    </div>
+
+                                    <div id="edit_seriesWrap" >
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label form-label">新增剧集</label>
+                                            <div class="col-sm-10">
+                                                <a onclick="addItem()" class="btn btn-sm btn-info">新增剧集</a>
+                                                <br/>
+                                                <div id="edit_itemWrap"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="edit_description" class="col-sm-2 control-label form-label">简介</label>
+                                        <div class="col-sm-10">
+                                            <textarea type="text" style="min-height: 120px;resize: vertical" class="form-control" id="edit_description" placeholder="简介" ></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="edit_imgSrc" class="col-sm-2 control-label form-label">封面图片</label>
+                                        <div class="col-sm-10" id="edit_imgSrc">
+                                            <input type="hidden" id="edit_picVal">
+                                            <a id="edit_uploadPic" class="btn btn-primary">替换图片</a>&nbsp;<span class="text-info" id="edit_picName"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-6">
+                                            <a href="javascript:submit()" class="btn btn-default">提交</a>&nbsp;&nbsp;
+                                            <a href="javascript:back()" class="btn btn-danger">返回</a>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Panel -->
+
+                </div>
+                <!-- End Row -->
+
+
+            </div>
+            <!-- END CONTAINER -->
+            <!-- //////////////////////////////////////////////////////////////////////////// -->
+
+
+        </div>
+        <!-- End Content -->
+        <!-- //////////////////////////////////////////////////////////////////////////// -->
+
+        <!-- 模态框（Modal） -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog " style="width: 60%">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            新增剧集
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <input type="hidden" id="itemId">
+                            <div class="form-group">
+                                <label for="item_videoSrc" class="col-sm-2 control-label form-label">在线链接</label>
+                                <div class="col-sm-10">
+                                    <input type="text"   class="form-control"  id="item_videoSrc" placeholder="在线链接" >
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="item_bdUrl" class="col-sm-2 control-label form-label">百度云</label>
+                                <div class="col-sm-10">
+                                    <input type="text"   class="form-control"  id="item_bdUrl" placeholder="百度云" >
+                                </div>
+                            </div>
+
+                            <!--<div class="form-group">
+                                <label for="item_bdPass" class="col-sm-2 control-label form-label">百度云密码</label>
+                                <div class="col-sm-2">
+                                    <input type="text" style="width: 80px"  maxlength="4"  class="form-control"  id="item_bdPass" placeholder="分享密码" >
+                                </div>
+                            </div>-->
+
+                            <div class="form-group">
+                                <label for="item_xlUrl1" class="col-sm-2 control-label form-label">下载链接1</label>
+                                <div class="col-sm-10">
+                                    <input type="text"   class="form-control"  id="item_xlUrl1" placeholder="下载链接1" >
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="item_xlUrl2" class="col-sm-2 control-label form-label">下载链接2</label>
+                                <div class="col-sm-10">
+                                    <input type="text"   class="form-control"  id="item_xlUrl2" placeholder="下载链接2" >
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                            <label for="item_xlUrl3" class="col-sm-2 control-label form-label">下载链接3</label>
+                            <div class="col-sm-10">
+                                <input type="text"   class="form-control"  id="item_xlUrl3" placeholder="下载链接3" >
+                            </div>
+                        </div>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button id="cancel" onclick="delItem()" type="button" class="btn btn-danger">
+                            取消
+                        </button>
+                        <button onclick="itemConfirm();" id="confirm" type="button" class="btn btn-default" data-dismiss="modal">
+                            新增
+                        </button>
+
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+
+        <!-- ================================================
+        jQuery Library
+        ================================================ -->
+        <script type="text/javascript" src="../../js/jquery.min.js"></script>
+
+        <!-- ================================================
+        Bootstrap Core JavaScript File
+        ================================================ -->
+        <script src="../../plugins/bootstrap/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../../plugins/bootstrap/bootstrap-select/bootstrap-select.js"></script>
+
+        <script src="../../plugins/page/jqPaginator.min.js" type="text/javascript"></script>
+        <script src="../../plugins/page/page4resource.js" type="text/javascript"></script>
+
+        <script src="https://cdn.bootcss.com/jquery_lazyload/1.9.7/jquery.lazyload.min.js"></script>
+
+
+        <script>
+            var GlobalDom;
+            $(function () {
+                //调用父页面弹窗通知
+                //window.parent.swalInfo('TEST',666,'error');
+
+                //tab导航栏切换
+                $(".breadcrumb a").each(function (i,item) {
+                    $(item).on("click",function () {
+                        var isActive = $(item).attr("class");
+                        if(isActive){
+                            return
+                        }else{
+                            //移除所有已选中
+                            $(".breadcrumb a").each(function () {
+                                $(this).removeClass("active");
+                            });
+                            //选中当前项
+                            $(this).addClass("active");
+                            if(i==0){
+                                $('#add').hide();
+                                $("#list").show();
+                                refresh();
+                            }else{
+                                $('#list').hide();
+                                $("#add").show();
+                            }
+                        }
+                    });
+                });
+
+                refresh(1,12);
+
+                $('#uploadPic').on('click',function () {
+                    openWindow("/main/redirect?htmlName=uploadPic","",1000,600);
+                });
+
+                $('#edit_uploadPic').on('click',function () {
+                    openWindow("/main/redirect?htmlName=uploadPic","",1000,600);
+                });
+
+
+
+                $("img.lazy").lazyload({
+                    placeholder : "../../image/loading.gif",
+                    effect : "fadeIn",
+                    //threshold : 200,
+                    //skip_invisible : true
+                });
+
+                GlobalDom = $('#edit_type').html();
+
+
+            });
+            var GlobalArr;
+            function refresh(pageNow,pageSize) {
+                var key = $('#key').val().trim();
+                $.ajax({
+                    url:"/main/resource/list",
+                    type:"POST",
+                    dataType:"json",
+                    cache : false,
+                    data:{
+                        key:key,
+                        pageNow:pageNow,
+                        pageSize:pageSize
+                    },
+                    beforeSend:function(){
+                        $("body").parent().css("overflow-y","hidden");
+                        $('#loading').fadeIn(200);
+                    },
+                    success : function(r,status) {
+                        if (status == "success") {
+                            console.log(r.data);
+                            GlobalArr = r.data;
+                            $('#content').html("");
+                            var dataArr = r.data;
+                            $('#page').show();
+                            if(dataArr.length==0){
+                                $('#page').hide();
+                                swal("暂无数据!","换个姿势吧","info");
+                                return;
+                            }
+                            for(var i=0;i<dataArr.length;i++){
+                                var objArr = dataArr[i];
+                                    obj = objArr[0];
+                                    var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
+                                    //var error = "https://interesting.zooori.cn/pic/error.png";
+                                    var error = "../../image/error1.png";
+                                    $('#content').append('<div class="col-sm-3">\n' +
+                                        '                                            <div class="team fa-border" style="padding: 30px">\n' +
+                                        '                                                <div class="team-img">\n' +
+                                        '                                                    <img onerror=src="'+error+'" class="img-responsive " src="'+imgSrc+'" alt="图片加载失败">\n' +
+                                        '                                                </div>\n' +
+                                        '                                                <div class="team-content">\n' +
+                                        '                                                    <h5>'+obj.name+'</h5>\n' +
+                                        '                                                    <a style="cursor: pointer" onclick="edit('+i+')" title="编辑"><i class="fa fa-edit"> 编辑</i></a>\n' +
+                                        '                                                    &nbsp;&nbsp;\n' +
+                                        '                                                    <a style="cursor: pointer" onclick="del('+i+')" title="删除"><i class="text-danger fa fa-trash-o"> 删除</i></a>\n' +
+                                        '                                                </div>\n' +
+                                        '                                            </div>\n' +
+                                        '                                        </div>');
+                            }
+
+                            //debugger
+                            if(pageNow===1){
+                                loadData(r.recordsTotal);
+                                loadpage();
+                            }
+                        } else {
+                            swal(r.msg,' ',"error");
+                        }
+                    },
+                    complete:function () {
+                        $("body").parent().css("overflow-y","auto");
+                        $('#loading').fadeOut(200);
+                    }
+                });
+            }
+
+            function reset() {
+                $(":input").each(function () {
+                    $(this).val("");
+                });
+                $("input:checkbox").each(function () {
+                    $(this).attr("checked",false);
+                });
+                $(".selectpicker").selectpicker('val',1);//下拉框选中 value=“1” 的option
+                $(".selectpicker").selectpicker('refresh');
+                $('#uploadPic').html("上传图片");
+                $('#picName').html("");
+                $('#picVal').val("");
+                $('#edit_uploadPic').html("替换图片");
+                $('#edit_picName').html("");
+                $('#edit_picVal').val("");
+            }
+
+            function back() {
+                $('#nav1').show();
+                $('#list').show();
+                $('#nav2').hide();
+                $('#edit').hide();
+            }
+
+            function openWindow(url,name,iWidth,iHeight)
+            {
+
+                var url; //转向网页的地址;
+                var name; //网页名称，可为空;
+                var iWidth; //弹出窗口的宽度;
+                var iHeight; //弹出窗口的高度;
+                var iTop = (window.screen.availHeight-30-iHeight)/2; //获得窗口的垂直位置;
+                var iLeft = (window.screen.availWidth-10-iWidth)/2; //获得窗口的水平位置;
+                var openWindow = window.open(url,name,'height='+iHeight+',,innerHeight='+iHeight+',width='+iWidth+',innerWidth='+iWidth+',top='+iTop+',left='+iLeft+',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
+                //alert(openWindow);
+            }
+
+            var itemArr = new Array();
+            function add() {
+                var name = $('#name').val().trim();
+                var director = $('#director').val().trim();
+                var actor = $('#actor').val().trim();
+                var type = $('#typeSelect').val();
+                var arr = "";
+                $('.styled').each(function () {
+                    //console.log($(this).is(":checked"));
+                    //console.log($(this).next().html());
+                    if($(this).is(":checked")){
+                        arr = arr+","+$(this).next().html();
+                    }
+                });
+                arr = arr.substring(1,arr.length);
+                var area = $('#areaSelect').val();
+                var language = $('#language').val();
+                var publish = $('#publish').val();
+                var length = $('#length').val().trim();
+                var imgSrc1 = $('#picVal').val();
+                var description = $('#description').val().trim();
+                if(!name){
+                    swal("名字不能为空！","","error");
+                    return;
+                }
+                if(!director){
+                    swal("导演不能为空！","","error");
+                    return;
+                }
+                if(!actor){
+                    swal("演员不能为空！","","error");
+                    return;
+                }
+
+                if(itemArr.length==0){
+                    swal("请添加剧集！","","error");
+                    return;
+                }
+
+                var videoSrcArr = "";
+                var bdUrlArr = "";
+                var xlUrlArr1 = "";
+                var xlUrlArr2 = "";
+                var xlUrlArr3 = "";
+                for(var i=0;i<itemArr.length;i++){
+                    var obj = itemArr[i];
+                    var a1 = obj.videoSrc;
+                    if(!a1){
+                        a1 = "@";
+                    }
+                    videoSrcArr = videoSrcArr+","+a1;
+                    var a2 = obj.bdUrl;
+                    if(!a2){
+                        a2 = '@';
+                    }
+                    bdUrlArr = bdUrlArr+","+a2;
+                    var a3 = obj.xlUrl1;
+                    if(!a3){
+                        a3 = "@";
+                    }
+                    xlUrlArr1 = xlUrlArr1+","+a3;
+                    var a4 = obj.xlUrl2;
+                    if(!a4){
+                        a4 = "@";
+                    }
+                    xlUrlArr2 = xlUrlArr2+","+a4;
+                    var a5 = obj.xlUrl3;
+                    if(!a5){
+                        a5 = '@';
+                    }
+                    xlUrlArr3 = xlUrlArr2+","+a5;
+                }
+
+                $.ajax({
+                    url:"/main/resource/add",
+                    type:"POST",
+                    dataType:"json",
+                    cache : false,
+                    data:{
+                        name:name,
+                        director:director,
+                        actor:actor,
+                        type:type,
+                        detailType:arr,
+                        area:area,
+                        language:language,
+                        publish:publish,
+                        length:length,
+                        imgSrc1:imgSrc1,
+                        description:description,
+                        a1:videoSrcArr,
+                        a2:bdUrlArr,
+                        a3:xlUrlArr1,
+                        a4:xlUrlArr2,
+                        a5:xlUrlArr3
+                    },
+                    beforeSend:function(){
+                        $("body").parent().css("overflow-y","hidden");
+                        $('#loading').fadeIn(200);
+                    },
+                    success : function(r) {
+                        if (r.code == 1) {
+                            swal(r.msg,'',"success");
+                            reset();
+                            resetItem();
+                        } else {
+                            swal(r.msg,' ',"error");
+                        }
+                    },
+                    complete:function () {
+                        $("body").parent().css("overflow-y","auto");
+                        $('#loading').fadeOut(200);
+                    }
+                });
+            }
+
+
+            function edit(index_) {
+                console.log(GlobalArr[index_]);
+                var objArr = GlobalArr[index_];
+                var id,name,director,actor,type,detailType,area,language,isOn,publish,length,description,imgSrc1;
+                var itemIndex=0,index=-1;
+                $('#edit_itemWrap').html("");
+                itemArr = new Array();
+                for(var i=0;i<objArr.length;i++){
+                    var obj = objArr[i];
+                    if(i===0){
+                        id = obj.id;
+                        name = obj.name;
+                        director = obj.director;
+                        actor = obj.actor;
+                        type = obj.type;
+                        detailType = obj.detailType;
+                        area = obj.area;
+                        language = obj.language;
+                        isOn = obj.isOn;
+                        publish = obj.publish;
+                        length = obj.length;
+                        description = obj.description;
+                        imgSrc1 = obj.imgSrc1;
+                    }
+                    //渲染剧集ui
+                    itemIndex++;
+                    index++;
+                    var obj_ = {};
+                    obj_.id = index;
+                    obj_.videoSrc = obj.videoSrc;
+                    obj_.bdUrl = obj.bdUrl;
+                    obj_.xlUrl1 = obj.xlUrl1;
+                    obj_.xlUrl2 = obj.xlUrl2;
+                    obj_.xlUrl3 = obj.xlUrl3;
+                    itemArr.push(obj_);
+                    if(itemIndex<10){
+                        itemIndex = "0"+itemIndex;
+                    }
+                    $('#edit_itemWrap').append('<a style="margin-top: 6px;margin-right: 5px" class="btn btn-default btn-sm s_item" onclick="editItem('+index+')">'+itemIndex+'</a>');
+
+                }
+                $('#id').val(id);
+                $('#edit_name').val(name);
+                $('#edit_director').val(director);
+                $('#edit_actor').val(actor);
+                $('#edit_typeSelect').val(type);
+                $('#edit_typeSelect').selectpicker('refresh');
+                var str = detailType;
+                var arr = str.split(",");
+
+
+                $('#edit_type').html(GlobalDom);
+
+
+                $('#edit_type .styled').each(function () {
+                    //debugger
+                    var val = $(this).val();
+                    for(var i=0;i<arr.length;i++){
+                        var type = arr[i];
+                        if(val===type){
+                            console.log("val:"+val+"---type:"+type);
+                            $(this).attr('checked',true);
+                            $(this).parents('.checker').find('span').addClass('checked');
+                        }
+                    }
+                });
+
+
+                $('#edit_areaSelect').val(area);
+                $('#edit_areaSelect').selectpicker('refresh');
+                $('#edit_language').val(language);
+                $('#edit_language').selectpicker('refresh');
+                $('#edit_isOn').val(isOn);
+                $('#edit_isOn').selectpicker('refresh');
+                $('#edit_publish').val(publish);
+                $('#edit_length').val(length);
+                $('#edit_description').val(description);
+                $('#edit_picVal').val(imgSrc1);
+                var imgSrc = "https://interesting.zooori.cn/pic/"+imgSrc1;
+                $('#edit_picName').html('<img width="6%" style="float: right" class="img-responsive" src="'+imgSrc+'">')
+
+
+                //$('#myModal').modal('show')
+                $('#nav1').hide();
+                $('#list').hide();
+                $('#nav2').show();
+
+                $('#edit').show();
+            }
+
+            function submit() {
+                var name = $('#edit_name').val().trim();
+                var director = $('#edit_director').val().trim();
+                var actor = $('#edit_actor').val().trim();
+                var type = $('#edit_typeSelect').val();
+                var arr = "";
+                $('#edit_type .styled').each(function () {
+                    //console.log($(this).is(":checked"));
+                    //console.log($(this).next().html());
+                    if($(this).is(":checked")){
+                        arr = arr+","+$(this).next().html();
+                    }
+                });
+                arr = arr.substring(1,arr.length);
+                var area = $('#edit_areaSelect').val();
+                var language = $('#edit_language').val();
+                var publish = $('#edit_publish').val();
+                var length = $('#edit_length').val().trim();
+                var imgSrc1 = $('#edit_picVal').val();
+
+                var description = $('#edit_description').val().trim();
+                if(!name){
+                    swal("名字不能为空！","","error");
+                    return;
+                }
+                if(!director){
+                    swal("导演不能为空！","","error");
+                    return;
+                }
+                if(!actor){
+                    swal("演员不能为空！","","error");
+                    return;
+                }
+
+                var videoSrcArr = "";
+                var bdUrlArr = "";
+                var xlUrlArr1 = "";
+                var xlUrlArr2 = "";
+                var xlUrlArr3 = "";
+                for(var i=0;i<itemArr.length;i++){
+                    var obj = itemArr[i];
+                    var a1 = obj.videoSrc;
+                    if(!a1){
+                        a1 = "@";
+                    }
+                    videoSrcArr = videoSrcArr+","+a1;
+                    var a2 = obj.bdUrl;
+                    if(!a2){
+                        a2 = '@';
+                    }
+                    bdUrlArr = bdUrlArr+","+a2;
+                    var a3 = obj.xlUrl1;
+                    if(!a3){
+                        a3 = "@";
+                    }
+                    xlUrlArr1 = xlUrlArr1+","+a3;
+                    var a4 = obj.xlUrl2;
+                    if(!a4){
+                        a4 = "@";
+                    }
+                    xlUrlArr2 = xlUrlArr2+","+a4;
+                    var a5 = obj.xlUrl3;
+                    if(!a5){
+                        a5 = '@';
+                    }
+                    xlUrlArr3 = xlUrlArr2+","+a5;
+                }
+
+                $.ajax({
+                    url:"/main/resource/edit",
+                    type:"POST",
+                    dataType:"json",
+                    cache : false,
+                    data:{
+                        id:$('#id').val(),
+                        name:name,
+                        director:director,
+                        actor:actor,
+                        type:type,
+                        detailType:arr,
+                        area:area,
+                        language:language,
+                        publish:publish,
+                        length:length,
+                        imgSrc1:imgSrc1,
+                        description:description,
+                        isOn:$('#edit_isOn').val(),
+                        a1:videoSrcArr,
+                        a2:bdUrlArr,
+                        a3:xlUrlArr1,
+                        a4:xlUrlArr2,
+                        a5:xlUrlArr3
+                    },
+                    beforeSend:function(){
+                        $("body").parent().css("overflow-y","hidden");
+                        $('#loading').fadeIn(200);
+                    },
+                    success : function(r) {
+                        if (r.code == 1) {
+                            swal(r.msg,'',"success");
+                            back();
+                            refresh(1,12);
+                        } else {
+                            swal(r.msg,' ',"error");
+                        }
+                    },
+                    complete:function () {
+                        $("body").parent().css("overflow-y","auto");
+                        $('#loading').fadeOut(200);
+                    }
+                });
+            }
+
+            function del(index) {
+                var obj = GlobalArr[index];
+                var id = obj.id;
+                swal({
+                        title: "确定删除吗？",
+                        text: "删除将无法恢复该信息！",
+                        type: "warning",
+                        showCancelButton: true,
+                        cancelButtonText:"取消",
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "确定",
+                        closeOnConfirm: false
+                    },
+                    function(){
+                        //return
+                        $.post("/main/resource/delete",{id:id},function (r,status) {
+                            if(status==="success"){
+                                swal(r.msg,"","success");
+                                refresh(1,12);
+                            }else{
+                                swal(r.msg,"","error");
+                            }
+                        })
+                    });
+            }
+
+            function swal(title,msg,type) {
+                window.parent.swalInfo(title,msg,type);
+            }
+
+            function select() {
+                var val = $('#typeSelect').val();
+                if(val==1){
+                    $('#linkWrap').show();
+                    $('#seriesWrap').hide();
+                    $('#itemWrap').html("");
+                    itemIndex = 0;
+                    itemArr = new Array();
+                }else{
+                    $('#linkWrap').hide();
+                    $('#seriesWrap').show();
+                }
+            }
+            var itemIndex = 0;
+            var index = -1;
+
+
+            function addItem() {
+                resetItem();
+                $('#myModal').modal("show");
+            }
+
+            function itemConfirm(){
+                //debugger
+                var type = $('#confirm').html().trim();
+                if(type==="新增"){//新增数据
+                    itemIndex++;
+                    index++;
+                    var obj = {};
+                    obj.id = index;
+                    obj.videoSrc = $('#item_videoSrc').val().trim();
+                    obj.bdUrl = $('#item_bdUrl').val().trim();
+                    //obj.bdPass = $('#item_bdPass').val().trim();
+                    obj.xlUrl1 = $('#item_xlUrl1').val().trim();
+                    obj.xlUrl2 = $('#item_xlUrl2').val().trim();
+                    obj.xlUrl3 = $('#item_xlUrl3').val().trim();
+                    itemArr.push(obj);
+                    if(itemIndex<10){
+                        itemIndex = "0"+itemIndex;
+                    }
+                    $('#itemWrap').append('<a style="margin-top: 6px;margin-right: 5px" class="btn btn-default btn-sm s_item" onclick="editItem('+index+')">'+itemIndex+'</a>');
+                }else{//编辑更新
+                    var curIndex = $('#itemId').val();
+                    console.log(curIndex);
+                    var obj = itemArr[curIndex];
+                    obj.id = curIndex;
+                    obj.videoSrc = $('#item_videoSrc').val().trim();
+                    obj.bdUrl = $('#item_bdUrl').val().trim();
+                    //obj.bdPass = $('#item_bdPass').val().trim();
+                    obj.xlUrl1 = $('#item_xlUrl1').val().trim();
+                    obj.xlUrl2 = $('#item_xlUrl2').val().trim();
+                    obj.xlUrl3 = $('#item_xlUrl3').val().trim();
+                }
+
+                $('#myModal').modal("hide");
+
+            }
+
+            function editItem(index) {
+                console.log(index);
+                console.log(itemArr);
+                $('#cancel').html("删除");
+                $('#confirm').html("确定");
+                var item = itemArr[index];
+                $('#itemId').val(item.id);
+                $('#item_videoSrc').val(item.videoSrc);
+                $('#item_bdUrl').val(item.bdUrl);
+                //$('#item_bdPass').val(item.bdPass);
+                $('#item_xlUrl1').val(item.xlUrl1);
+                $('#item_xlUrl2').val(item.xlUrl2);
+                $('#item_xlUrl3').val(item.xlUrl3);
+                $('#myModal').modal("show");
+            }
+
+            function delItem(){
+                //debugger
+                var type = $('#cancel').html().trim();
+                if(type==="删除"){
+                    var index = $('#itemId').val();
+                    console.log(itemArr);
+                    var obj = {}
+                    obj.id=-1;
+                    itemArr[index] = obj;
+                    console.log(itemArr);
+                    //渲染ui;
+                    $('#itemWrap').html("");
+                    for(var i=0;i<itemArr.length;i++){
+                        //debugger;
+                        var obj = itemArr[i];
+                        var id = obj.id;
+                        var itemIndex = id+1;
+                        if(id!==-1){
+                            if(itemIndex<10){
+                                itemIndex = "0"+itemIndex;
+                            }
+                            $('#itemWrap').append('<a style="margin-top: 6px;margin-right: 5px" class="btn btn-default btn-sm s_item" onclick="editItem('+obj.id+')">'+itemIndex+'</a>');
+                        }
+                    }
+                }
+
+                $('#myModal').modal("hide");
+
+            }
+
+            function resetItem(){
+                $('#itemId').val("");
+                $('#item_videoSrc').val("");
+                $('#item_bdUrl').val("");
+                //$('#item_bdPass').val("");
+                $('#item_xlUrl1').val("");
+                $('#item_xlUrl2').val("");
+                $('#item_xlUrl3').val("");
+            }
+
+            Array.prototype.delete=function(delIndex){
+                var temArray=[];
+                for(var i=0;i<this.length;i++){
+                    if(i!=delIndex){
+                        temArray.push(this[i]);
+                    }
+                }
+                return temArray;
+            }
+
+        </script>
+
+    </body>
+</html>

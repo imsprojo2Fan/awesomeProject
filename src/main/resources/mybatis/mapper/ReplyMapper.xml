@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.awesome.dao.ReplyMapper" >
+  <resultMap id="BaseResultMap" type="com.awesome.model.Reply" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="commentId" property="commentid" jdbcType="INTEGER" />
+    <result column="fromUid" property="fromuid" jdbcType="INTEGER" />
+    <result column="toUid" property="touid" jdbcType="INTEGER" />
+    <result column="replyMsg" property="replymsg" jdbcType="VARCHAR" />
+    <result column="read" property="read" jdbcType="INTEGER" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, commentId, fromUid, toUid, replyMsg, read, created
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from reply
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from reply
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.awesome.model.Reply" >
+    insert into reply (id, commentId, fromUid, 
+      toUid, replyMsg, read, 
+      created)
+    values (#{id,jdbcType=INTEGER}, #{commentid,jdbcType=INTEGER}, #{fromuid,jdbcType=INTEGER}, 
+      #{touid,jdbcType=INTEGER}, #{replymsg,jdbcType=VARCHAR}, #{read,jdbcType=INTEGER}, 
+      #{created,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.awesome.model.Reply" >
+    insert into reply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="commentid != null" >
+        commentId,
+      </if>
+      <if test="fromuid != null" >
+        fromUid,
+      </if>
+      <if test="touid != null" >
+        toUid,
+      </if>
+      <if test="replymsg != null" >
+        replyMsg,
+      </if>
+      <if test="read != null" >
+        read,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="commentid != null" >
+        #{commentid,jdbcType=INTEGER},
+      </if>
+      <if test="fromuid != null" >
+        #{fromuid,jdbcType=INTEGER},
+      </if>
+      <if test="touid != null" >
+        #{touid,jdbcType=INTEGER},
+      </if>
+      <if test="replymsg != null" >
+        #{replymsg,jdbcType=VARCHAR},
+      </if>
+      <if test="read != null" >
+        #{read,jdbcType=INTEGER},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.awesome.model.Reply" >
+    update reply
+    <set >
+      <if test="commentid != null" >
+        commentId = #{commentid,jdbcType=INTEGER},
+      </if>
+      <if test="fromuid != null" >
+        fromUid = #{fromuid,jdbcType=INTEGER},
+      </if>
+      <if test="touid != null" >
+        toUid = #{touid,jdbcType=INTEGER},
+      </if>
+      <if test="replymsg != null" >
+        replyMsg = #{replymsg,jdbcType=VARCHAR},
+      </if>
+      <if test="read != null" >
+        read = #{read,jdbcType=INTEGER},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.awesome.model.Reply" >
+    update reply
+    set commentId = #{commentid,jdbcType=INTEGER},
+      fromUid = #{fromuid,jdbcType=INTEGER},
+      toUid = #{touid,jdbcType=INTEGER},
+      replyMsg = #{replymsg,jdbcType=VARCHAR},
+      read = #{read,jdbcType=INTEGER},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="listAllCount" parameterType="Map" resultType="java.lang.Integer">
+    select count(*) from reply
+    <if test="searchKey !=null and searchKey!=''">
+      where ( account like '%${searchKey}%' OR nickname LIKE '%${searchKey}%' )
+    </if>
+  </select>
+
+  <select id="listByPage" parameterType="Map" resultType="Map">
+    select * from reply
+
+    <if test="searchKey !=null and searchKey!=''">
+      where (account like '%${searchKey}%' OR nickname LIKE '%${searchKey}%')
+    </if>
+    <if test="sortCol !=null and sortCol!='' ">
+      Order by ${sortCol} ${sortType}
+    </if>
+
+    LIMIT ${pageNow},${pageSize}
+  </select>
+
+  <select id="searchByKey" parameterType="Map" resultType="Map">
+    select * from reply where ${key} = #{value}
+  </select>
+</mapper>
