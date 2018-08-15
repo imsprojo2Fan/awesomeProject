@@ -2,6 +2,7 @@ package com.awesome.controller;
 
 import com.awesome.config.JsonResult;
 import com.awesome.model.Resource;
+import com.awesome.model.Series;
 import com.awesome.model.WXInfo;
 import com.awesome.service.ResourceService;
 import com.awesome.service.SeriesService;
@@ -73,6 +74,10 @@ public class ResourceController {
 					videoSrcStr = videoSrcStr.substring(1,videoSrcStr.length());
 					String[] videoSrcArr = videoSrcStr.split(",");
 
+					String orderStr = request.getParameter("a0");
+					orderStr = orderStr.substring(1,orderStr.length());
+					String[] orderArr = orderStr.split(",");
+
 					String bdStr = request.getParameter("a2");
 					bdStr = bdStr.substring(1,bdStr.length());
 					String[] bdArr = bdStr.split(",");
@@ -92,6 +97,7 @@ public class ResourceController {
 					for(int i=0;i<videoSrcArr.length;i++){
 						Map item = new HashMap();
 						item.put("rid",eid);
+						item.put("order",orderArr[i]);
 						item.put("videoSrc",videoSrcArr[i]);
 						item.put("bdUrl",bdArr[i]);
 						item.put("xlUrl1",xl1Arr[i]);
@@ -121,7 +127,7 @@ public class ResourceController {
 	}
 
 	/**
-	 * 根据id删除用户
+	 * 根据id删除
 	 * @param id
 	 * @return
 	 */
@@ -216,27 +222,10 @@ public class ResourceController {
 		qMap.put("searchKey",searchKey);
 
 		List cList = service.listAllCount(qMap);
-		cList = removeDuplicate(cList);
 		rList = service.listByPage(qMap);
 
-		for(int i=0;i<rList.size();i++){
-			Map map = rList.get(i);
-			String md5 = (String)map.get("eid");
-			if(!mdList.contains(md5)){
-				mdList.add(md5);
-				List mList = new ArrayList();
-				mList.add(map);
-				tempList.add(mList);
-			}else{
-				List mList = tempList.get(mdList.indexOf(md5));
-				mList.add(map);
-				tempList.add(mList);
-			}
-
-		}
-
 		backMap.put("recordsTotal",cList.size());
-		backMap.put("data",removeDuplicate(tempList));
+		backMap.put("data",removeDuplicate(rList));
 		backMap.put("msg","成功查询数据");
 
 		return backMap;

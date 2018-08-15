@@ -3,29 +3,31 @@ package com.awesome.model;
 import java.util.Date;
 
 public class Series {
-    private Integer id;
+    private Integer sid;
 
     private String rid;
 
-    private String videosrc;
+    private String videoSrc;
 
-    private String bdurl;
+    private String bdUrl;
 
-    private String bdpass;
+    private String bdPass;
 
-    private String xlurl1;
+    private String xlUrl1;
 
-    private String xlurl2;
+    private String xlUrl2;
 
-    private String xlurl3;
+    private String xlUrl3;
 
-    private String xlurl4;
+    private String xlUrl4;
 
-    private String xlurl5;
+    private String xlUrl5;
 
     private String description;
 
-    private Integer ison;
+    private Integer isOn;
+
+    private Integer sequence;
 
     private Integer views;
 
@@ -39,12 +41,12 @@ public class Series {
 
     private Date created;
 
-    public Integer getId() {
-        return id;
+    public Integer getSid() {
+        return sid;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setSid(Integer sid) {
+        this.sid = sid;
     }
 
     public String getRid() {
@@ -55,68 +57,68 @@ public class Series {
         this.rid = rid;
     }
 
-    public String getVideosrc() {
-        return videosrc;
+    public String getVideoSrc() {
+        return videoSrc;
     }
 
-    public void setVideosrc(String videosrc) {
-        this.videosrc = videosrc;
+    public void setVideoSrc(String videoSrc) {
+        this.videoSrc = videoSrc;
     }
 
-    public String getBdurl() {
-        return bdurl;
+    public String getBdUrl() {
+        return bdUrl;
     }
 
-    public void setBdurl(String bdurl) {
-        this.bdurl = bdurl;
+    public void setBdUrl(String bdUrl) {
+        this.bdUrl = bdUrl;
     }
 
-    public String getBdpass() {
-        return bdpass;
+    public String getBdPass() {
+        return bdPass;
     }
 
-    public void setBdpass(String bdpass) {
-        this.bdpass = bdpass;
+    public void setBdPass(String bdPass) {
+        this.bdPass = bdPass;
     }
 
-    public String getXlurl1() {
-        return xlurl1;
+    public String getXlUrl1() {
+        return xlUrl1;
     }
 
-    public void setXlurl1(String xlurl1) {
-        this.xlurl1 = xlurl1;
+    public void setXlUrl1(String xlUrl1) {
+        this.xlUrl1 = xlUrl1;
     }
 
-    public String getXlurl2() {
-        return xlurl2;
+    public String getXlUrl2() {
+        return xlUrl2;
     }
 
-    public void setXlurl2(String xlurl2) {
-        this.xlurl2 = xlurl2;
+    public void setXlUrl2(String xlUrl2) {
+        this.xlUrl2 = xlUrl2;
     }
 
-    public String getXlurl3() {
-        return xlurl3;
+    public String getXlUrl3() {
+        return xlUrl3;
     }
 
-    public void setXlurl3(String xlurl3) {
-        this.xlurl3 = xlurl3;
+    public void setXlUrl3(String xlUrl3) {
+        this.xlUrl3 = xlUrl3;
     }
 
-    public String getXlurl4() {
-        return xlurl4;
+    public String getXlUrl4() {
+        return xlUrl4;
     }
 
-    public void setXlurl4(String xlurl4) {
-        this.xlurl4 = xlurl4;
+    public void setXlUrl4(String xlUrl4) {
+        this.xlUrl4 = xlUrl4;
     }
 
-    public String getXlurl5() {
-        return xlurl5;
+    public String getXlUrl5() {
+        return xlUrl5;
     }
 
-    public void setXlurl5(String xlurl5) {
-        this.xlurl5 = xlurl5;
+    public void setXlUrl5(String xlUrl5) {
+        this.xlUrl5 = xlUrl5;
     }
 
     public String getDescription() {
@@ -127,12 +129,20 @@ public class Series {
         this.description = description;
     }
 
-    public Integer getIson() {
-        return ison;
+    public Integer getIsOn() {
+        return isOn;
     }
 
-    public void setIson(Integer ison) {
-        this.ison = ison;
+    public void setIsOn(Integer isOn) {
+        this.isOn = isOn;
+    }
+
+    public Integer getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(Integer sequence) {
+        this.sequence = sequence;
     }
 
     public Integer getViews() {

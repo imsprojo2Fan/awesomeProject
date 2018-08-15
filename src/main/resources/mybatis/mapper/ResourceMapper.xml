@@ -17,6 +17,7 @@
     <result column="imgSrc2" property="imgSrc2" jdbcType="VARCHAR" />
     <result column="imgSrc3" property="imgSrc3" jdbcType="VARCHAR" />
     <result column="isOn" property="isOn" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="views" property="views" jdbcType="INTEGER" />
     <result column="comments" property="comments" jdbcType="INTEGER" />
     <result column="collects" property="collects" jdbcType="INTEGER" />
@@ -26,7 +27,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, eid,name, director, actor, type, detailType, area, language, publish, length,
-    imgSrc1, imgSrc2, imgSrc3, isOn, views, comments, collects, likes, updated, created
+    imgSrc1, imgSrc2, imgSrc3, isOn,description, views, comments, collects, likes, updated, created
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -35,22 +36,22 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from resource
-    where id = #{id,jdbcType=INTEGER}
+    delete from resource r,series s
+    where r.id = #{id,jdbcType=INTEGER} and r.eid=s.rid
   </delete>
   <insert id="insert" parameterType="com.awesome.model.Resource" >
     insert into resource (id, eid, name,
       director, actor, type, 
       detailType, area, language, 
       publish, length, imgSrc1, 
-      imgSrc2, imgSrc3,isOn, views, comments,
+      imgSrc2, imgSrc3,isOn,description, views, comments,
       collects, likes, updated, 
       created)
     values (#{id,jdbcType=INTEGER}, #{eid,jdbcType=VARCHAR} #{name,jdbcType=VARCHAR},
       #{director,jdbcType=VARCHAR}, #{actor,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
       #{detailType,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{language,jdbcType=VARCHAR}, 
       #{publish,jdbcType=VARCHAR}, #{length,jdbcType=VARCHAR}, #{imgSrc1,jdbcType=VARCHAR}, 
-      #{imgSrc2,jdbcType=VARCHAR}, #{imgSrc3,jdbcType=VARCHAR},#{isOn,jdbcType=INTEGER}, #{views,jdbcType=INTEGER}, #{comments,jdbcType=INTEGER},
+      #{imgSrc2,jdbcType=VARCHAR}, #{imgSrc3,jdbcType=VARCHAR},#{isOn,jdbcType=INTEGER},#{description,jdbcType=VARCHAR}, #{views,jdbcType=INTEGER}, #{comments,jdbcType=INTEGER},
       #{collects,jdbcType=INTEGER}, #{likes,jdbcType=INTEGER}, #{updated,jdbcType=TIMESTAMP}, 
       #{created,jdbcType=TIMESTAMP})
   </insert>
@@ -101,6 +102,9 @@
       </if>
       <if test="isOn != null" >
         isOn,
+      </if>
+      <if test="description != null" >
+        description,
       </if>
       <if test="views != null" >
         views,
@@ -167,6 +171,9 @@
       <if test="isOn != null" >
         #{isOn,jdbcType=INTEGER},
       </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
       <if test="views != null" >
         #{views,jdbcType=INTEGER},
       </if>
@@ -232,6 +239,9 @@
       <if test="isOn != null" >
         isOn = #{isOn,jdbcType=INTEGER},
       </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
       <if test="views != null" >
         views = #{views,jdbcType=INTEGER},
       </if>
@@ -269,6 +279,7 @@
       imgSrc2 = #{imgSrc2,jdbcType=VARCHAR},
       imgSrc3 = #{imgSrc3,jdbcType=VARCHAR},
       isOn = #{isOn,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
       views = #{views,jdbcType=INTEGER},
       comments = #{comments,jdbcType=INTEGER},
       collects = #{collects,jdbcType=INTEGER},
@@ -279,14 +290,14 @@
   </update>
 
   <select id="listAllCount" parameterType="Map" resultType="Map">
-    select r.*,s.* from resource r,series s where r.eid=s.rid
+    select r.* from resource r
     <if test="searchKey !=null and searchKey!=''">
       and ( r.name like '%${searchKey}%' OR r.director LIKE '%${searchKey}%' OR r.actor LIKE '%${searchKey}%' OR r.detailType LIKE '%${searchKey}%' )
     </if>
   </select>
 
   <select id="listByPage" parameterType="Map" resultType="Map">
-    select r.*,s.* from resource r,series s where r.eid=s.rid
+    select r.* from resource r
 
     <if test="searchKey !=null and searchKey!=''">
       and (r.name like '%${searchKey}%' OR r.director LIKE '%${searchKey}%' OR r.actor LIKE '%${searchKey}%' OR r.detailType LIKE '%${searchKey}%')

@@ -2,18 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.awesome.dao.SeriesMapper" >
   <resultMap id="BaseResultMap" type="com.awesome.model.Series" >
-    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="sid" property="sid" jdbcType="INTEGER" />
     <result column="rid" property="rid" jdbcType="VARCHAR" />
-    <result column="videoSrc" property="videosrc" jdbcType="VARCHAR" />
-    <result column="bdUrl" property="bdurl" jdbcType="VARCHAR" />
-    <result column="bdPass" property="bdpass" jdbcType="VARCHAR" />
-    <result column="xlUrl1" property="xlurl1" jdbcType="VARCHAR" />
-    <result column="xlUrl2" property="xlurl2" jdbcType="VARCHAR" />
-    <result column="xlUrl3" property="xlurl3" jdbcType="VARCHAR" />
-    <result column="xlUrl4" property="xlurl4" jdbcType="VARCHAR" />
-    <result column="xlUrl5" property="xlurl5" jdbcType="VARCHAR" />
+    <result column="videoSrc" property="videoSrc" jdbcType="VARCHAR" />
+    <result column="bdUrl" property="bdUrl" jdbcType="VARCHAR" />
+    <result column="bdPass" property="bdPass" jdbcType="VARCHAR" />
+    <result column="xlUrl1" property="xlUrl1" jdbcType="VARCHAR" />
+    <result column="xlUrl2" property="xlUrl2" jdbcType="VARCHAR" />
+    <result column="xlUrl3" property="xlUrl3" jdbcType="VARCHAR" />
+    <result column="xlUrl4" property="xlUrl4" jdbcType="VARCHAR" />
+    <result column="xlUrl5" property="xlUrl5" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="isOn" property="isOn" jdbcType="INTEGER" />
+    <result column="sequence" property="sequence" jdbcType="INTEGER" />
     <result column="views" property="views" jdbcType="INTEGER" />
     <result column="comments" property="comments" jdbcType="INTEGER" />
     <result column="collects" property="collects" jdbcType="INTEGER" />
@@ -22,66 +23,66 @@
     <result column="created" property="created" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id,rid videoSrc, bdUrl, bdPass, xlUrl1, xlUrl2, xlUrl3, xlUrl4, xlUrl5, description,
-    isOn, views, comments, collects, likes, updated, created
+    sid,rid videoSrc, bdUrl, bdPass, xlUrl1, xlUrl2, xlUrl3, xlUrl4, xlUrl5, description,
+    isOn,sequence views, comments, collects, likes, updated, created
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from series
-    where id = #{id,jdbcType=INTEGER}
+    where sid = #{sid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from series
-    where id = #{id,jdbcType=INTEGER}
+    where sid = #{sid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.awesome.model.Series" >
-    insert into series (id,rid, videoSrc, bdUrl,
+    insert into series (sid,rid, videoSrc, bdUrl,
       bdPass, xlUrl1, xlUrl2, 
       xlUrl3, xlUrl4, xlUrl5, 
-      description, isOn, views, 
+      description, isOn,sequence, views,
       comments, collects, likes, 
       updated, created)
-    values (#{id,jdbcType=INTEGER},#{rid,jdbcType=VARCHAR}, #{videosrc,jdbcType=VARCHAR}, #{bdurl,jdbcType=VARCHAR},
-      #{bdpass,jdbcType=VARCHAR}, #{xlurl1,jdbcType=VARCHAR}, #{xlurl2,jdbcType=VARCHAR}, 
-      #{xlurl3,jdbcType=VARCHAR}, #{xlurl4,jdbcType=VARCHAR}, #{xlurl5,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{isOn,jdbcType=INTEGER}, #{views,jdbcType=INTEGER}, 
+    values (#{sid,jdbcType=INTEGER},#{rid,jdbcType=VARCHAR}, #{videoSrc,jdbcType=VARCHAR}, #{bdUrl,jdbcType=VARCHAR},
+      #{bdPass,jdbcType=VARCHAR}, #{xlUrl1,jdbcType=VARCHAR}, #{xlUrl2,jdbcType=VARCHAR}, 
+      #{xlUrl3,jdbcType=VARCHAR}, #{xlUrl4,jdbcType=VARCHAR}, #{xlUrl5,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{isOn,jdbcType=INTEGER},#{sequence,jdbcType=INTEGER}, #{views,jdbcType=INTEGER},
       #{comments,jdbcType=INTEGER}, #{collects,jdbcType=INTEGER}, #{likes,jdbcType=INTEGER}, 
       #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.awesome.model.Series" >
     insert into series
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
+      <if test="sid != null" >
+        sid,
       </if>
 
       <if test="rid != null" >
         rid,
       </if>
 
-      <if test="videosrc != null" >
+      <if test="videoSrc != null" >
         videoSrc,
       </if>
-      <if test="bdurl != null" >
+      <if test="bdUrl != null" >
         bdUrl,
       </if>
-      <if test="bdpass != null" >
+      <if test="bdPass != null" >
         bdPass,
       </if>
-      <if test="xlurl1 != null" >
+      <if test="xlUrl1 != null" >
         xlUrl1,
       </if>
-      <if test="xlurl2 != null" >
+      <if test="xlUrl2 != null" >
         xlUrl2,
       </if>
-      <if test="xlurl3 != null" >
+      <if test="xlUrl3 != null" >
         xlUrl3,
       </if>
-      <if test="xlurl4 != null" >
+      <if test="xlUrl4 != null" >
         xlUrl4,
       </if>
-      <if test="xlurl5 != null" >
+      <if test="xlUrl5 != null" >
         xlUrl5,
       </if>
       <if test="description != null" >
@@ -89,6 +90,9 @@
       </if>
       <if test="isOn != null" >
         isOn,
+      </if>
+      <if test="sequence != null" >
+        sequence,
       </if>
       <if test="views != null" >
         views,
@@ -110,41 +114,44 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
+      <if test="sid != null" >
+        #{sid,jdbcType=INTEGER},
       </if>
       <if test="rid != null" >
         #{rid,jdbcType=VARCHAR},
       </if>
-      <if test="videosrc != null" >
-        #{videosrc,jdbcType=VARCHAR},
+      <if test="videoSrc != null" >
+        #{videoSrc,jdbcType=VARCHAR},
       </if>
-      <if test="bdurl != null" >
-        #{bdurl,jdbcType=VARCHAR},
+      <if test="bdUrl != null" >
+        #{bdUrl,jdbcType=VARCHAR},
       </if>
-      <if test="bdpass != null" >
-        #{bdpass,jdbcType=VARCHAR},
+      <if test="bdPass != null" >
+        #{bdPass,jdbcType=VARCHAR},
       </if>
-      <if test="xlurl1 != null" >
-        #{xlurl1,jdbcType=VARCHAR},
+      <if test="xlUrl1 != null" >
+        #{xlUrl1,jdbcType=VARCHAR},
       </if>
-      <if test="xlurl2 != null" >
-        #{xlurl2,jdbcType=VARCHAR},
+      <if test="xlUrl2 != null" >
+        #{xlUrl2,jdbcType=VARCHAR},
       </if>
-      <if test="xlurl3 != null" >
-        #{xlurl3,jdbcType=VARCHAR},
+      <if test="xlUrl3 != null" >
+        #{xlUrl3,jdbcType=VARCHAR},
       </if>
-      <if test="xlurl4 != null" >
-        #{xlurl4,jdbcType=VARCHAR},
+      <if test="xlUrl4 != null" >
+        #{xlUrl4,jdbcType=VARCHAR},
       </if>
-      <if test="xlurl5 != null" >
-        #{xlurl5,jdbcType=VARCHAR},
+      <if test="xlUrl5 != null" >
+        #{xlUrl5,jdbcType=VARCHAR},
       </if>
       <if test="description != null" >
         #{description,jdbcType=VARCHAR},
       </if>
       <if test="isOn != null" >
         #{isOn,jdbcType=INTEGER},
+      </if>
+      <if test="sequence != null" >
+        #{sequence,jdbcType=INTEGER},
       </if>
       <if test="views != null" >
         #{views,jdbcType=INTEGER},
@@ -169,35 +176,38 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.awesome.model.Series" >
     update series
     <set >
-      <if test="videosrc != null" >
-        videoSrc = #{videosrc,jdbcType=VARCHAR},
+      <if test="videoSrc != null" >
+        videoSrc = #{videoSrc,jdbcType=VARCHAR},
       </if>
-      <if test="bdurl != null" >
-        bdUrl = #{bdurl,jdbcType=VARCHAR},
+      <if test="bdUrl != null" >
+        bdUrl = #{bdUrl,jdbcType=VARCHAR},
       </if>
-      <if test="bdpass != null" >
-        bdPass = #{bdpass,jdbcType=VARCHAR},
+      <if test="bdPass != null" >
+        bdPass = #{bdPass,jdbcType=VARCHAR},
       </if>
-      <if test="xlurl1 != null" >
-        xlUrl1 = #{xlurl1,jdbcType=VARCHAR},
+      <if test="xlUrl1 != null" >
+        xlUrl1 = #{xlUrl1,jdbcType=VARCHAR},
       </if>
-      <if test="xlurl2 != null" >
-        xlUrl2 = #{xlurl2,jdbcType=VARCHAR},
+      <if test="xlUrl2 != null" >
+        xlUrl2 = #{xlUrl2,jdbcType=VARCHAR},
       </if>
-      <if test="xlurl3 != null" >
-        xlUrl3 = #{xlurl3,jdbcType=VARCHAR},
+      <if test="xlUrl3 != null" >
+        xlUrl3 = #{xlUrl3,jdbcType=VARCHAR},
       </if>
-      <if test="xlurl4 != null" >
-        xlUrl4 = #{xlurl4,jdbcType=VARCHAR},
+      <if test="xlUrl4 != null" >
+        xlUrl4 = #{xlUrl4,jdbcType=VARCHAR},
       </if>
-      <if test="xlurl5 != null" >
-        xlUrl5 = #{xlurl5,jdbcType=VARCHAR},
+      <if test="xlUrl5 != null" >
+        xlUrl5 = #{xlUrl5,jdbcType=VARCHAR},
       </if>
       <if test="description != null" >
         description = #{description,jdbcType=VARCHAR},
       </if>
       <if test="isOn != null" >
         isOn = #{isOn,jdbcType=INTEGER},
+      </if>
+      <if test="sequence != null" >
+        sequence = #{sequence,jdbcType=INTEGER},
       </if>
       <if test="views != null" >
         views = #{views,jdbcType=INTEGER},
@@ -218,27 +228,28 @@
         created = #{created,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where sid = #{sid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.awesome.model.Series" >
     update series
-    set videoSrc = #{videosrc,jdbcType=VARCHAR},
-      bdUrl = #{bdurl,jdbcType=VARCHAR},
-      bdPass = #{bdpass,jdbcType=VARCHAR},
-      xlUrl1 = #{xlurl1,jdbcType=VARCHAR},
-      xlUrl2 = #{xlurl2,jdbcType=VARCHAR},
-      xlUrl3 = #{xlurl3,jdbcType=VARCHAR},
-      xlUrl4 = #{xlurl4,jdbcType=VARCHAR},
-      xlUrl5 = #{xlurl5,jdbcType=VARCHAR},
+    set videoSrc = #{videoSrc,jdbcType=VARCHAR},
+      bdUrl = #{bdUrl,jdbcType=VARCHAR},
+      bdPass = #{bdPass,jdbcType=VARCHAR},
+      xlUrl1 = #{xlUrl1,jdbcType=VARCHAR},
+      xlUrl2 = #{xlUrl2,jdbcType=VARCHAR},
+      xlUrl3 = #{xlUrl3,jdbcType=VARCHAR},
+      xlUrl4 = #{xlUrl4,jdbcType=VARCHAR},
+      xlUrl5 = #{xlUrl5,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       isOn = #{isOn,jdbcType=INTEGER},
+      sequence = #{sequence,jdbcType=INTEGER},
       views = #{views,jdbcType=INTEGER},
       comments = #{comments,jdbcType=INTEGER},
       collects = #{collects,jdbcType=INTEGER},
       likes = #{likes,jdbcType=INTEGER},
       updated = #{updated,jdbcType=TIMESTAMP},
       created = #{created,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
+    where sid = #{sid,jdbcType=INTEGER}
   </update>
   <select id="listAllCount" parameterType="Map" resultType="java.lang.Integer">
     select count(*) from series
@@ -254,7 +265,7 @@
       where (name like '%${searchKey}%' OR director LIKE '%${searchKey}%' OR actor LIKE '%${searchKey}%' OR detailType LIKE '%${searchKey}%')
     </if>
     <if test="sortCol !=null and sortCol!='' ">
-      Order by ${sortCol} ${sortType}
+      sequence by ${sortCol} ${sortType}
     </if>
 
     LIMIT ${pageNow},${pageSize}
@@ -267,7 +278,7 @@
   <insert id ="insertBatch" parameterType="java.util.List" >
     insert into series
     (rid,videoSrc, bdUrl, bdPass, xlUrl1,xlUrl2,xlUrl3,xlUrl4,xlUrl5,description,
-      isOn,views,comments,collects,likes,created)
+      isOn,sequence,views,comments,collects,likes,created)
     values
     <foreach collection ="list" item="item" index= "index" separator =",">
       (
@@ -282,6 +293,7 @@
       #{item.xlUrl5},
       #{item.description},
       #{item.isOn},
+      #{item.sequence},
       #{item.views},
       #{item.comments},
       #{item.collects},
