@@ -46,7 +46,7 @@ Table OF Contents
 
 body {
     font-family: 'Varela Round', sans-serif;
-    font-size: 16px;
+    font-size: 13px;
     line-height: 1.6;
     overflow-x: hidden;
     color: #868F9B;
@@ -636,6 +636,7 @@ header {
     padding: 40px 20px;
     border: 1px solid #EEE;
     margin: 15px 0px;
+    cursor: pointer;
 }
 
 .about i {
@@ -646,7 +647,7 @@ header {
 
 .about:after {
     content: "";
-    background-color: #1C1D21;
+    /*background-color: #1C1D21;*/
     position: absolute;
     left: 0;
     top: 0;
@@ -659,6 +660,7 @@ header {
 
 .about:hover:after {
     width: 100%;
+    border: 2px solid #6195FF;
 }
 
 .about h3 {
@@ -667,7 +669,7 @@ header {
 }
 
 .about:hover h3 {
-    color: #fff;
+    /*color: #fff;*/
 }
 
 
@@ -1109,12 +1111,35 @@ header {
 
 .blog {
     background-color: #FFF;
-    margin: 0px 0px;
+    margin: 10px 0px;
+    border: 1px solid #eee;
+    padding: 5px;
+    cursor: pointer;
 }
 
-.blog .blog-content {
-    padding: 20px 20px 40px;
+.blog:after {
+    content: "";
+    /*background-color: #1C1D21;*/
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0%;
+    z-index: -1;
+    -webkit-transition: 0.2s width;
+    transition: 0.2s width;
 }
+
+.blog:hover:after {
+    width: 100%;
+    border: 1px solid #6195FF;
+}
+
+.blog-content{
+    text-align: center;
+}
+
+
 
 .blog .blog-meta {
     margin-bottom: 20px;

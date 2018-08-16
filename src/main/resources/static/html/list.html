@@ -10,9 +10,6 @@
 	<link rel="shortcut icon" href="../image/icon.png">
 	<title>看风了风</title>
 
-	<!-- Google font -->
-	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CVarela+Round" rel="stylesheet">
-
 	<!-- Bootstrap -->
 	<link type="text/css" rel="stylesheet" href="../plugins/index/css/bootstrap.min.css" />
 
@@ -39,6 +36,9 @@
 	<link rel="stylesheet" type="text/css" href="../plugins/sweet-alert/sweetalert2.css" />
 	<script src="../plugins/sweet-alert/sweetalert2.js"></script>
 	<link href="../plugins/page/myPage.css" rel="stylesheet" type="text/css" />
+
+	<link rel="stylesheet" type="text/css" href="../plugins/sweet-alert/sweetalert2.css" />
+	<script src="../plugins/sweet-alert/sweetalert2.js"></script>
 
 	<style>
 		h2 {
@@ -68,7 +68,7 @@
 			<div class="navbar-header">
 				<!-- Logo -->
 				<div class="navbar-brand">
-					<a href="index.html">
+					<a href="/">
 						<!--<img class="logo" src="img/logo.png" alt="logo">-->
 						<h2 style="color:#6195FF">看风了风</h2>
 					</a>
@@ -103,7 +103,7 @@
 		<div class="container">
 			<ul class="breadcrumb">
 				<li class="breadcrumb-item"><a href="/">首页</a></li>
-				<li class="breadcrumb-item active">列表</li>
+				<li id="tab2" class="breadcrumb-item active">列表</li>
 			</ul>
 		</div>
 	</div>
@@ -124,29 +124,10 @@
 			<!-- Main -->
 			<div class="col-md-9">
 
-				<!-- item -->
-				<div class="col-md-4">
-					<div class="blog">
-						<div class="blog-img">
-							<img class="img-responsive" src="../plugins/index/img/blog1.jpg" alt="">
-						</div>
-						<div class="blog-content">
-							<ul class="blog-meta">
-								<li><i class="fa fa-user"></i>John doe</li>
-								<li><i class="fa fa-clock-o"></i>18 Oct</li>
-								<li><i class="fa fa-eye"></i>2018</li>
-								<li><i class="fa fa-comments"></i>57</li>
-							</ul>
-							<h5>电影标题</h5>
-							<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
-							<a href="blog-single.html">查看详情</a>
-						</div>
-					</div>
-				</div>
-				<!-- /item -->
+				<div id="itemWrap"></div>
 
 				<!-- item -->
-				<div class="col-md-4">
+				<!--<div class="col-md-4">
 					<div class="blog">
 						<div class="blog-img">
 							<img class="img-responsive" src="../plugins/index/img/blog1.jpg" alt="">
@@ -163,154 +144,7 @@
 							<a href="blog-single.html">查看详情</a>
 						</div>
 					</div>
-				</div>
-				<!-- /item -->
-
-				<!-- item -->
-				<div class="col-md-4">
-					<div class="blog">
-						<div class="blog-img">
-							<img class="img-responsive" src="../plugins/index/img/blog1.jpg" alt="">
-						</div>
-						<div class="blog-content">
-							<ul class="blog-meta">
-								<li><i class="fa fa-user"></i>John doe</li>
-								<li><i class="fa fa-clock-o"></i>18 Oct</li>
-								<li><i class="fa fa-eye"></i>2018</li>
-								<li><i class="fa fa-comments"></i>57</li>
-							</ul>
-							<h5>电影标题</h5>
-							<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
-							<a href="blog-single.html">查看详情</a>
-						</div>
-					</div>
-				</div>
-				<!-- /item -->
-
-				<!-- item -->
-				<div class="col-md-4">
-					<div class="blog">
-						<div class="blog-img">
-							<img class="img-responsive" src="../plugins/index/img/blog1.jpg" alt="">
-						</div>
-						<div class="blog-content">
-							<ul class="blog-meta">
-								<li><i class="fa fa-user"></i>John doe</li>
-								<li><i class="fa fa-clock-o"></i>18 Oct</li>
-								<li><i class="fa fa-eye"></i>2018</li>
-								<li><i class="fa fa-comments"></i>57</li>
-							</ul>
-							<h5>电影标题</h5>
-							<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
-							<a href="blog-single.html">查看详情</a>
-						</div>
-					</div>
-				</div>
-				<!-- /item -->
-
-				<!-- item -->
-				<div class="col-md-4">
-					<div class="blog">
-						<div class="blog-img">
-							<img class="img-responsive" src="../plugins/index/img/blog1.jpg" alt="">
-						</div>
-						<div class="blog-content">
-							<ul class="blog-meta">
-								<li><i class="fa fa-user"></i>John doe</li>
-								<li><i class="fa fa-clock-o"></i>18 Oct</li>
-								<li><i class="fa fa-eye"></i>2018</li>
-								<li><i class="fa fa-comments"></i>57</li>
-							</ul>
-							<h5>电影标题</h5>
-							<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
-							<a href="blog-single.html">查看详情</a>
-						</div>
-					</div>
-				</div>
-				<!-- /item -->
-
-				<!-- item -->
-				<div class="col-md-4">
-					<div class="blog">
-						<div class="blog-img">
-							<img class="img-responsive" src="../plugins/index/img/blog1.jpg" alt="">
-						</div>
-						<div class="blog-content">
-							<ul class="blog-meta">
-								<li><i class="fa fa-user"></i>John doe</li>
-								<li><i class="fa fa-clock-o"></i>18 Oct</li>
-								<li><i class="fa fa-eye"></i>2018</li>
-								<li><i class="fa fa-comments"></i>57</li>
-							</ul>
-							<h5>电影标题</h5>
-							<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
-							<a href="blog-single.html">查看详情</a>
-						</div>
-					</div>
-				</div>
-				<!-- /item -->
-
-				<!-- item -->
-				<div class="col-md-4">
-					<div class="blog">
-						<div class="blog-img">
-							<img class="img-responsive" src="../plugins/index/img/blog1.jpg" alt="">
-						</div>
-						<div class="blog-content">
-							<ul class="blog-meta">
-								<li><i class="fa fa-user"></i>John doe</li>
-								<li><i class="fa fa-clock-o"></i>18 Oct</li>
-								<li><i class="fa fa-eye"></i>2018</li>
-								<li><i class="fa fa-comments"></i>57</li>
-							</ul>
-							<h5>电影标题</h5>
-							<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
-							<a href="blog-single.html">查看详情</a>
-						</div>
-					</div>
-				</div>
-				<!-- /item -->
-
-				<!-- item -->
-				<div class="col-md-4">
-					<div class="blog">
-						<div class="blog-img">
-							<img class="img-responsive" src="../plugins/index/img/blog1.jpg" alt="">
-						</div>
-						<div class="blog-content">
-							<ul class="blog-meta">
-								<li><i class="fa fa-user"></i>John doe</li>
-								<li><i class="fa fa-clock-o"></i>18 Oct</li>
-								<li><i class="fa fa-eye"></i>2018</li>
-								<li><i class="fa fa-comments"></i>57</li>
-							</ul>
-							<h5>电影标题</h5>
-							<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
-							<a href="blog-single.html">查看详情</a>
-						</div>
-					</div>
-				</div>
-				<!-- /item -->
-
-				<!-- item -->
-				<div class="col-md-4">
-					<div class="blog">
-						<div class="blog-img">
-							<img class="img-responsive" src="../plugins/index/img/blog1.jpg" alt="">
-						</div>
-						<div class="blog-content">
-							<ul class="blog-meta">
-								<li><i class="fa fa-user"></i>John doe</li>
-								<li><i class="fa fa-clock-o"></i>18 Oct</li>
-								<li><i class="fa fa-eye"></i>2018</li>
-								<li><i class="fa fa-comments"></i>57</li>
-							</ul>
-							<h5>电影标题</h5>
-							<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
-							<a href="blog-single.html">查看详情</a>
-						</div>
-					</div>
-				</div>
+				</div>-->
 				<!-- /item -->
 
 			</div>
@@ -322,7 +156,7 @@
 				<!-- Search -->
 				<div class="widget">
 					<div class="widget-search">
-						<input class="search-input" type="text" onclick="search()" placeholder="搜索资源">
+						<input class="search-input" type="text" onclick="searchResource()" placeholder="搜索资源">
 						<button class="search-btn" type="button"><i class="fa fa-search"></i></button>
 					</div>
 				</div>
@@ -466,7 +300,7 @@
 <!-- /Footer -->
 
 <!-- search -->
-<div id="search" onclick="search()" title="搜索资源">
+<div id="search" onclick="searchResource()" title="搜索资源">
 	<i class="fa  fa-search"></i>
 </div>
 <!-- /search -->
@@ -496,8 +330,123 @@
 <script src="../plugins/page/myPage.js" type="text/javascript"></script>
 
 <script>
-    loadData(10);
-    loadpage();
+
+	var GlobalType;
+	var SearchKey = "";
+	$(function () {
+        var parameter = GetQueryString("type");
+        console.log(parameter);
+        parameter = parseInt(parameter);
+        if(!parameter){
+            $('body').html("");
+            swal("参数不能为空！","3秒后自动跳转首页","error");
+            setTimeout(function () {
+				window.location.href = "/";
+            },3000);
+		}
+
+        if(parameter!==1&&parameter!==2&&parameter!==3&&parameter!==4){
+            $('body').html("");
+            swal("参数错误！","3秒后自动跳转首页","error");
+            setTimeout(function () {
+                window.location.href = "/";
+            },3000);
+        }
+
+        var tab = "";
+        if(parameter===1){
+            tab = "电影列表";
+		}else if(parameter===2){
+            tab = "电视剧列表";
+		}else if(parameter===3){
+            tab = "综艺列表";
+		}else if(parameter===4){
+            tab = "动漫列表";
+		}
+        $('#tab2').html(tab);
+        GlobalType = parameter;
+
+        //分页获取资源列表
+        listItem(1,12);
+
+
+    });
+
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg); //获取url中"?"符后的字符串并正则匹配
+        var context = "";
+
+        if (r != null)
+            context = r[2];
+        reg = null;
+        r = null;
+        return context == null || context == "" || context == "undefined" ? "" : context;
+    }
+
+    function listItem(pageNow,pageSize) {
+
+        $.post("/index/resource/list",{pageNow:pageNow,pageSize:pageSize,type:GlobalType,key:SearchKey},function (r) {
+            console.log(r);
+            $('#itemWrap').html("");
+            var dataArr = r.data;
+            for(var i=0;i<dataArr.length;i++){
+                var obj = dataArr[i];
+                var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
+                //var description = obj.description.substring(0,15)+"...";
+                var error = "../image/error1.png";
+                $('#itemWrap').append('<div class="col-sm-3">\n' +
+                    '\t\t\t\t\t<div onclick="toDetail('+obj.id+')" class="blog">\n' +
+                    '\t\t\t\t\t\t<div class="blog-img">\n' +
+                    '\t\t\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive" src="'+imgSrc+'" alt="图片加载失败">\n' +
+                    '\t\t\t\t\t\t</div>\n' +
+                    '\t\t\t\t\t\t<div class="blog-content">\n' +
+                    '\t\t\t\t\t\t\t<h5>'+obj.name+'</h5>\n' +
+                    '\t\t\t\t\t\t\t<a href="javascript:void(0)">查看详情</a>\n' +
+                    '\t\t\t\t\t\t</div>\n' +
+                    '\t\t\t\t\t</div>\n' +
+                    '\t\t\t\t</div>')
+            }
+            if(pageNow===1){
+                loadData(r.recordsTotal);
+                loadpage();
+			}
+        });
+    }
+
+    function toDetail(id) {
+		alert(id);
+    }
+
+    function searchResource() {
+        swal({
+            title: '请输入资源名称',  //标题
+            input: 'text',
+            showCancelButton: true,
+            cancelButtonText:'取消',
+            confirmButtonText: '确定',
+            showLoaderOnConfirm: true,
+            preConfirm: function(val) {               //功能执行前确认操作，支持function
+                return new Promise(function(resolve, reject) {
+                    SearchKey = val;
+                    listItem(1,12);
+                    resolve();
+
+                    /*setTimeout(function() {                 //添加一个时间函数，在俩秒后执行，这里可以用作异步操作数据
+                        if (email === 'taken@example.com') {  //这里的意思是：如果输入的值等于'taken@example.com',数据已存在，提示信息
+                            reject('用户已存在')                  //提示信息
+                        } else {
+                            resolve()                           //方法出口
+                        }
+                    }, 2000)*/
+                })
+            },
+            allowOutsideClick: false
+        }).then(function(val) {
+            console.log(val)
+        });
+    }
+
 </script>
 
 </body>

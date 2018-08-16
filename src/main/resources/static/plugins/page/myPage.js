@@ -2,11 +2,12 @@
     $("#PageCount").val(num);
 }
 
-function exeData(num, type) {
+function exeData(num) {
     loadData(num);
     loadpage();
 }
 function loadpage() {
+    var pageNow = 1;
     var myPageCount = parseInt($("#PageCount").val());
     var myPageSize = parseInt($("#PageSize").val());
     var countindex = myPageCount % myPageSize > 0 ? (myPageCount / myPageSize) + 1 : (myPageCount / myPageSize);
@@ -15,7 +16,7 @@ function loadpage() {
     $.jqPaginator('#pagination', {
         totalPages: parseInt($("#countindex").val()),
         visiblePages: parseInt($("#visiblePages").val()),
-        currentPage: 1,
+        currentPage: pageNow,
         first: '<li class="first"><a href="javascript:;">首页</a></li>',
         prev: '<li class="prev"><a href="javascript:;"><i class="arrow arrow2"></i>上一页</a></li>',
         next: '<li class="next"><a href="javascript:;">下一页<i class="arrow arrow3"></i></a></li>',
@@ -23,8 +24,10 @@ function loadpage() {
         page: '<li class="page"><a href="javascript:;">{{page}}</a></li>',
         onPageChange: function (num, type) {
             if (type == "change") {
-                exeData(num, type);
+                exeData(num);
+                pageNow = num;
                 console.log("---"+num);
+                listItem(pageNow,12);
             }
         }
     });

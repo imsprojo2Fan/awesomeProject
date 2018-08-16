@@ -290,26 +290,45 @@
   </update>
 
   <select id="listAllCount" parameterType="Map" resultType="Map">
-    select r.* from resource r
+    select <include refid="Base_Column_List" />
+    from resource where 1=1
     <if test="searchKey !=null and searchKey!=''">
-      and ( r.name like '%${searchKey}%' OR r.director LIKE '%${searchKey}%' OR r.actor LIKE '%${searchKey}%' OR r.detailType LIKE '%${searchKey}%' )
+      and ( name like '%${searchKey}%' OR director LIKE '%${searchKey}%' OR actor LIKE '%${searchKey}%' OR detailType LIKE '%${searchKey}%' )
+    </if>
+    <if test="type !=null and type!=''">
+      and type=${type}
+    </if>
+
+    <if test="detailType !=null and detailType!=''">
+      and detailType like '%${detailType}%'
     </if>
   </select>
 
   <select id="listByPage" parameterType="Map" resultType="Map">
-    select r.* from resource r
-
+    select <include refid="Base_Column_List" />
+    from resource where 1=1
     <if test="searchKey !=null and searchKey!=''">
-      and (r.name like '%${searchKey}%' OR r.director LIKE '%${searchKey}%' OR r.actor LIKE '%${searchKey}%' OR r.detailType LIKE '%${searchKey}%')
+      and (name like '%${searchKey}%' OR director LIKE '%${searchKey}%' OR actor LIKE '%${searchKey}%' OR detailType LIKE '%${searchKey}%')
     </if>
+
+    <if test="type !=null and type!=''">
+      and type=#{type}
+    </if>
+
+    <if test="detailType !=null and detailType!=''">
+      and detailType like '%${detailType}%'
+    </if>
+
     <if test="sortCol !=null and sortCol!='' ">
       Order by ${sortCol} ${sortType}
     </if>
-
     LIMIT ${pageNow},${pageSize}
   </select>
 
   <select id="searchByKey" parameterType="Map" resultType="Map">
-    select * from resource where ${key} = #{value}
+    select <include refid="Base_Column_List" />
+    from resource where ${key} = #{value}
   </select>
+
+
 </mapper>
