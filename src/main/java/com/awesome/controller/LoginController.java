@@ -56,6 +56,8 @@ public class LoginController {
 	@Autowired
 	private RedisTemplate<String,Object> redisTemplate;
 
+	JsonResult r = new JsonResult();
+
 
 
 	@ApiIgnore//使用该注解忽略这个API
@@ -66,14 +68,14 @@ public class LoginController {
 
 	@ApiIgnore//使用该注解忽略这个API
 	@RequestMapping(value = "/list")
-	public String list(String type){
-		return "/html/list.html?type="+type;
+	public String list(){
+		return "/html/list.html";
 	}
 
 	@ApiIgnore//使用该注解忽略这个API
 	@RequestMapping(value = "/single")
-	public String single(String v){
-		return "/html/single.html?v="+v;
+	public String single() {
+		return "/html/single.html";
 	}
 	@ApiIgnore//使用该注解忽略这个API
 	@RequestMapping(value = "/login")
@@ -86,6 +88,23 @@ public class LoginController {
 	public String signIndex(){
 		return "/html/signup.html";
 	}
+
+	@ApiIgnore//使用该注解忽略这个API
+	@RequestMapping(value = "/setSession")
+	@ResponseBody
+	public Object setSession(String type,String itemId,HttpSession session){
+
+		if(!StringUtils.isEmpty(type)){
+			session.setAttribute("type",type);
+		}
+
+		if(!StringUtils.isEmpty(itemId)){
+			session.setAttribute("itemId",itemId);
+		}
+		r.setCode(1);
+		return r;
+	}
+
 
 	/**
 	 * 用户登录验证

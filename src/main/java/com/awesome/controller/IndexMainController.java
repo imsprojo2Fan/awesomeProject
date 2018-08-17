@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,15 +53,15 @@ public class IndexMainController {
 	 */
 	@ApiOperation(value="分页查询", notes="获取列表")
 	@RequestMapping(value = "/resource/list", method = RequestMethod.POST)
-	public Object getWXInfoList (HttpServletRequest request){
-		GlobalDraw++;
-
+	public Object getList (HttpServletRequest request, HttpSession session){
+		String type = (String) session.getAttribute("type");
+		if(StringUtils.isEmpty(type)){
+			type = "1";
+		}
 		init();
-
 		String start = request.getParameter("pageNow");
 		String length = request.getParameter("pageSize");
 		String searchKey = request.getParameter("key");
-		String type = request.getParameter("type");
 		String detailType = request.getParameter("detailType");
 		if(!StringUtils.isEmpty(start)){
 			PAGE_NOW = Integer.parseInt(start);
@@ -77,12 +78,68 @@ public class IndexMainController {
 
 		List cList = service.listAllCount(qMap);
 		rList = service.listByPage(qMap);
-
+		backMap.put("type",type);
 		backMap.put("recordsTotal",cList.size());
 		backMap.put("data",rList);
 		backMap.put("msg","成功查询数据");
 
 		return backMap;
+	}
+
+	/**
+	 * 查询列表
+	 * @return
+	 */
+	@ApiOperation(value="查询", notes="获取列表")
+	@RequestMapping(value = "/resource/category", method = RequestMethod.POST)
+	public Object category(){
+
+		init();
+		List list = new ArrayList();
+
+		Map map = new HashMap();
+
+		for(int i=1;i<5;i++){
+			map.put("key","type");
+			map.put("value",i);
+			List tList = service.searchByKey(map);
+			list.add(tList.size());
+
+		}
+		return list;
+	}
+
+	/**
+	 * 查询列表
+	 * @return
+	 */
+	@ApiOperation(value="查询", notes="获取列表")
+	@RequestMapping(value = "/resource/list4order", method = RequestMethod.POST)
+	public Object searchByOrder(HttpServletRequest request,HttpSession session){
+
+		init();
+
+		Map map = new HashMap();
+
+		String type = (String) session.getAttribute("type");
+		if(StringUtils.isEmpty(type)){
+			type = "1";
+		}
+
+
+		String col = request.getParameter("col");
+		if(!"views".equals(col)&&!"comments".equals(col)&&!"likes".equals(col)&&!"collects".equals(col)){
+			r.setMsg("col error!");
+			return r;
+		}
+
+		map.put("key","type");
+		map.put("value",type);
+		map.put("col",col);
+		map.put("orderType","desc");
+		map.put("pageSize",10);
+		rList = service.searchByOrder(map);
+		return rList;
 	}
 
 

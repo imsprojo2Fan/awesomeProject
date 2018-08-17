@@ -330,5 +330,17 @@
     from resource where ${key} = #{value}
   </select>
 
+  <select id="searchByOrder" parameterType="Map" resultType="Map">
+    select <include refid="Base_Column_List" />
+    from resource where 1=1
+    and ${key} = #{value}
+    order by ${col} ${orderType}
+
+    <if test="pageSize !=null and pageSize!='' ">
+      LIMIT 0,${pageSize}
+    </if>
+
+  </select>
+
 
 </mapper>

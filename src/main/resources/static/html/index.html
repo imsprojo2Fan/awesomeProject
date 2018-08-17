@@ -98,7 +98,7 @@
 					<li><a href="#TVSeries">电视剧</a></li>
 					<li><a href="#Variety">综艺</a></li>
 					<li><a href="#Anime">动漫</a></li>
-					<li><a href="#Request">留言求片</a></li>
+					<li><a id="2request" href="#Request">留言求片</a></li>
 					<!--<li><a href="#Contact">联系我们</a></li>-->
 					<!--<li><a class="search" href="javascript:search();">搜索</a></li>-->
 					<!--<li class="has-dropdown"><a href="#blog">搜索</a>
@@ -875,6 +875,8 @@
     <script src="../plugins/index/plugins/slide/jquery.themepunch.tools.min.js"></script>
     <script src="../plugins/index/plugins/slide/jquery.themepunch.revolution.min.js"></script>
     <script src="../plugins/index/plugins/slide/revolution-slider.js"></script>
+
+	<script src="../js/gutil.js" type="text/javascript"></script>
     <script>
         jQuery(document).ready(function() {
 
@@ -897,7 +899,7 @@
                     var error = "../image/error1.png";
                     //var description = obj.description.substring(0,15)+"...";
 				    $('#movieWrap').append('<div class="col-xs-3">\n' +
-                        '\t\t\t\t\t<div class="about">\n' +
+                        '\t\t\t\t\t<div onclick="toDetail('+obj.type+','+obj.id+')" class="about">\n' +
                         '\t\t\t\t\t\t<!--<i class="fa fa-cogs"></i>-->\n' +
                         '\t\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive" src="'+imgSrc+'" alt="图片加载失败">\n' +
                         '\t\t\t\t\t\t<h3>'+obj.name+'</h3>\n' +
@@ -907,10 +909,30 @@
 				}
             });
 
+            var toRequest = getCookieValue("request");
+            if(toRequest){
+                $('#2request').click();
+                deleteCookie("request","/");
+			}
+
+
+
         });
 
         function toMore(type) {
-			window.location.href = "/list?type="+type;
+			$.post("/setSession",{type:type},function (r) {
+				if(r.code==1){
+                    window.location.href = "/list";
+				}
+            });
+        }
+
+        function toDetail(type,itemId) {
+            $.post("/setSession",{type:type,itemId:itemId},function (r) {
+                if(r.code==1){
+                    window.location.href = "/single";
+                }
+            });
         }
 
     </script>

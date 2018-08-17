@@ -113,28 +113,3 @@ function deleteCookie(name,path){   /**根据cookie的键，删除cookie，其�
 	var userPassValue = getCookieValue("userPass");  
 	document.getElementById("txtUserPass").value = userPassValue;  
 }*/  
-  
-function userLogin(){   /**用户登录，其中需要判断是否选择记住密码**/  
-	//简单验证一下  
-	var userName = document.getElementById("account").value;  
-	if(userName == ''){  
-		alert("请输入用户名。");  
-		return;  
-	}  
-	var userPass = document.getElementById("txtUserPass").value;  
-	if(userPass == ''){  
-		alert("请输入密码。");  
-		return;  
-	}  
-	var objChk = document.getElementById("chkRememberPass");  
-	if(objChk.checked){  
-		//添加cookie  
-		addCookie("userName",userName,7,"/");  
-		addCookie("userPass",userPass,7,"/");  
-		alert("记住了你的密码登录。");  
-		window.location.href = "http://www.baidu.com";  
-	}else{  
-		alert("不记密码登录。");  
-		window.location.href = "http://www.baidu.com";  
-	}  
-}  
