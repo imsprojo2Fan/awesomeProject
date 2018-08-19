@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
 	<link rel="shortcut icon" href="../image/icon.png">
@@ -42,7 +42,7 @@
 
 	<style>
 		h2 {
-			font-size: 24px;
+			font-size: 22px;
 			line-height: 45px;
 			font-weight: normal;
 		}
@@ -53,6 +53,30 @@
 			background-color: #6195FF;
 			border-color: #6195FF;
 		}
+        .order a {
+            display: inline-block;
+            padding: 6px 13px;
+            font-size: 14px;
+            margin: 2px 0px;
+            background: #F4F4F4;
+            color: #10161A;
+            cursor: pointer;
+        }
+        .order a:hover {
+            color: #FFF;
+            background-color: #6195FF;
+            filter:alpha(opacity=0.8); /* ie 有效*/
+            -moz-opacity:0.8; /* Firefox 有效*/
+            opacity: 0.8; /* 通用，其他浏览器 有效*/
+        }
+
+        .order a:visited {
+            color: #FFF;
+            background-color: #6195FF;
+            filter:alpha(opacity=0.8); /* ie 有效*/
+            -moz-opacity:0.8; /* Firefox 有效*/
+            opacity: 0.8; /* 通用，其他浏览器 有效*/
+        }
 	</style>
 </head>
 
@@ -150,68 +174,54 @@
 			</div>
 			<!-- /Main -->
 
-			<!-- Aside -->
-			<aside id="aside" class="col-md-3">
+            <!-- Aside -->
+            <aside id="aside" class="col-md-3">
 
-				<!-- Search -->
-				<div class="widget">
-					<div class="widget-search">
-						<input class="search-input" type="text" onclick="searchResource()" placeholder="搜索资源">
-						<button class="search-btn" type="button"><i class="fa fa-search"></i></button>
-					</div>
-				</div>
-				<!-- /Search -->
+                <!-- Search -->
+                <div class="widget">
+                    <div class="widget-search">
+                        <input class="search-input" type="text" onclick="searchResource()" placeholder="搜索资源">
+                        <button class="search-btn" type="button"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+                <!-- /Search -->
 
-				<!-- Category -->
-				<div class="widget">
-					<h3 class="title">目录概览</h3>
-					<div id="categoryWrap" class="widget-category">
-						<!--<a href="#">Web Design<span>(7)</span></a>-->
-					</div>
-				</div>
-				<!-- /Category -->
+                <!-- Category -->
+                <div class="widget">
+                    <h3 class="title">目录概览</h3>
+                    <div id="categoryWrap" class="widget-category">
+                        <!--<a href="#">Web Design<span>(7)</span></a>-->
+                    </div>
+                </div>
+                <!-- /Category -->
 
-				<!-- Posts sidebar -->
-				<div class="widget">
-					<h3 class="title">最多观看</h3>
+                <!-- Posts sidebar -->
+                <div class="widget">
+                    <h3 class="title">资源排序<span style="font-weight: normal;font-size: 13px;color: #868F9B" id="tip">[最多观看]</span></h3>
+                    <div class="order"><a>最多观看</a><a>最多收藏</a><a>最多喜欢</a></div>
 
-					<div id="popularWrap"></div>
-					<!-- item -->
-					<!--<div class="widget-post">
-						<a href="#">
-							<img src="../plugins/index/img/post1.jpg" alt=""> Blog title goes here
-						</a>
-						<ul class="blog-meta">
-							<li>Oct 18, 2017</li>
-						</ul>
-					</div>-->
-					<!-- /item -->
+                    <div style="margin-top: 10px" id="popularWrap"></div>
+                    <!-- item -->
+                    <!--<div class="widget-post">
+                        <a href="#">
+                            <img src="../plugins/index/img/post1.jpg" alt=""> Blog title goes here
+                        </a>
+                        <ul class="blog-meta">
+                            <li>Oct 18, 2017</li>
+                        </ul>
+                    </div>-->
+                    <!-- /item -->
 
-				</div>
-				<!-- /Posts sidebar -->
+                </div>
+                <!-- /Posts sidebar -->
 
-				<!-- Tags -->
-				<!--<div class="widget">
-					<h3 class="title">Tags</h3>
-					<div class="widget-tags">
-						<a href="#">Web</a>
-						<a href="#">Design</a>
-						<a href="#">Graphic</a>
-						<a href="#">Marketing</a>
-						<a href="#">Development</a>
-						<a href="#">Branding</a>
-						<a href="#">Photography</a>
-					</div>
-				</div>-->
-				<!-- /Tags -->
-
-			</aside>
-			<!-- /Aside -->
+            </aside>
+            <!-- /Aside -->
 
 		</div>
 		<!-- /Row -->
 
-		<div class="row" style="text-align: center;margin-top: 6%">
+		<div id="pageWrap" class="row" style="text-align: center;margin-top: 6%">
 			<div class="col-md-9">
 				<form id="form1" runat="server">
 					<div>
@@ -306,18 +316,46 @@
 
 <script>
 
-	var GlobalType;
-	var SearchKey = "";
+	var SearchKey;
 	$(function () {
 
-        //分页获取资源列表
-        listItem(1,16);
+        if(isPhone()){
+            $('#aside').hide();
+            $('#pageWrap').hide();
+        }
+
+        $('.order a').on('click',function () {
+            var txt = $(this).html();
+            var col;
+            if(txt==="最多观看"){
+                col = "views";
+            }else if(txt ==="最多喜欢"){
+                col = "likes";
+            }else{
+                col = "collects";
+            }
+            $('#tip').html("["+txt+"]");
+            aside(col);
+        });
+
+        //debugger
+	    var val = getCookieValue("search");
+	    if(val){
+	        val = unescape(document.cookie.split("search=")[1].split(";")[0]);
+            deleteCookie("search","/");
+            //查询列表
+            list4search(1,16,val);
+
+		}else{
+            //分页获取资源列表
+            listItem(1,16);
+        }
 
     });
 
     function listItem(pageNow,pageSize) {
 
-        $.post("/index/resource/list",{pageNow:pageNow,pageSize:pageSize,key:SearchKey},function (r) {
+        $.post("/index/resource/list",{pageNow:pageNow,pageSize:pageSize},function (r) {
             console.log(r);
 
             var tab = "";
@@ -362,52 +400,50 @@
                 loadpage();
 			}
 
-            //获取目录概览数据
-            $.post("/index/resource/category",{},function (r) {
-                console.log(r);
-                $('#categoryWrap').html("");
-                var title;
-                if(r.length==0){
-                    $('#categoryWrap').html("<p>暂无数据</p>");
-				}
-                for(var i=0;i<r.length;i++){
-                    var obj = r[i];
-                    if(i===0){
-                        title = "电影";
-					}else if(i===1){
-                        title = "电视剧";
-					}else if(i===2){
-                        title = "综艺";
-					}else{
-                        title = "动漫";
-					}
-					var type = i+1;
-                    $('#categoryWrap').append('<a onclick="toMore('+type+')" href="javascript:void(0)">'+title+'<span>('+obj+')</span></a>');
-				}
-            });
+            category();
 
-            //获取最多观看数据
-            $.post("/index/resource/list4order",{col:"views"},function (r) {
-                console.log(r);
-                $('#popularWrap').html("");
-                if(r.length==0){
-                    $('#popularWrap').html("<p>暂无数据</p>");
-                    return;
-				}
-                for(var j=0;j<r.length;j++){
-                    var obj = r[j];
-                    var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
-                    var error = "../image/error1.png";
-                    $('#popularWrap').append('<div class="widget-post">\n' +
-                        '\t\t\t\t\t\t<a onclick="toDetail('+obj.type+','+obj.id+')" href="javascript:void(0);">\n' +
-                        '\t\t\t\t\t\t\t<img style="width: 20%" onerror=src="'+error+'" src="'+imgSrc+'" alt="图片加载失败"> '+obj.name+'\n' +
-                        '\t\t\t\t\t\t</a>\n' +
-                        '\t\t\t\t\t\t<ul class="blog-meta">\n' +
-                        '\t\t\t\t\t\t\t<li><i class="fa fa-eye">'+obj.views+'</i></li>\n' +
-                        '\t\t\t\t\t\t</ul>\n' +
-                        '\t\t\t\t\t</div>');
-                }
-            });
+            aside("views");
+
+
+        });
+    }
+
+    function list4search(pageNow,pageSize,key) {
+
+        $.post("/index/resource/list4search",{pageNow:pageNow,pageSize:pageSize,key:key},function (r) {
+            console.log(r);
+
+            var tab = "查询列表";
+            $('#tab2').html(tab);
+
+            $('#itemWrap').html("");
+            var dataArr = r.data;
+            if(dataArr.length==0){
+                $('#itemWrap').html("<p>暂无数据</p>");
+            }
+            for(var i=0;i<dataArr.length;i++){
+                var obj = dataArr[i];
+                var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
+                //var description = obj.description.substring(0,15)+"...";
+                var error = "../image/error1.png";
+                $('#itemWrap').append('<div class="col-sm-3">\n' +
+                    '\t\t\t\t\t<div onclick="toDetail('+obj.type+','+obj.id+')" class="blog">\n' +
+                    '\t\t\t\t\t\t<div class="blog-img">\n' +
+                    '\t\t\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive" src="'+imgSrc+'" alt="图片加载失败">\n' +
+                    '\t\t\t\t\t\t</div>\n' +
+                    '\t\t\t\t\t\t<div class="blog-content">\n' +
+                    '\t\t\t\t\t\t\t<h5>'+obj.name+'</h5>\n' +
+                    '\t\t\t\t\t\t\t<a href="javascript:void(0)">查看详情</a>\n' +
+                    '\t\t\t\t\t\t</div>\n' +
+                    '\t\t\t\t\t</div>\n' +
+                    '\t\t\t\t</div>')
+            }
+            if(pageNow===1&&r.recordsTotal!=0){
+                loadData(r.recordsTotal);
+                loadpage();
+            }
+            category();
+            aside("views");
 
         });
     }
@@ -420,6 +456,67 @@
         });
     }
 
+    function category() {
+        //获取目录概览数据
+        $.post("/index/resource/category",{},function (r) {
+            console.log(r);
+            $('#categoryWrap').html("");
+            var title;
+            if(r.length==0){
+                $('#categoryWrap').html("<p>暂无数据</p>");
+            }
+            for(var i=0;i<r.length;i++){
+                var obj = r[i];
+                if(i===0){
+                    title = "电影";
+                }else if(i===1){
+                    title = "电视剧";
+                }else if(i===2){
+                    title = "综艺";
+                }else{
+                    title = "动漫";
+                }
+                var type = i+1;
+                $('#categoryWrap').append('<a onclick="toMore('+type+')" href="javascript:void(0)">'+title+'<span>('+obj+')</span></a>');
+            }
+        });
+    }
+
+    function aside(col) {
+        //获取最多观看数据
+        $.post("/index/resource/list4order",{col:col},function (r) {
+            console.log(r);
+            $('#popularWrap').html("");
+            if(r.length==0){
+                $('#popularWrap').html("<p>暂无数据</p>");
+                return;
+            }
+            var icon;
+            if(col==="views"){
+                icon = '<i class="fa fa-eye"></i>';
+            }else if(col==="likes"){
+                icon = '<i class="fa fa-heart"></i>';
+            }else{
+                icon = '<i class="fa fa-star"></i>';
+            }
+            for(var j=0;j<r.length;j++){
+                var obj = r[j];
+                var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
+                var error = "../image/error1.png";
+                $('#popularWrap').append('<div class="widget-post">\n' +
+                    '\t\t\t\t\t\t<a onclick="toDetail('+obj.type+','+obj.id+')" href="javascript:void(0);">\n' +
+                    '\t\t\t\t\t\t\t<img style="width: 20%" onerror=src="'+error+'" src="'+imgSrc+'" alt="图片加载失败"> '+obj.name+'\n' +
+                    '\t\t\t\t\t\t</a>\n' +
+                    '\t\t\t\t\t\t<ul class="blog-meta">\n' +
+                    '\t\t\t\t\t\t\t<li>'+icon+obj.views+'</li>\n' +
+                    '\t\t\t\t\t\t</ul>\n' +
+                    '\t\t\t\t\t</div>');
+            }
+        });
+
+        $("#preloader").delay(300).fadeOut();
+    }
+
     function toDetail(type,itemId) {
         $.post("/setSession",{type:type,itemId:itemId},function (r) {
             if(r.code==1){
@@ -430,7 +527,7 @@
 
     function searchResource() {
         swal({
-            title: '请输入资源名称',  //标题
+            title: '请输入资源名称',//标题
             input: 'text',
             showCancelButton: true,
             cancelButtonText:'取消',
@@ -438,10 +535,9 @@
             showLoaderOnConfirm: true,
             preConfirm: function(val) {               //功能执行前确认操作，支持function
                 return new Promise(function(resolve, reject) {
-                    SearchKey = val;
-                    listItem(1,16);
+                    $('#search').val(val);
+                    list4search(1,16,val);
                     resolve();
-
                     /*setTimeout(function() {                 //添加一个时间函数，在俩秒后执行，这里可以用作异步操作数据
                         if (email === 'taken@example.com') {  //这里的意思是：如果输入的值等于'taken@example.com',数据已存在，提示信息
                             reject('用户已存在')                  //提示信息
@@ -451,7 +547,7 @@
                     }, 2000)*/
                 })
             },
-            allowOutsideClick: false
+            allowOutsideClick: true
         }).then(function(val) {
             console.log(val)
         });

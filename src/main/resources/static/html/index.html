@@ -4,20 +4,16 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <!-- Favicon -->
     <link rel="shortcut icon" href="../image/icon.png">
 	<title>看风了风</title>
 
-	<!-- Google font -->
-<!--
-	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CVarela+Round" rel="stylesheet">
--->
 
 	<!-- Bootstrap -->
 	<link type="text/css" rel="stylesheet" href="../plugins/index/css/bootstrap.min.css" />
-
+	<link type="text/css" rel="stylesheet" href="../plugins/bootstrap/bootstrap-select/bootstrap-select.css" />
 
 	<!-- Owl Carousel -->
 	<link type="text/css" rel="stylesheet" href="../plugins/index/css/owl.carousel.css" />
@@ -50,11 +46,23 @@
 
 	<style>
 
+		h2 {
+			font-size: 22px;
+		}
 		.swal2-confirm swal2-styled swal2-loading{
 			border-radius: 100% !important;
 		}
 		*:focus {
 			outline: 0 !important;
+		}
+
+		/*下拉框宽度设置*/
+		.bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+			width: 140px;
+			height: 34px;
+			margin-bottom: 20px;
+			float: left;
+			background: #e0e4e8;
 		}
 	</style>
 
@@ -97,7 +105,7 @@
 					<li><a href="#movie">电影</a></li>
 					<li><a href="#TVSeries">电视剧</a></li>
 					<li><a href="#Variety">综艺</a></li>
-					<li><a href="#Anime">动漫</a></li>
+					<li><a href="#Animate">动漫</a></li>
 					<li><a id="2request" href="#Request">留言求片</a></li>
 					<!--<li><a href="#Contact">联系我们</a></li>-->
 					<!--<li><a class="search" href="javascript:search();">搜索</a></li>-->
@@ -371,7 +379,7 @@
 
 
 	<!-- Movie -->
-	<div id="movie" class="section md-padding">
+	<div id="movie" class="section sm-padding">
 
 		<!-- Container -->
 		<div class="container">
@@ -388,7 +396,7 @@
 				<div id="movieWrap"></div>
 
 				<!-- item -->
-				<!--<div class="col-md-4">
+				<!--<div class="col-sm-3">
 					<div class="about">
 						&lt;!&ndash;<i class="fa fa-cogs"></i>&ndash;&gt;
 						<img class="img-responsive" src="../plugins/index/img/work1.jpg" alt="">
@@ -404,21 +412,54 @@
 			<!-- /Row -->
 
 			<!-- Row -->
-			<div class="row" style="text-align: center">
+			<div  class="row" style="text-align: center">
 				<br>
 				<br>
-				<button onclick="toMore(1)"  class="main-btn">查看更多</button>
+				<button id="movie2more" style="display: none" onclick="toMore(1)"  class="main-btn">查看更多</button>
 			</div>
 
 		</div>
 		<!-- /Container -->
 
 	</div>
-	<!-- /About -->
+	<!-- /Movie -->
+
+	<!-- sign01 -->
+	<div id="sign01" class="section sm-padding">
+		<!-- Background Image -->
+		<div class="bg-img" style="background-image: url('../plugins/index/img/background2.jpg');">
+			<div class="overlay"></div>
+		</div>
+		<!-- /Background Image -->
+		<!-- Container -->
+		<div class="container">
+
+			<!-- Row -->
+			<div class="row">
+				<div class="col-md-12 white-text" style="font-size: 15px;text-align: center;padding-top:3%;padding-bottom: 2%;">
+					<div>
+						<p>
+							我们曾如此渴望命运的波澜，到最后才发现，<br>人生最曼妙的风景竟是内心的淡定与从容;
+						</p>
+					</div>
+					<div>
+						<p>
+							我们曾如此渴望外界的认可，到最后才发现，<br>世界是自己的，与他人毫无关系。
+						</p>
+					</div>
+				</div>
+			</div>
+			<!-- /Row -->
+
+		</div>
+		<!-- /Container -->
+
+	</div>
+	<!-- /sign01 -->
 
 
 	<!-- TVSeries -->
-	<div id="TVSeries" class="section md-padding bg-grey">
+	<div id="TVSeries" class="section sm-padding bg-grey">
 
 		<!-- Container -->
 		<div class="container">
@@ -431,9 +472,10 @@
 					<h2 class="title">电视剧</h2>
 				</div>
 				<!-- /Section header -->
+				<div id="seriesWrap"></div>
 
 				<!-- item -->
-				<div class="col-md-4 col-xs-6 work">
+				<!--<div class="col-sm-3 work">
 					<img class="img-responsive" src="../plugins/index/img/work1.jpg" alt="">
 					<div class="overlay"></div>
 					<div class="work-content">
@@ -441,10 +483,10 @@
 						<h3>Lorem ipsum dolor</h3>
 						<div class="work-link">
 							<a href="#" title="查看详情"><i class="fa fa-external-link"></i></a>
-							<!--<a class="lightbox" href="../plugins/index/img/work1.jpg"><i class="fa fa-search"></i></a>-->
+							&lt;!&ndash;<a class="lightbox" href="../plugins/index/img/work1.jpg"><i class="fa fa-search"></i></a>&ndash;&gt;
 						</div>
 					</div>
-				</div>
+				</div>-->
 				<!-- /item -->
 
 
@@ -455,7 +497,7 @@
 			<div class="row" style="text-align: center">
 				<br>
 				<br>
-				<button onclick="toMore(2)" class="main-btn">查看更多</button>
+				<button id="series2more" style="display: none" onclick="toMore(2)" class="main-btn">查看更多</button>
 			</div>
 
 		</div>
@@ -464,8 +506,45 @@
 	</div>
 	<!-- /Portfolio -->
 
+	<!-- sign02 -->
+	<div id="sign02" class="section sm-padding">
+
+		<!-- Background Image -->
+		<div class="bg-img" style="background-image: url('../plugins/index/img/background3.jpg');">
+			<div class="overlay"></div>
+		</div>
+		<!-- /Background Image -->
+
+		<!-- Container -->
+		<div class="container" style="padding-top:3%;padding-bottom: 2%;font-size: 15px;text-align: center;">
+
+			<!-- Row -->
+			<div class="row">
+
+				<!-- Testimonial slider -->
+				<div >
+					<p class="white-text">
+						我一直在想大人的定义究竟是什么。<br/>
+						后来觉得：我们慢慢变成大人，<br/>
+						不是眼神里没有光亮，面无表情的工作。<br/>
+						而是始终心怀善良，努力追逐自己的梦想，<br/>
+						扛起属于自己的责任。<br/>
+						这是我喜欢也是想要成为的那种大人。
+					</p>
+				</div>
+				<!-- /Testimonial slider -->
+
+			</div>
+			<!-- /Row -->
+
+		</div>
+		<!-- /Container -->
+
+	</div>
+	<!-- /sign02 -->
+
 	<!-- Variety -->
-	<div id="Variety" class="section md-padding">
+	<div id="Variety" class="section sm-padding">
 
 		<!-- Container -->
 		<div class="container">
@@ -479,23 +558,19 @@
 				</div>
 				<!-- /Section header -->
 
+				<div id="varietyWrap"></div>
+
 				<!-- item -->
-				<div class="col-sm-4">
+				<!--<div class="col-sm-3">
 					<div class="team">
 						<div class="team-img">
 							<img class="img-responsive" src="../plugins/index/img/team1.jpg" alt="">
-							<div class="overlay">
-								<div class="team-social">
-									<a href="#"><i class="fa fa-play-circle-o"></i></a>
-								</div>
-							</div>
 						</div>
 						<div class="team-content">
 							<h3>John Doe</h3>
-							<span>Web Designer</span>
 						</div>
 					</div>
-				</div>
+				</div>-->
 				<!-- /item -->
 
 
@@ -505,7 +580,7 @@
 			<div class="row" style="text-align: center">
 				<br>
 				<br>
-				<button onclick="toMore(3)" class="main-btn">查看更多</button>
+				<button id="variety2more" style="display: none" onclick="toMore(3)" class="main-btn">查看更多</button>
 			</div>
 
 		</div>
@@ -514,73 +589,40 @@
 	</div>
 	<!-- /Service -->
 
-
-	<!-- Numbers -->
-	<div id="numbers" class="section sm-padding">
-
+	<!-- sign03 -->
+	<div id="sign03" class="section sm-padding">
 		<!-- Background Image -->
 		<div class="bg-img" style="background-image: url('../plugins/index/img/background2.jpg');">
 			<div class="overlay"></div>
 		</div>
 		<!-- /Background Image -->
-
 		<!-- Container -->
 		<div class="container">
-
 			<!-- Row -->
 			<div class="row">
-
-				<!-- number -->
-				<div class="col-sm-3 col-xs-6">
-					<div class="number">
-						<i class="fa fa-users"></i>
-						<h3 class="white-text"><span class="counter">451</span></h3>
-						<span class="white-text">Happy clients</span>
+				<div class="col-md-12 white-text" style="font-size: 15px;text-align: center;padding-top:3%;padding-bottom: 2%;">
+					<div>
+						<p>
+							我们每个人都生活在各自的过去中，<br/>
+							人们会用一分钟的时间去认识一个人，<br/>
+							用一小时的时间去喜欢一个人，<br/>
+							再用一天的时间去爱上一个人，<br/>
+							到最后，<br/>
+							却要用一辈子的时间去忘记一个人。
+						</p>
 					</div>
-				</div>
-				<!-- /number -->
 
-				<!-- number -->
-				<div class="col-sm-3 col-xs-6">
-					<div class="number">
-						<i class="fa fa-trophy"></i>
-						<h3 class="white-text"><span class="counter">12</span></h3>
-						<span class="white-text">Awards won</span>
-					</div>
 				</div>
-				<!-- /number -->
-
-				<!-- number -->
-				<div class="col-sm-3 col-xs-6">
-					<div class="number">
-						<i class="fa fa-coffee"></i>
-						<h3 class="white-text"><span class="counter">154</span>K</h3>
-						<span class="white-text">Cups of Coffee</span>
-					</div>
-				</div>
-				<!-- /number -->
-
-				<!-- number -->
-				<div class="col-sm-3 col-xs-6">
-					<div class="number">
-						<i class="fa fa-file"></i>
-						<h3 class="white-text"><span class="counter">45</span></h3>
-						<span class="white-text">Projects completed</span>
-					</div>
-				</div>
-				<!-- /number -->
-
 			</div>
 			<!-- /Row -->
-
 		</div>
 		<!-- /Container -->
 
 	</div>
-	<!-- /Numbers -->
+	<!-- /sign03 -->
 
-	<!-- Anime -->
-	<div id="Anime" class="section md-padding">
+	<!-- Animate -->
+	<div id="Animate" class="section sm-padding">
 
 		<!-- Container -->
 		<div class="container">
@@ -594,31 +636,24 @@
 				</div>
 				<!-- /Section header -->
 
+				<div id="animateWrap"></div>
+
 				<!-- item -->
-				<div class="col-sm-4">
+				<!--<div class="col-sm-3">
 					<div class="pricing">
 						<div class="price-head">
-							<span class="price-title">Basic plan</span>
-							<div class="price">
-								<h3>$9<span class="duration">/ month</span></h3>
-							</div>
+							<img style="width: 75%;margin: 12px auto;" class="img-responsive" src="../plugins/index/img/team1.jpg" alt="">
 						</div>
 						<ul class="price-content">
 							<li>
-								<p>1GB Disk Space</p>
-							</li>
-							<li>
-								<p>100 Email Account</p>
-							</li>
-							<li>
-								<p>24/24 Support</p>
+								<h3>Support</h3>
 							</li>
 						</ul>
 						<div class="price-btn">
-							<button class="outline-btn">Purchase now</button>
+							<button style="border: 1px solid #6195FF" class="outline-btn ">查看详情</button>
 						</div>
 					</div>
-				</div>
+				</div>-->
 				<!-- /item -->
 
 
@@ -628,7 +663,7 @@
 			<div class="row" style="text-align: center">
 				<br>
 				<br>
-				<button onclick="toMore(4)" class="main-btn">查看更多</button>
+				<button id="animate2more" style="display: none" onclick="toMore(4)" class="main-btn">查看更多</button>
 			</div>
 
 		</div>
@@ -637,9 +672,8 @@
 	</div>
 	<!-- /Pricing -->
 
-
-	<!-- Testimonial -->
-	<div id="testimonial" class="section md-padding">
+	<!-- sign04 -->
+	<div id="sign04" class="section sm-padding">
 
 		<!-- Background Image -->
 		<div class="bg-img" style="background-image: url('../plugins/index/img/background3.jpg');">
@@ -648,38 +682,23 @@
 		<!-- /Background Image -->
 
 		<!-- Container -->
-		<div class="container">
+		<div class="container" style="padding-top:3%;padding-bottom: 2%;font-size: 15px;text-align: center;">
 
 			<!-- Row -->
 			<div class="row">
 
 				<!-- Testimonial slider -->
-				<div class="col-md-10 col-md-offset-1">
-					<div id="testimonial-slider" class="owl-carousel owl-theme">
-
-						<!-- testimonial -->
-						<div class="testimonial">
-							<div class="testimonial-meta">
-								<img src="../plugins/index/img/perso1.jpg" alt="">
-								<h3 class="white-text">John Doe</h3>
-								<span>Web Designer</span>
-							</div>
-							<p class="white-text">Molestie at elementum eu facilisis sed odio. Scelerisque in dictum non consectetur a erat. Aliquam id diam maecenas ultricies mi eget mauris.</p>
-						</div>
-						<!-- /testimonial -->
-
-						<!-- testimonial -->
-						<div class="testimonial">
-							<div class="testimonial-meta">
-								<img src="../plugins/index/img/perso2.jpg" alt="">
-								<h3 class="white-text">John Doe</h3>
-								<span>Web Designer</span>
-							</div>
-							<p class="white-text">Molestie at elementum eu facilisis sed odio. Scelerisque in dictum non consectetur a erat. Aliquam id diam maecenas ultricies mi eget mauris.</p>
-						</div>
-						<!-- /testimonial -->
-
-					</div>
+				<div >
+					<p class="white-text">
+						人有三样东西是无法隐瞒的，<br/>
+						咳嗽、穷困和爱，你想隐瞒却欲盖弥彰；<br/>
+						人有三样东西是不可挥霍的，<br/>
+						身体、金钱和爱，你想挥霍却得不偿失；<br/>
+						人有三样东西是无法挽留的，<br/>
+						时间、生命和爱，你想挽留却渐行渐远；<br/>
+						人有三样东西是不该回忆的，<br/>
+						灾难、死亡和爱，你想回忆却苦不堪言。
+					</p>
 				</div>
 				<!-- /Testimonial slider -->
 
@@ -690,10 +709,10 @@
 		<!-- /Container -->
 
 	</div>
-	<!-- /Testimonial -->
+	<!-- /sign04 -->
 
 	<!-- Request -->
-	<div id="Request" class="section md-padding">
+	<div id="Request" class="section sm-padding">
 
 		<!-- Container -->
 		<div class="container">
@@ -721,12 +740,18 @@
 
 				<!-- contact form -->
 				<div class="col-md-8 col-md-offset-2">
-					<form class="contact-form">
-						<input type="text" class="input" placeholder="姓名">
-						<input type="email" class="input" placeholder="邮箱">
-						<input type="text" class="input" placeholder="主题">
-						<textarea class="input" placeholder="一些想法？"></textarea>
-						<button class="main-btn">提交</button>
+					<form onsubmit="return checkLength()" class="contact-form">
+						<select id="type" class="selectpicker">
+							<option value="1">电影</option>
+							<option value="2">电视剧</option>
+							<option value="3">综艺节目</option>
+							<option value="4">动漫</option>
+						</select>
+						<br/>
+						<input id="nickName" type="text" class="input" placeholder="昵称">
+						<input id="email" type="email" class="input" placeholder="邮箱">
+						<textarea id="description" class="input" placeholder="一些描述？"></textarea>
+						<button onClick="sub();" type="button" class="main-btn">提交</button>
 					</form>
 				</div>
 				<!-- /contact form -->
@@ -738,7 +763,7 @@
 		<!-- /Container -->
 
 	</div>
-	<!-- /Team -->
+	<!-- /Request -->
 
 	<!-- Contact -->
 	<!--<div id="Contact" class="section md-padding">
@@ -875,47 +900,147 @@
     <script src="../plugins/index/plugins/slide/jquery.themepunch.tools.min.js"></script>
     <script src="../plugins/index/plugins/slide/jquery.themepunch.revolution.min.js"></script>
     <script src="../plugins/index/plugins/slide/revolution-slider.js"></script>
+	<script type="text/javascript" src="../plugins/bootstrap/bootstrap-select/bootstrap-select.js"></script>
 
 	<script src="../js/gutil.js" type="text/javascript"></script>
     <script>
         jQuery(document).ready(function() {
-
             RevolutionSlider.initRSfullWidth();
-
         });
 
         $(function () {
-			//$('#back-to-top').click();
+			$('#back-to-top').click();
 
+            var toRequest = getCookieValue("request");
+            if(toRequest){
+                $('#2request').click();
+                deleteCookie("request","/");
+            }
 
 			//获取电影列表
 			$.post("/index/resource/list",{pageNow:1,pageSize:12,type:1},function (r) {
 				console.log(r);
 				$('#movieWrap').html("");
 				var dataArr = r.data;
-				for(var i=0;i<dataArr.length;i++){
-				    var obj = dataArr[i];
-				    var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
-                    var error = "../image/error1.png";
-                    //var description = obj.description.substring(0,15)+"...";
-				    $('#movieWrap').append('<div class="col-xs-3">\n' +
-                        '\t\t\t\t\t<div onclick="toDetail('+obj.type+','+obj.id+')" class="about">\n' +
-                        '\t\t\t\t\t\t<!--<i class="fa fa-cogs"></i>-->\n' +
-                        '\t\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive" src="'+imgSrc+'" alt="图片加载失败">\n' +
-                        '\t\t\t\t\t\t<h3>'+obj.name+'</h3>\n' +
-                        '\t\t\t\t\t\t<a href="#">查看详情</a>\n' +
-                        '\t\t\t\t\t</div>\n' +
-                        '\t\t\t\t</div>');
+                if(dataArr.length==0){
+                    $('#movieWrap').html("<p>暂无资源</p>");
+                    $('#movieWrap').css("text-align",'center');
+                }else{
+                    for(var i=0;i<dataArr.length;i++){
+                        var obj = dataArr[i];
+                        var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
+                        var error = "../image/error1.png";
+                        //var description = obj.description.substring(0,15)+"...";
+                        $('#movieWrap').append('<div class="col-sm-3">\n' +
+                            '\t\t\t\t\t<div onclick="toDetail('+obj.type+','+obj.id+')" class="about">\n' +
+                            '\t\t\t\t\t\t<!--<i class="fa fa-cogs"></i>-->\n' +
+                            '\t\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive" src="'+imgSrc+'" alt="图片加载失败">\n' +
+                            '\t\t\t\t\t\t<h3>'+obj.name+'</h3>\n' +
+                            '\t\t\t\t\t\t<a href="javascript:void(0)">查看详情</a>\n' +
+                            '\t\t\t\t\t</div>\n' +
+                            '\t\t\t\t</div>');
+                    }
+                    $('#movie2more').show();
 				}
+
             });
+			//获取电视剧列表
+            setTimeout(function () {
+                $.post("/index/resource/list",{pageNow:1,pageSize:12,type:2},function (r) {
+                    console.log(r);
+                    $('#seriesWrap').html("");
+                    var dataArr = r.data;
+                    if(dataArr.length==0){
+                        $('#seriesWrap').html("<p>暂无资源</p>");
+                        $('#seriesWrap').css("text-align",'center');
+                    }else{
+                        for(var i=0;i<dataArr.length;i++){
+                            var obj = dataArr[i];
+                            var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
+                            var error = "../image/error1.png";
+                            $('#seriesWrap').append('<div onclick="toDetail('+obj.type+','+obj.id+')" class="col-sm-3 work">\n' +
+                                '\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive" src="'+imgSrc+'" alt="图片加载失败">\n' +
+                                '\t\t\t\t\t<div class="overlay"></div>\n' +
+                                '\t\t\t\t\t<div class="work-content">\n' +
+                                '\t\t\t\t\t\t<h3>'+obj.name+'</h3>\n' +
+                                '\t\t\t\t\t\t<div class="work-link">\n' +
+                                '\t\t\t\t\t\t\t<a href="javascript:void(0)" title="查看详情"><i class="fa fa-external-link"></i></a>\n' +
+                                '\t\t\t\t\t\t</div>\n' +
+                                '\t\t\t\t\t</div>\n' +
+                                '\t\t\t\t</div>');
+                        }
+                        $('#series2more').show();
+					}
 
-            var toRequest = getCookieValue("request");
-            if(toRequest){
-                $('#2request').click();
-                deleteCookie("request","/");
-			}
+                });
+            },1000);
+			//获取综艺列表
+            setTimeout(function () {
+                $.post("/index/resource/list",{pageNow:1,pageSize:12,type:3},function (r) {
+                    console.log(r);
+                    $('#varietyWrap').html("");
+                    var dataArr = r.data;
+                    if(dataArr.length==0){
+                        $('#varietyWrap').html("<p>暂无资源</p>");
+                        $('#varietyWrap').css("text-align",'center');
 
+					}else{
+                        for(var i=0;i<dataArr.length;i++){
+                            var obj = dataArr[i];
+                            var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
+                            var error = "../image/error1.png";
+                            $('#varietyWrap').append('<div onclick="toDetail('+obj.type+','+obj.id+')" class="col-sm-3">\n' +
+                                '\t\t\t\t\t<div class="team">\n' +
+                                '\t\t\t\t\t\t<div class="team-img">\n' +
+                                '\t\t\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive" src="'+imgSrc+'" alt="图片加载失败">\n' +
+                                '\t\t\t\t\t\t</div>\n' +
+                                '\t\t\t\t\t\t<div class="team-content">\n' +
+                                '\t\t\t\t\t\t\t<h3>'+obj.name+'</h3>\n' +
+                                '\t\t\t\t\t\t</div>\n' +
+                                '\t\t\t\t\t</div>\n' +
+                                '\t\t\t\t</div>');
+                        }
+                        $('#variety2more').show();
+					}
 
+                });
+            },2000);
+            //获取动漫列表
+            setTimeout(function () {
+                $.post("/index/resource/list",{pageNow:1,pageSize:12,type:4},function (r) {
+                    console.log(r);
+                    $('#animateWrap').html("");
+                    var dataArr = r.data;
+                    if(dataArr.length==0){
+                        $('#animateWrap').html("<p>暂无资源</p>");
+                        $('#animateWrap').css("text-align",'center');
+
+                    }else{
+                        for(var i=0;i<dataArr.length;i++){
+                            var obj = dataArr[i];
+                            var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
+                            var error = "../image/error1.png";
+                            $('#animateWrap').append('<div onclick="toDetail('+obj.type+','+obj.id+')" class="col-sm-3">\n' +
+                                '\t\t\t\t\t<div class="pricing">\n' +
+                                '\t\t\t\t\t\t<div class="price-head">\n' +
+                                '\t\t\t\t\t\t\t<img style="width: 75%;margin: 12px auto;" onerror=src="'+error+'" class="img-responsive" src="'+imgSrc+'" alt="图片加载失败">\n' +
+                                '\t\t\t\t\t\t</div>\n' +
+                                '\t\t\t\t\t\t<ul class="price-content">\n' +
+                                '\t\t\t\t\t\t\t<li>\n' +
+                                '\t\t\t\t\t\t\t\t<h3>'+obj.name+'</h3>\n' +
+                                '\t\t\t\t\t\t\t</li>\n' +
+                                '\t\t\t\t\t\t</ul>\n' +
+                                '\t\t\t\t\t\t<div class="price-btn">\n' +
+                                '\t\t\t\t\t\t\t<button style="border: 1px solid #6195FF" class="outline-btn ">查看详情</button>\n' +
+                                '\t\t\t\t\t\t</div>\n' +
+                                '\t\t\t\t\t</div>\n' +
+                                '\t\t\t\t</div>');
+                        }
+                        $('#animate2more').show();
+					}
+
+                });
+            },3000);
 
         });
 
@@ -932,6 +1057,44 @@
                 if(r.code==1){
                     window.location.href = "/single";
                 }
+            });
+        }
+
+        function sub() {
+			var nickName = $('#nickName').val().trim();
+			var email = $('#email').val().trim();
+			var type = $('#type').val().trim();
+			var description = $('#description').val().trim();
+
+			if(!email){
+			    swal("邮箱地址不能为空！","火星人还有五秒到达战场","warning");
+			    return;
+			}
+            var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
+			if(!reg.test(email)){
+                swal("请填写邮箱邮箱！","火星人表示他们也看不懂","warning");
+                return;
+			}
+
+			if(!description){
+                swal("我需要你一些描述！","游戏才刚刚开始","warning");
+                return;
+			}
+
+			$.post("/index/feedback/wishes",{
+			    nickName:nickName,
+				email:email,
+                type:type,
+				description:description
+			},function (r) {
+				if(r.code==1){
+                    $('#nickName').val("");
+                    $('#email').val("");
+                    $('#description').val("");
+				    swal("您的请求已提交!","小哥哥将尽快为您服务 /偷笑","success");
+				}else{
+                    swal("火星人来袭","服务貌似不在线了..","error");
+				}
             });
         }
 

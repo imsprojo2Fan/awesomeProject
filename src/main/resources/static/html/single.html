@@ -4,15 +4,11 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
 	<link rel="shortcut icon" href="../image/icon.png">
 	<title>看风了风</title>
-
-	<!-- Google font -->
-	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CVarela+Round" rel="stylesheet">
-
 	<!-- Bootstrap -->
 	<link type="text/css" rel="stylesheet" href="../plugins/index/css/bootstrap.min.css" />
 
@@ -29,6 +25,9 @@
 	<!-- Custom stlylesheet -->
 	<link type="text/css" rel="stylesheet" href="../plugins/index/css/style.css" />
 
+	<!-- loading加载 -->
+	<link rel="stylesheet" type="text/css" href="../css/loaders.css" />
+
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -36,19 +35,85 @@
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 
+	<!-- loading加载 -->
 	<link rel="stylesheet" type="text/css" href="../plugins/sweet-alert/sweetalert2.css" />
 	<script src="../plugins/sweet-alert/sweetalert2.js"></script>
 
 	<style>
 		h2 {
-			font-size: 24px;
+			font-size: 22px;
 			line-height: 45px;
+			font-weight: bold;
+		}
+		h4{
+			font-size: 16px;
 			font-weight: normal;
 		}
+
+		.loading-wrap{
+			width:100%;
+			height:91vh;
+			background-color:#ffffff;
+			position:absolute;
+			left:0px;
+			top:0px;
+			display:none;
+			z-index:1000;
+		}
+		.loader{
+			width: 96px;
+			height: 134px;
+			margin: 0 auto;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			margin-left: -30px;
+			margin-top: -55px;
+		}
+
+		.loaderTxt{
+			color: #868F9B;font-size: 13px;margin-top: 15px;
+		}
+
+		.order a {
+			display: inline-block;
+			padding: 6px 13px;
+			font-size: 14px;
+			margin: 2px 0px;
+			background: #F4F4F4;
+			color: #10161A;
+			cursor: pointer;
+		}
+		.order a:hover {
+			color: #FFF;
+			background-color: #6195FF;
+			filter:alpha(opacity=0.8); /* ie 有效*/
+			-moz-opacity:0.8; /* Firefox 有效*/
+			opacity: 0.8; /* 通用，其他浏览器 有效*/
+		}
+
+		.transparent_class {
+			filter:alpha(opacity=75);
+			-moz-opacity:0.75;
+			-khtml-opacity: 0.75;
+			opacity: 0.75;
+		}
+
+		.order a:visited {
+			color: #FFF;
+			background-color: #6195FF;
+			filter:alpha(opacity=0.8); /* ie 有效*/
+			-moz-opacity:0.8; /* Firefox 有效*/
+			opacity: 0.8; /* 通用，其他浏览器 有效*/
+		}
+
+
 	</style>
 </head>
 
 <body>
+
+	<input id="copy" type="hidden">
 
 	<!-- Header -->
 	<header>
@@ -60,9 +125,9 @@
 				<div class="navbar-header">
 					<!-- Logo -->
 					<div class="navbar-brand">
-						<a href="index.html">
+						<a href="/">
 							<!--<img class="logo" src="img/logo.png" alt="logo">-->
-							<h2 style="color:#6195FF">看风了风</h2>
+							<h2 style="color:#6195FF;font-weight: normal">看风了风</h2>
 						</a>
 					</div>
 					<!-- /Logo -->
@@ -76,12 +141,12 @@
 
 				<!--  Main navigation  -->
 				<ul class="main-nav nav navbar-nav navbar-right">
-					<li><a href="#home">首页</a></li>
-					<li><a href="#movie">电影</a></li>
-					<li><a href="#TVSeries">电视剧</a></li>
-					<li><a href="#Variety">综艺</a></li>
-					<li><a href="#Anime">动漫</a></li>
-					<li><a href="#Request">留言求片</a></li>
+					<li><a href="/">首页</a></li>
+					<li><a href="javascript:toMore(1)">电影</a></li>
+					<li><a href="javascript:toMore(2)">电视剧</a></li>
+					<li><a href="javascript:toMore(3)">综艺</a></li>
+					<li><a href="javascript:toMore(4)">动漫</a></li>
+					<li><a href="javascript:request()">留言求片</a></li>
 					<li><a href="/login" target="_blank">注册登录</a></li>
 				</ul>
 				<!-- /Main navigation -->
@@ -94,9 +159,9 @@
 		<div class="header-wrapper sm-padding bg-grey">
 			<div class="container">
 				<ul class="breadcrumb">
-					<li class="breadcrumb-item"><a href="index.html">首页</a></li>
-					<li class="breadcrumb-item"><a href="index.html#blog">列表</a></li>
-					<li class="breadcrumb-item active">Single Post</li>
+					<li class="breadcrumb-item"><a href="/">首页</a></li>
+					<li id="tab2" class="breadcrumb-item"><a href="javascript:void(0);">列表</a></li>
+					<li id="tab3" class="breadcrumb-item active"></li>
 				</ul>
 			</div>
 		</div>
@@ -105,8 +170,8 @@
 	</header>
 	<!-- /Header -->
 
-	<!-- Blog -->
-	<div id="blog" class="section md-padding">
+	<!-- Item -->
+	<div id="blog" class="section sm-padding">
 
 		<!-- Container -->
 		<div class="container">
@@ -116,60 +181,142 @@
 
 				<!-- Main -->
 				<main id="main" class="col-md-9">
-					<div class="blog">
-						<div class="blog-img">
-							<img class="img-responsive" src="../plugins/index/img/blog-post.jpg" alt="">
-						</div>
-						<div class="blog-content">
-							<ul class="blog-meta">
-								<li><i class="fa fa-user"></i>John doe</li>
-								<li><i class="fa fa-clock-o"></i>18 Oct</li>
-								<li><i class="fa fa-comments"></i>57</li>
-							</ul>
-							<h3>Morbi mattis felis at nunc. Duis viverra</h3>
-							<p>Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi.</p>
-						</div>
-
-						<!-- blog tags -->
-						<div class="blog-tags">
-							<h5>Tags :</h5>
-							<a href="#"><i class="fa fa-tag"></i>Web</a>
-							<a href="#"><i class="fa fa-tag"></i>Design</a>
-							<a href="#"><i class="fa fa-tag"></i>Marketing</a>
-							<a href="#"><i class="fa fa-tag"></i>Development</a>
-							<a href="#"><i class="fa fa-tag"></i>Branding</a>
-							<a href="#"><i class="fa fa-tag"></i>Photography</a>
-						</div>
-						<!-- blog tags -->
-
-						<!-- blog author -->
-						<div class="blog-author">
-							<div class="media">
-								<div class="media-left">
-									<img class="media-object" src="../plugins/index/img/author.jpg" alt="">
+					<div class="single">
+						<div id="info" style="border:1px solid #eee;">
+							<div class="blog-img">
+								<div>
+									<div id="play" title="播放" style="position: absolute;z-index: 11;left: 95px;top: 152px"><img onclick="switchWindow()" style="cursor: pointer" width="50%" src="../image/play.png"></div>
+									<img id="img"  style="width: 30%;float: left;padding-right: 15px" class="img-responsive" src="../image/default.jpg" onerror=src="../image/error.png" alt="图片加载失败">
 								</div>
-								<div class="media-body">
-									<div class="media-heading">
-										<h3>Joe Doe</h3>
-										<div class="author-social">
-											<a href="#"><i class="fa fa-facebook"></i></a>
-											<a href="#"><i class="fa fa-twitter"></i></a>
-											<a href="#"><i class="fa fa-google-plus"></i></a>
-											<a href="#"><i class="fa fa-instagram"></i></a>
-										</div>
+								<div >
+									<h2 id="name"></h2>
+								</div>
+
+								<div >
+									<h4 id="director"></h4>
+								</div>
+
+								<div >
+									<h4 id="actor"></h4>
+								</div>
+
+								<div >
+									<h4 id="publish"></h4>
+								</div>
+
+								<div >
+									<h4 id="length"></h4>
+								</div>
+
+								<div >
+									<h4 id="language"></h4>
+								</div>
+
+								<div class="transparent_class" style="height: 35px;line-height:35px;color:#fff;font-size: 2rem;background:#6195FF;text-align: center;width: 100%;">
+									<div id="logo" style="margin-left: 17%;float: left">看风了风</div>
+								</div>
+
+								<div style="font-size: 14px;border: 0px solid red;">
+									<p style="text-indent:2em;" id="description"></p>
+								</div>
+
+							</div>
+							<!-- tags -->
+							<div class="blog-tags" style="margin-top: 30px">
+								<div ><h5>分类：</h5><span id="tagWrap"></span></div>
+								<!--<a href="#"><i class="fa fa-tag"></i>Web</a>-->
+							</div>
+							<!-- tags -->
+
+							<!-- action -->
+							<div class="blog-tags" style="margin-top: -8px">
+								<div >
+									<h5>操作：</h5>
+									<a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="查看">
+										<i class="fa fa-eye"></i><span id="views"></span>
+									</a>
+									<span id="actionWrap">
+										<a href="javascript:action('collect')" data-toggle="tooltip" data-placement="bottom" title="收藏">
+											<i class="fa fa-star"></i><span id="collects"></span>
+										</a>
+										<a href="javascript:action('like')" data-toggle="tooltip" data-placement="bottom" title="喜欢">
+											<i class="fa fa-heart"></i><span id="likes"></span>
+										</a>
+									</span>
+									<a href="javascript:report();" data-toggle="tooltip" data-placement="bottom" title="资源错误？">
+										<i class="fa fa-bug"></i>不能看?点我
+									</a>
+								</div>
+
+							</div>
+							<!-- action -->
+
+
+						</div>
+
+						<div id="iframe" style="border:1px solid #eee;height:87vh;display: none;">
+
+							<div id="frameLoading" class="loading-wrap" style="display: block">
+								<div class="loader" >
+									<!--<div style="color: #6195FF" class="la-ball-clip-rotate-multiple la-2x">
+										<div></div>
+										<div></div>
+									</div>-->
+									<div style="color: #6195FF" class="la-pacman la-2x">
+										<div></div>
+										<div></div>
+										<div></div>
+										<div></div>
+										<div></div>
+										<div></div>
 									</div>
-									<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
+									<div class="loaderTxt">疯狂加载中...</div>
 								</div>
 							</div>
-						</div>
-						<!-- /blog author -->
 
-						<!-- blog comments -->
+							<div id="tipLoading" class="loading-wrap" style="display: none">
+								<div class="loader" style="">
+									<div style="color: #6195FF" class="la-square-loader la-2x">
+										<div></div>
+									</div>
+									<div style="margin-left: -35px;text-align: center;" class="loaderTxt">手机端暂不可播放<br/>将尽快处理<br/>可前往电脑端观看</div>
+								</div>
+							</div>
+
+							<div id="iframeWrap" style="width: 100%;height: 100%">
+								<iframe onreadystatechange="ready()" allowFullScreen="true" id="myFrame" name="myFrame" width="100%" height="100%" src="" frameborder="0" data-id="" seamless></iframe>
+							</div>
+
+						</div>
+
+						<div id="seriesParent" class="blog-tags" style="padding: 10px;border: 1px solid #eee;margin-top: 10px;display: none">
+							<div id="seriesWrap" >
+								<!--<a onclick="switchWindow();" href="javascript:void(0);">01</a>-->
+							</div>
+
+						</div>
+
+						<div id="urlWrap" class="blog-tags" style="padding: 10px;border: 1px solid #eee;margin-top: 10px;display: none">
+							<div id="onlineWrap" >
+								<a id="backList" style="display: none;margin-right: 6px" onclick="backList();" href="javascript:void(0);"><i class="fa fa-angle-double-left"></i>返回列表</a>
+								<a id="playBtn" onclick="switchWindow();" href="javascript:void(0);"><i class="fa fa-play-circle"></i>在线播放</a>
+							</div>
+							<div id="bdWrap" style="margin-top: 6px">
+								<a class="btn" data-toggle="tooltip" data-placement="right" title="" id="bdUrl" target="_blank" href="javascript:void(0);"><i class="fa fa-cloud-download"></i>百度网盘</a>
+								<a class="btn" onclick="toBDCloud()" title="" id="bdUrl2" target="_blank" href="javascript:void(0);" style="display: none"><i class="fa fa-cloud-download"></i>百度网盘</a>
+							</div>
+							<div id="downloadWrap" style="margin-top: 6px">
+								<!--<a id="download01" href="#"><i class="fa fa-cloud-download"></i>下载地址一</a>-->
+							</div>
+						</div>
+
+						<!-- comments -->
 						<div class="blog-comments">
-							<h3 class="title">(13) Comments</h3>
+							<h3 class="title">评论数<span id="comments"></span></h3>
+							<div id="commentWrap"></div>
 
 							<!-- comment -->
-							<div class="media">
+							<!--<div class="media">
 								<div class="media-left">
 									<img class="media-object" src="../plugins/index/img/perso2.jpg" alt="">
 								</div>
@@ -177,70 +324,22 @@
 									<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
 									<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
 								</div>
-							</div>
-							<!-- /comment -->
-
-							<!-- comment -->
-							<div class="media">
-								<div class="media-left">
-									<img class="media-object" src="../plugins/index/img/perso1.jpg" alt="">
-								</div>
-								<div class="media-body">
-									<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
-									<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
-								</div>
-
-								<!-- author reply comment -->
-								<div class="media author">
-									<div class="media-left">
-										<img class="media-object" src="../plugins/index/img/perso2.jpg" alt="">
-									</div>
-									<div class="media-body">
-										<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
-										<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
-									</div>
-								</div>
-								<!-- /comment -->
-
-								<!-- reply comment -->
-								<div class="media">
-									<div class="media-left">
-										<img class="media-object" src="../plugins/index/img/perso2.jpg" alt="">
-									</div>
-									<div class="media-body">
-										<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
-										<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
-									</div>
-								</div>
-								<!-- /comment -->
-
-							</div>
-							<!-- /comment -->
-
-
-							<!-- comment -->
-							<div class="media">
-								<div class="media-left">
-									<img class="media-object" src="../plugins/index/img/perso.jpg" alt="">
-								</div>
-								<div class="media-body">
-									<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
-									<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
-								</div>
-							</div>
+							</div>-->
 							<!-- /comment -->
 
 						</div>
-						<!-- /blog comments -->
+						<!-- /comments -->
 
 						<!-- reply form -->
 						<div class="reply-form">
-							<h3 class="title">Leave a reply</h3>
-							<form>
-								<input class="input" type="text" placeholder="Name">
-								<input class="input" type="email" placeholder="Email">
-								<textarea placeholder="Add Your Commment"></textarea>
-								<button type="submit" class="main-btn">Submit</button>
+							<h3 class="title">写点观感</h3>
+							<form onsubmit="return checkLength()">
+								<input class="input" type="text" placeholder="昵称">
+								<input class="input" type="email" placeholder="邮箱">
+								<textarea placeholder="一些想法"></textarea>
+								<div style="text-align: center">
+									<button onClick="sub();" type="button" class="main-btn">提交</button>
+								</div>
 							</form>
 						</div>
 						<!-- /reply form -->
@@ -255,7 +354,7 @@
 					<!-- Search -->
 					<div class="widget">
 						<div class="widget-search">
-							<input class="search-input" type="text" placeholder="search">
+							<input class="search-input" type="text" onclick="searchResource()" placeholder="搜索资源">
 							<button class="search-btn" type="button"><i class="fa fa-search"></i></button>
 						</div>
 					</div>
@@ -263,72 +362,32 @@
 
 					<!-- Category -->
 					<div class="widget">
-						<h3 class="title">Category</h3>
-						<div class="widget-category">
-							<a href="#">Web Design<span>(7)</span></a>
-							<a href="#">Marketing<span>(142)</span></a>
-							<a href="#">Web Development<span>(74)</span></a>
-							<a href="#">Branding<span>(60)</span></a>
-							<a href="#">Photography<span>(5)</span></a>
+						<h3 class="title">目录概览</h3>
+						<div id="categoryWrap" class="widget-category">
+							<!--<a href="#">Web Design<span>(7)</span></a>-->
 						</div>
 					</div>
 					<!-- /Category -->
 
 					<!-- Posts sidebar -->
 					<div class="widget">
-						<h3 class="title">Populare Posts</h3>
+						<h3 class="title">资源排序<span style="font-weight: normal;font-size: 13px;color: #868F9B" id="tip">[最多观看]</span></h3>
+						<div class="order"><a>最多观看</a><a>最多收藏</a><a>最多喜欢</a></div>
 
-						<!-- single post -->
-						<div class="widget-post">
-							<a href="#">
-								<img src="../plugins/index/img/post1.jpg" alt=""> Blog title goes here
-							</a>
-							<ul class="blog-meta">
-								<li>Oct 18, 2017</li>
-							</ul>
-						</div>
-						<!-- /single post -->
-
-						<!-- single post -->
-						<div class="widget-post">
-							<a href="#">
-								<img src="../plugins/index/img/post2.jpg" alt=""> Blog title goes here
-							</a>
-							<ul class="blog-meta">
-								<li>Oct 18, 2017</li>
-							</ul>
-						</div>
-						<!-- /single post -->
-
-
-						<!-- single post -->
-						<div class="widget-post">
-							<a href="#">
-								<img src="../plugins/index/img/post3.jpg" alt=""> Blog title goes here
-							</a>
-							<ul class="blog-meta">
-								<li>Oct 18, 2017</li>
-							</ul>
-						</div>
-						<!-- /single post -->
+						<div style="margin-top: 10px" id="popularWrap"></div>
+						<!-- item -->
+						<!--<div class="widget-post">
+                            <a href="#">
+                                <img src="../plugins/index/img/post1.jpg" alt=""> Blog title goes here
+                            </a>
+                            <ul class="blog-meta">
+                                <li>Oct 18, 2017</li>
+                            </ul>
+                        </div>-->
+						<!-- /item -->
 
 					</div>
 					<!-- /Posts sidebar -->
-
-					<!-- Tags -->
-					<div class="widget">
-						<h3 class="title">Tags</h3>
-						<div class="widget-tags">
-							<a href="#">Web</a>
-							<a href="#">Design</a>
-							<a href="#">Graphic</a>
-							<a href="#">Marketing</a>
-							<a href="#">Development</a>
-							<a href="#">Branding</a>
-							<a href="#">Photography</a>
-						</div>
-					</div>
-					<!-- /Tags -->
 
 				</aside>
 				<!-- /Aside -->
@@ -379,7 +438,7 @@
 	<!-- /Footer -->
 
 	<!-- search -->
-	<div id="search" onclick="search()" title="搜索资源">
+	<div id="search" onclick="searchResource()" title="搜索资源">
 		<i class="fa  fa-search"></i>
 	</div>
 	<!-- /search -->
@@ -405,6 +464,454 @@
 	<script type="text/javascript" src="../plugins/index/js/owl.carousel.min.js"></script>
 	<script type="text/javascript" src="../plugins/index/js/jquery.magnific-popup.js"></script>
 	<script type="text/javascript" src="../plugins/index/js/main.js"></script>
+	<script type="text/javascript" src="../js/gutil.js"></script>
+
+
+	<script>
+		var GlobalId;
+		var GlobalName;
+		var GlobalVideoSrc;
+        var GlobalArr;
+        var GlobalBdUrl;
+        var isSeries;//是否多剧集
+		var GlobalFrame;
+		$(function () {
+
+            if(isPhone()){
+                $('#play').hide();
+                $('#logo').css("margin-left","38%");
+                $('#aside').hide();
+                $('#pageWrap').hide();
+                $('#iframe').css("height","30vh");
+                $('.loading-wrap').css("height","31vh");
+                //$("[data-toggle='tooltip']").tooltip();
+				//隐藏喜欢和收藏
+				$('#actionWrap').hide();
+				//隐藏迅雷下载
+				$('#downloadWrap').hide();
+            }else{
+                $("[data-toggle='tooltip']").tooltip();
+			}
+
+
+            var myFrame = document.getElementById('myFrame');
+            GlobalFrame = myFrame;
+            myFrame.onload = myFrame.onreadystatechange = function () {
+                if (this.readyState && this.readyState != 'complete') {
+                    //console.log("加载中。。。");
+                }
+                else {
+                    //console.log("加载完成。。。");
+                    $('#frameLoading').hide();
+                }
+            }
+
+            $('.order a').on('click',function () {
+                var txt = $(this).html();
+                var col;
+                if(txt==="最多观看"){
+                    col = "views";
+				}else if(txt ==="最多喜欢"){
+                    col = "likes";
+				}else{
+                    col = "collects";
+				}
+                $('#tip').html("["+txt+"]");
+                aside(col);
+            });
+
+            getItem("");
+
+        });
+
+		function getItem(id) {
+
+            $("#preloader").delay(300).fadeIn();
+
+			$.post("/index/resource/list4item",{id,id},function (r) {
+                var tab = "";
+                var types = r.type;
+                var type = parseInt(types);
+                if(type===1){
+                    tab = "电影列表";
+                }else if(type===2){
+                    tab = "电视剧列表";
+                }else if(type===3){
+                    tab = "综艺列表";
+                }else if(type===4){
+                    tab = "动漫列表";
+                }
+                $('#tab2').html('<a onclick="toMore('+type+')" href="javascript:void(0);">'+tab+'</a>');
+
+				console.log(r);
+
+				var dataArr = r.data;
+                GlobalArr = r.data;
+				for(var i=0;i<dataArr.length;i++){
+				    var obj = dataArr[i];
+                    GlobalId = obj.id;
+                    GlobalName = obj.name;
+				    $('#tab3').html(obj.name);
+				    $('#name').html(obj.name);
+                    var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
+                    $('#img').attr('src',imgSrc);
+                    $('#director').html("导演："+obj.director);
+                    var actor = obj.actor;
+                    if(actor.length>25){
+                        actor = actor.substring(0,45)+"...";
+					}
+                    $('#actor').html("主演："+actor);
+                    $('#publish').html("发行日期："+obj.publish);
+                    $('#length').html("播放时长："+obj.length);
+                    $('#views').html(obj.views);
+                    $('#collects').html(obj.collects);
+                    $('#likes').html(obj.likes);
+                    $('#comments').html("("+obj.comments+")");
+                    if(obj.comments==0){
+                        $('#commentWrap').html("<p style='margin-left: 6px'>暂无评论</p>");
+					}
+                    var description = obj.description;
+                    $('#description').html(description);
+                    if(i==dataArr.length-1){
+                        var detailType = obj.detailType;
+                        var tArr = detailType.split(",");
+                        $('#tagWrap').html("");
+                        for(var j=0;j<tArr.length;j++){
+                            $('#tagWrap').append('<a style="margin-right: 5px" href="javascript:void(0)"><i class="fa fa-tag"></i>'+tArr[j]+'</a>')
+						}
+					}
+
+					if(dataArr.length==1){//剧集数为1时直接显示在线播放等
+
+                        //图片绑定播放事件
+                        $('#img').on("click",function () {
+                            switchWindow();
+                        });
+
+                        $('#urlWrap').show();
+                        //处理移动端及电脑端在线资源链接
+                        if(isPhone()){
+                            var phoneSrc = obj.phoneSrc;
+                            if(phoneSrc=="无资源链接"){
+								 GlobalVideoSrc = "";
+							}else{
+                                GlobalVideoSrc = phoneSrc+"?rel=0&amp;autoplay=1";
+							}
+						}else{
+                            GlobalVideoSrc = obj.videoSrc+"?rel=0&amp;autoplay=1";
+						}
+
+                        var bdUrl = obj.bdUrl;
+                        if(isPhone()){
+                            $('#bdUrl').hide();
+                            $('#bdUrl2').show();
+                            if(bdUrl!="无资源链接"){
+                                var pass = bdUrl.substring(bdUrl.length-4,bdUrl.length);
+                                var url = bdUrl.substring(3,bdUrl.length-9);
+                                GlobalBdUrl = url;
+                                $('#copy').val(pass);
+                            }
+
+						}else{
+                            if(bdUrl!="无资源链接"){
+                                var pass = bdUrl.substring(bdUrl.length-4,bdUrl.length);
+                                var url = bdUrl.substring(3,bdUrl.length-9);
+                                $('#bdUrl').attr("href",url);
+                                $('#bdUrl').attr('title',"密码:"+pass).tooltip('fixTitle');
+                            }else{
+                                $('#bdUrl').attr("disabled",true);
+                                //$("#bdUrl").css("pointer-events","none");
+                                $('#bdUrl').attr("href","");
+                                $('#bdUrl').attr('title',"暂无分享链接").tooltip('fixTitle');
+                            }
+						}
+
+                        $('#downloadWrap').html("");
+                        for(var k=0;k<3;k++){
+                            if(k===0){
+                                $('#downloadWrap').append('<a style="margin-right: 6px"  href="javascript:down(\''+obj.xlUrl1+'\')"><i class="fa  fa-download"></i>迅雷下载一</a>')
+                            }else if(k===1){
+                                $('#downloadWrap').append('<a style="margin-right: 6px"  href="javascript:down(\''+obj.xlUrl2+'\')"><i class="fa  fa-download"></i>迅雷下载二</a>')
+                            }else{
+                                $('#downloadWrap').append('<a  href="javascript:down(\''+obj.xlUrl3+'\')"><i class="fa  fa-download"></i>迅雷下载三</a>')
+                            }
+                        }
+					}else{//多剧集处理
+                        isSeries = true;
+                        $('#seriesParent').show();
+                        $('#play').hide();
+
+                        var sequence = obj.sequence;
+                        if(sequence<10){
+                            sequence = "0"+sequence;
+						}
+						$('#seriesWrap').append('<a style="margin-right: 5px" onclick="toSeries('+i+');" href="javascript:void(0);">'+sequence+'</a>');
+					}
+				}
+                category();
+                aside("views");
+            });
+
+            //初始化资源信息
+            $('#playBtn').html('<i class="fa fa-angle-double-left"></i>返回详情');
+            $('#playBtn').click();
+        }
+
+        function searchResource() {
+            swal({
+                title: '请输入资源名称',  //标题
+                input: 'text',
+                showCancelButton: true,
+                cancelButtonText:'取消',
+                confirmButtonText: '确定',
+                showLoaderOnConfirm: true,
+                preConfirm: function(val) {               //功能执行前确认操作，支持function
+                    return new Promise(function(resolve, reject) {
+                        addCookie("search",val,1,"/");
+                        window.location.href = "/list"
+                        resolve();
+                        /*setTimeout(function() {                 //添加一个时间函数，在俩秒后执行，这里可以用作异步操作数据
+                            if (email === 'taken@example.com') {  //这里的意思是：如果输入的值等于'taken@example.com',数据已存在，提示信息
+                                reject('用户已存在')                  //提示信息
+                            } else {
+                                resolve()                           //方法出口
+                            }
+                        }, 2000)*/
+                    })
+                },
+                allowOutsideClick: true
+            }).then(function(val) {
+                console.log(val)
+            });
+        }
+
+        function request() {
+            addCookie("request","request",1,"/");
+            window.location.href = "/";
+        }
+
+        function category() {
+            //获取目录概览数据
+            $.post("/index/resource/category",{},function (r) {
+                console.log(r);
+                $('#categoryWrap').html("");
+                var title;
+                if(r.length==0){
+                    $('#categoryWrap').html("<p>暂无资源</p>");
+                }
+                for(var i=0;i<r.length;i++){
+                    var obj = r[i];
+                    if(i===0){
+                        title = "电影";
+                    }else if(i===1){
+                        title = "电视剧";
+                    }else if(i===2){
+                        title = "综艺";
+                    }else{
+                        title = "动漫";
+                    }
+                    var type = i+1;
+                    $('#categoryWrap').append('<a onclick="toMore('+type+')" href="javascript:void(0)">'+title+'<span>('+obj+')</span></a>');
+                }
+            });
+        }
+
+        function aside(col) {
+            //获取最多观看数据
+            $.post("/index/resource/list4order",{col:col},function (r) {
+                console.log(r);
+                $('#popularWrap').html("");
+                if(r.length==0){
+                    $('#popularWrap').html("<p>暂无数据</p>");
+                    return;
+                }
+                var icon;
+                if(col==="views"){
+                    icon = '<i class="fa fa-eye"></i>';
+				}else if(col==="likes"){
+                    icon = '<i class="fa fa-heart"></i>';
+				}else{
+                    icon = '<i class="fa fa-star"></i>';
+				}
+                for(var j=0;j<r.length;j++){
+                    var obj = r[j];
+                    var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
+                    var error = "../image/error1.png";
+                    $('#popularWrap').append('<div class="widget-post">\n' +
+                        '\t\t\t\t\t\t<a onclick="getItem('+obj.id+')" href="javascript:void(0);">\n' +
+                        '\t\t\t\t\t\t\t<img style="width: 20%" onerror=src="'+error+'" src="'+imgSrc+'" alt="图片加载失败"> '+obj.name+'\n' +
+                        '\t\t\t\t\t\t</a>\n' +
+                        '\t\t\t\t\t\t<ul class="blog-meta">\n' +
+                        '\t\t\t\t\t\t\t<li>'+icon+obj.views+'</li>\n' +
+                        '\t\t\t\t\t\t</ul>\n' +
+                        '\t\t\t\t\t</div>');
+                }
+            });
+
+            $("#preloader").delay(300).fadeOut();
+        }
+
+        function toMore(type) {
+            $.post("/setSession",{type:type},function (r) {
+                if(r.code==1){
+                    window.location.href = "/list";
+                }
+            });
+        }
+
+        function switchWindow() {
+			var txt = $('#playBtn').html();
+			$('#info').hide();
+			$('#iframe').hide();
+			if(txt.indexOf("在线播放")>0){
+                $('#playBtn').html('<i class="fa fa-angle-double-left"></i>返回详情');
+                $('#iframe').show();
+                if(GlobalVideoSrc){
+                    $('#frameLoading').show();
+                    $('#myFrame').attr("src",GlobalVideoSrc);
+				}else{//移动端地址为空时显示资源不可播放
+                    $('#frameLoading').hide();
+                    $('#tipLoading').show();
+				}
+				//隐藏返回列表
+                $('#backList').hide();
+			}else{
+			    //$('#itemWrap').html(GlobalFrame);
+			    $('#myFrame').attr("src","/login");
+                $('#playBtn').html('<i class="fa fa-play-circle"></i>在线播放');
+                $('#info').show();
+                //隐藏返回列表
+                if(isSeries){
+                    $('#backList').show();
+				}
+			}
+            //返回顶部
+            $('body,html').animate({
+                scrollTop: 0
+            }, 300);
+        }
+
+        function report() {
+            swal({
+                title: '确定资源出错了是吗？',
+                text: '没准网络断开连接了呢 hhh',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#6195FF',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '确定了啦',
+				cancelButtonText:'你再试试',
+            }).then(function(){
+
+                $.post("/index/resource/report",{id:GlobalId,name:GlobalName},function (r) {
+					if(r.code==1){
+                        swal(
+                            '您反馈的问题已提交',
+                            '小哥哥将尽快处理呢,笔芯',
+                            'success'
+                        );
+					}else{
+                        swal("火星人来袭","服务貌似不在线了..","error");
+					}
+                });
+            })
+        }
+
+        function sub() {
+			swal("Oops,功能还未开放喔","有什么感想可以悄悄告诉我的 /偷笑","info");
+        }
+        
+        function down(url) {
+			window.location.href = url;
+        }
+
+        function action(type) {
+			swal("火星人来袭警告","该操作需要登录才行","warning");
+        }
+
+        function toSeries(index) {
+			var obj = GlobalArr[index];
+			console.log(obj);
+			$('#seriesParent').hide();
+			$('#backList').show();
+            $('#urlWrap').show();
+            //处理移动端及电脑端在线资源链接
+            if(isPhone()){
+                var phoneSrc = obj.phoneSrc;
+                if(phoneSrc=="无资源链接"){
+                    GlobalVideoSrc = "";
+                }else{
+                    GlobalVideoSrc = phoneSrc+"?rel=0&amp;autoplay=1";
+                }
+            }else{
+                GlobalVideoSrc = obj.videoSrc+"?rel=0&amp;autoplay=1";
+            }
+
+            var bdUrl = obj.bdUrl;
+            if(isPhone()){
+                $('#bdUrl').hide();
+                $('#bdUrl2').show();
+                if(bdUrl!="无资源链接"){
+                    var pass = bdUrl.substring(bdUrl.length-4,bdUrl.length);
+                    var url = bdUrl.substring(3,bdUrl.length-9);
+                    GlobalBdUrl = url;
+                    $('#copy').val(pass);
+                }
+            }else{
+                if(bdUrl!="无资源链接"){
+                    var pass = bdUrl.substring(bdUrl.length-4,bdUrl.length);
+                    var url = bdUrl.substring(3,bdUrl.length-9);
+                    $('#bdUrl').attr("href",url);
+                    $('#bdUrl').attr('title',"密码:"+pass).tooltip('fixTitle');
+                }else{
+                    $('#bdUrl').attr("disabled",true);
+                    //$("#bdUrl").css("pointer-events","none");
+                    $('#bdUrl').attr("href","");
+                    $('#bdUrl').attr('title',"暂无分享链接").tooltip('fixTitle');
+                }
+            }
+
+            $('#downloadWrap').html("");
+            for(var k=0;k<3;k++){
+                if(k===0){
+                    $('#downloadWrap').append('<a style="margin-right: 6px"  href="javascript:down(\''+obj.xlUrl1+'\')"><i class="fa  fa-download"></i>迅雷下载一</a>')
+                }else if(k===1){
+                    $('#downloadWrap').append('<a style="margin-right: 6px"  href="javascript:down(\''+obj.xlUrl2+'\')"><i class="fa  fa-download"></i>迅雷下载二</a>')
+                }else{
+                    $('#downloadWrap').append('<a  href="javascript:down(\''+obj.xlUrl3+'\')"><i class="fa  fa-download"></i>迅雷下载三</a>')
+                }
+            }
+        }
+
+        function backList() {
+            $('#seriesParent').show();
+            $('#backList').hide();
+            $('#urlWrap').hide();
+        }
+
+        function toBDCloud() {
+			//alert(GlobalBdUrl);
+			if(GlobalBdUrl){
+                var title = "分享密码为:"+$('#copy').val();
+                swal({
+                    title: title,
+                    text: '是否前往百度网盘?',
+                    type: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#6195FF',
+                    cancelButtonColor: '#ff1200',
+                    confirmButtonText: '是',
+					cancelButtonText:'否'
+                }).then(function(){
+                    window.open(GlobalBdUrl);
+                });
+			}else{
+			    swal("暂无网盘分享链接","小哥哥将尽快处理","error");
+			}
+        }
+
+
+	</script>
 
 </body>
 

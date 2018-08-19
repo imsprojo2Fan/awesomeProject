@@ -200,7 +200,7 @@ public class LoginController {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setFrom("zooori@foxmail.com");
 		message.setTo(email);
-		message.setSubject("[一路看风]注册账号激活邮件");
+		message.setSubject("[看风了风]注册账号激活邮件");
 		String md5Mail = Md5Util.getMD5WithSalt(email);
 		String link = "尊敬的用户,您的账号激活链接是:\n https://interesting.zooori.cn/activate?para="+md5Mail+"\n请在10分钟内激活链接";
 		message.setText(link);
@@ -285,7 +285,7 @@ public class LoginController {
 			SimpleMailMessage message = new SimpleMailMessage();
 			message.setFrom("zooori@foxmail.com");
 			message.setTo(email);
-			message.setSubject("[一路看风]重置密码邮件");
+			message.setSubject("[看风了风]重置密码邮件");
 			String md5Mail = Md5Util.getMD5WithSalt(email);
 			String password = md5Mail.substring(0,8);
 			password = Md5Util.getMD5WithSalt(password).substring(0,8).toUpperCase();

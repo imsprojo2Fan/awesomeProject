@@ -31,7 +31,13 @@ $(function () {
         });
     });
 
-    refresh(1,12);
+    //获取选中资源类型
+    var resourceType = window.parent.document.getElementById("resourceType").value;
+    //alert(resourceType);
+    $('#resourceSelect').val(resourceType);
+    $('#resourceSelect').selectpicker('refresh');
+
+    refresh(1,16);
 
     $('#uploadPic').on('click',function () {
         openWindow("/main/redirect?htmlName=uploadPic","",1000,600);
@@ -50,12 +56,18 @@ $(function () {
         //skip_invisible : true
     });*/
 
+
     GlobalDom = $('#edit_type').html();
 
 
 });
 var GlobalArr;
 function refresh(pageNow,pageSize) {
+    //debugger
+    //全局资源类型
+    var resourceType = $('#resourceSelect').val();
+    window.parent.document.getElementById("resourceType").value = resourceType;
+
     var key = $('#key').val().trim();
     $.ajax({
         url:"/main/resource/list",
@@ -64,6 +76,7 @@ function refresh(pageNow,pageSize) {
         cache : false,
         data:{
             key:key,
+            type:$('#resourceSelect').val(),
             pageNow:pageNow,
             pageSize:pageSize
         },
@@ -73,7 +86,7 @@ function refresh(pageNow,pageSize) {
         },
         success : function(r,status) {
             if (status == "success") {
-                console.log(r.data);
+                //console.log(r.data);
                 GlobalArr = r.data;
                 $('#content').html("");
                 var dataArr = r.data;
@@ -88,13 +101,17 @@ function refresh(pageNow,pageSize) {
                     var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
                     //var error = "https://interesting.zooori.cn/pic/error.png";
                     var error = "../../image/error1.png";
-                    $('#content').append('<div class="col-sm-3">\n' +
+                    var name = obj.name;
+                    if(name.length>7){
+                        name = obj.name.substring(0,7)+"...";
+                    }
+                    $('#content').append('<div class="col-sm-2">\n' +
                         '                                            <div class="team fa-border" style="padding: 30px">\n' +
                         '                                                <div class="team-img">\n' +
-                        '                                                    <img onerror=src="'+error+'" class="img-responsive " src="'+imgSrc+'" alt="图片加载失败">\n' +
+                        '                                                    <img style="cursor: pointer" onclick="edit('+i+')" onerror=src="'+error+'" title="'+obj.name+'" class="img-responsive " src="'+imgSrc+'" alt="图片加载失败">\n' +
                         '                                                </div>\n' +
                         '                                                <div class="team-content">\n' +
-                        '                                                    <h5>'+obj.name+'</h5>\n' +
+                        '                                                    <h6>'+name+'</h6>\n' +
                         '                                                    <a style="cursor: pointer" onclick="edit('+i+')" title="编辑"><i class="fa fa-edit"> 编辑</i></a>\n' +
                         '                                                    &nbsp;&nbsp;\n' +
                         '                                                    <a style="cursor: pointer" onclick="del('+i+')" title="删除"><i class="text-danger fa fa-trash-o"> 删除</i></a>\n' +
@@ -194,6 +211,7 @@ function add() {
     }
     var Orders = "";
     var videoSrcArr = "";
+    var phoneSrcArr = "";
     var bdUrlArr = "";
     var xlUrlArr1 = "";
     var xlUrlArr2 = "";
@@ -207,27 +225,32 @@ function add() {
         Orders = Orders+","+order;
         var a1 = obj.videoSrc;
         if(!a1){
-            a1 = "@";
+            a1 = "无资源链接";
         }
         videoSrcArr = videoSrcArr+","+a1;
+        var a6 = obj.videoSrc;
+        if(!a6){
+            a6 = "无资源链接";
+        }
+        phoneSrcArr = phoneSrcArr+","+a6;
         var a2 = obj.bdUrl;
         if(!a2){
-            a2 = '@';
+            a2 = '无资源链接';
         }
         bdUrlArr = bdUrlArr+","+a2;
         var a3 = obj.xlUrl1;
         if(!a3){
-            a3 = "@";
+            a3 = "无资源链接";
         }
         xlUrlArr1 = xlUrlArr1+","+a3;
         var a4 = obj.xlUrl2;
         if(!a4){
-            a4 = "@";
+            a4 = "无资源链接";
         }
         xlUrlArr2 = xlUrlArr2+","+a4;
         var a5 = obj.xlUrl3;
         if(!a5){
-            a5 = '@';
+            a5 = '无资源链接';
         }
         xlUrlArr3 = xlUrlArr2+","+a5;
     }
@@ -254,7 +277,8 @@ function add() {
             a2:bdUrlArr,
             a3:xlUrlArr1,
             a4:xlUrlArr2,
-            a5:xlUrlArr3
+            a5:xlUrlArr3,
+            a6:phoneSrcArr
         },
         beforeSend:function(){
             $("body").parent().css("overflow-y","hidden");
@@ -277,14 +301,14 @@ function add() {
 }
 
 function edit(index_) {
-    console.log(GlobalArr[index_]);
+    //console.log(GlobalArr[index_]);
     var obj = GlobalArr[index_];
     var itemIndex=0,index=-1;
     $('#edit_itemWrap').html("");
 
     var rid = obj.eid;
     $.post("/main/series/searchByKey",{key:rid},function (r) {
-        console.log(r);
+        //console.log(r);
         itemArr = new Array();
         for(var i=0;i<r.length;i++){
             var obj = r[i];
@@ -297,6 +321,7 @@ function edit(index_) {
             obj_.eid = obj.rid;
             obj_.sequence = obj.sequence;
             obj_.videoSrc = obj.videoSrc;
+            obj_.phoneSrc = obj.phoneSrc;
             obj_.bdUrl = obj.bdUrl;
             obj_.xlUrl1 = obj.xlUrl1;
             obj_.xlUrl2 = obj.xlUrl2;
@@ -329,7 +354,7 @@ function edit(index_) {
         for(var i=0;i<arr.length;i++){
             var type = arr[i];
             if(val===type){
-                console.log("val:"+val+"---type:"+type);
+                //console.log("val:"+val+"---type:"+type);
                 $(this).attr('checked',true);
                 $(this).parents('.checker').find('span').addClass('checked');
             }
@@ -491,8 +516,8 @@ function itemConfirm(){
         obj.id = index;
         obj.order = $('#item_order').val().trim();
         obj.videoSrc = $('#item_videoSrc').val().trim();
+        obj.phoneSrc = $('#item_phoneSrc').val().trim();
         obj.bdUrl = $('#item_bdUrl').val().trim();
-        //obj.bdPass = $('#item_bdPass').val().trim();
         obj.xlUrl1 = $('#item_xlUrl1').val().trim();
         obj.xlUrl2 = $('#item_xlUrl2').val().trim();
         obj.xlUrl3 = $('#item_xlUrl3').val().trim();
@@ -503,13 +528,13 @@ function itemConfirm(){
         $('#itemWrap').append('<a style="margin-top: 6px;margin-right: 5px" class="btn btn-default btn-sm s_item" onclick="editItem('+index+')">'+itemIndex+'</a>');
     }else{//编辑更新
         var curIndex = $('#itemId').val();
-        console.log(curIndex);
+        //console.log(curIndex);
         var obj = itemArr[curIndex];
         obj.id = curIndex;
         obj.order = $('#item_order').val().trim();
         obj.videoSrc = $('#item_videoSrc').val().trim();
+        obj.phoneSrc = $('#item_phoneSrc').val().trim();
         obj.bdUrl = $('#item_bdUrl').val().trim();
-        //obj.bdPass = $('#item_bdPass').val().trim();
         obj.xlUrl1 = $('#item_xlUrl1').val().trim();
         obj.xlUrl2 = $('#item_xlUrl2').val().trim();
         obj.xlUrl3 = $('#item_xlUrl3').val().trim();
@@ -520,8 +545,8 @@ function itemConfirm(){
 }
 
 function editItem(index) {
-    console.log(index);
-    console.log(itemArr);
+    //console.log(index);
+    //console.log(itemArr);
 
     $('#cancel').html("删除");
     $('#confirm').html("确定");
@@ -530,8 +555,8 @@ function editItem(index) {
     $('#sid').val(item.sid);
     $('#itemId').val(item.id);
     $('#item_videoSrc').val(item.videoSrc);
+    $('#item_phoneSrc').val(item.phoneSrc);
     $('#item_bdUrl').val(item.bdUrl);
-    //$('#item_bdPass').val(item.bdPass);
     $('#item_xlUrl1').val(item.xlUrl1);
     $('#item_xlUrl2').val(item.xlUrl2);
     $('#item_xlUrl3').val(item.xlUrl3);
@@ -544,11 +569,11 @@ function delItem(){
     if(type==="删除"){
 
         var index = $('#itemId').val();
-        console.log(itemArr);
+        //console.log(itemArr);
         var obj = {}
         obj.id=-1;
         itemArr[index] = obj;
-        console.log(itemArr);
+        //console.log(itemArr);
         //渲染ui;
         $('#edit_itemWrap').html("");
         for(var i=0;i<itemArr.length;i++){
@@ -574,6 +599,7 @@ function resetItem(){
     $('#item_order').val("");
     $('#itemId').val("");
     $('#item_videoSrc').val("");
+    $('#item_phoneSrc').val("");
     $('#item_bdUrl').val("");
     //$('#item_bdPass').val("");
     $('#item_xlUrl1').val("");
@@ -586,7 +612,7 @@ function resetItem(){
 
 function addItem2() {
     resetItem2();
-    console.log(itemArr);
+    //console.log(itemArr);
     $('#myModal2').modal("show");
 }
 
@@ -599,6 +625,7 @@ function itemConfirm2(){
             rid:rid,
             sequence:$('#item_order2').val().trim(),
             videoSrc:$('#item_videoSrc2').val().trim(),
+            phoneSrc:$('#item_phoneSrc2').val().trim(),
             bdUrl:$('#item_bdUrl2').val().trim(),
             xlUrl1:$('#item_xlUrl12').val().trim(),
             xlUrl2:$('#item_xlUrl22').val().trim(),
@@ -613,6 +640,7 @@ function itemConfirm2(){
             sid:$('#sid').val(),
             sequence:$('#item_order2').val().trim(),
             videoSrc:$('#item_videoSrc2').val().trim(),
+            phoneSrc:$('#item_phoneSrc2').val().trim(),
             bdUrl:$('#item_bdUrl2').val().trim(),
             xlUrl1:$('#item_xlUrl12').val().trim(),
             xlUrl2:$('#item_xlUrl22').val().trim(),
@@ -629,16 +657,17 @@ function itemConfirm2(){
 }
 
 function editItem2(index) {
-    console.log(index);
-    console.log(itemArr);
+    //console.log(index);
+    //console.log(itemArr);
     $('#myModalLabel2').html("编辑剧集");
     $('#cancel2').html("删除");
     $('#confirm2').html("确定");
     var item = itemArr[index];
-    console.log(item);
+    //console.log(item);
     $('#sid').val(item.sid);
     $('#item_order2').val(item.sequence);
     $('#item_videoSrc2').val(item.videoSrc);
+    $('#item_phoneSrc2').val(item.phoneSrc);
     $('#item_bdUrl2').val(item.bdUrl);
     $('#item_xlUrl12').val(item.xlUrl1);
     $('#item_xlUrl22').val(item.xlUrl2);
@@ -668,6 +697,7 @@ function resetItem2(){
     $('#itemId2').val("");
     $('#item_order2').val("");
     $('#item_videoSrc2').val("");
+    $('#item_phoneSrc2').val("");
     $('#item_bdUrl2').val("");
     $('#item_xlUrl12').val("");
     $('#item_xlUrl22').val("");

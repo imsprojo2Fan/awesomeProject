@@ -4,7 +4,7 @@
 	///////////////////////////
 	// Preloader
 	$(window).on('load', function() {
-		$("#preloader").delay(600).fadeOut();
+		$("#preloader").delay(300).fadeOut();
 	});
 
 	///////////////////////////
@@ -51,10 +51,10 @@
 		wScroll > 1 ? $('#nav').addClass('fixed-nav') : $('#nav').removeClass('fixed-nav');
 
 		// Back To Top Appear
-		wScroll > 700 ? $('#back-to-top').fadeIn() : $('#back-to-top').fadeOut();
+		wScroll > 200 ? $('#back-to-top').fadeIn() : $('#back-to-top').fadeOut();
 
         // Search Appear
-        wScroll > 700 ? $('#search').fadeIn() : $('#search').fadeOut();
+        wScroll > 200 ? $('#search').fadeIn() : $('#search').fadeOut();
 	});
 
 	///////////////////////////
@@ -93,8 +93,6 @@
 		}
 	});
 
-    $('#back-to-top').click();
-
 })(jQuery);
 
 function search() {
@@ -105,8 +103,12 @@ function search() {
         cancelButtonText:'取消',
         confirmButtonText: '确定',
         showLoaderOnConfirm: true,
-        preConfirm: function(email) {  //功能执行前确认操作，支持function
+        preConfirm: function(val) {  //功能执行前确认操作，支持function
             return new Promise(function(resolve, reject) {
+
+                addCookie("search",val,1,"/");
+                window.location.href = "/list"
+                resolve();
 
                 /*$.post('/reset',{email:email},function (res,status) {
                     if(res.code==1){
@@ -120,10 +122,6 @@ function search() {
         },
         allowOutsideClick: true
     }).then(function(email) {
-        swal({
-            type: 'success',
-            title: '密码重置邮件已发送',
-            html: '您提交的email是 ' + email
-        })
+
     });
 }

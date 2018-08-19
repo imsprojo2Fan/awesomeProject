@@ -4,14 +4,16 @@
   <resultMap id="BaseResultMap" type="com.awesome.model.Wishes" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="isFound" property="isfound" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="updated" property="updated" jdbcType="TIMESTAMP" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, type, name, email, isFound, updated, created
+    id, type,ip, name, email, isFound,description, updated, created
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -24,11 +26,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.awesome.model.Wishes" >
-    insert into wishes (id, type, name, 
-      email, isFound, updated, 
+    insert into wishes (id, type,ip, name,
+      email, isFound,description, updated,
       created)
-    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{isfound,jdbcType=INTEGER}, #{updated,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=INTEGER},#{ip,jdbcType=VARCHAR},  #{name,jdbcType=VARCHAR},
+      #{email,jdbcType=VARCHAR}, #{isfound,jdbcType=INTEGER},#{description,jdbcType=VARCHAR}, #{updated,jdbcType=TIMESTAMP},
       #{created,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.awesome.model.Wishes" >
@@ -40,6 +42,9 @@
       <if test="type != null" >
         type,
       </if>
+      <if test="ip != null" >
+        ip,
+      </if>
       <if test="name != null" >
         name,
       </if>
@@ -48,6 +53,9 @@
       </if>
       <if test="isfound != null" >
         isFound,
+      </if>
+      <if test="description != null" >
+        description,
       </if>
       <if test="updated != null" >
         updated,
@@ -63,6 +71,9 @@
       <if test="type != null" >
         #{type,jdbcType=INTEGER},
       </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
@@ -71,6 +82,9 @@
       </if>
       <if test="isfound != null" >
         #{isfound,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
       </if>
       <if test="updated != null" >
         #{updated,jdbcType=TIMESTAMP},
@@ -86,6 +100,9 @@
       <if test="type != null" >
         type = #{type,jdbcType=INTEGER},
       </if>
+      <if test="ip != null" >
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -94,6 +111,9 @@
       </if>
       <if test="isfound != null" >
         isFound = #{isfound,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
       </if>
       <if test="updated != null" >
         updated = #{updated,jdbcType=TIMESTAMP},
@@ -107,9 +127,11 @@
   <update id="updateByPrimaryKey" parameterType="com.awesome.model.Wishes" >
     update wishes
     set type = #{type,jdbcType=INTEGER},
+      ip = #{ip,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       isFound = #{isfound,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
       updated = #{updated,jdbcType=TIMESTAMP},
       created = #{created,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

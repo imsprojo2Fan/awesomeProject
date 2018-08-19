@@ -58,9 +58,6 @@ Plugin Css
 /* Date Range Picker */
 @import url('../plugins/date-range-picker/daterangepicker-bs3.css');
 
-/* Full Calendar */
-@import url('../plugins/fullcalendar/fullcalendar.css');
-
 /* loading */
 @import url('../css/loaders.css');
 

@@ -67,6 +67,8 @@ public class SendMailUtil {
 				else if(type==2){//邮箱验证码
 					ValueOperations<String,Object> redis = redisTemplate.opsForValue();
 					redis.set(md5Mail,map);
+				}else{
+
 				}
 			}
 

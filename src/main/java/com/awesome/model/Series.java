@@ -9,9 +9,9 @@ public class Series {
 
     private String videoSrc;
 
-    private String bdUrl;
+    private String phoneSrc;
 
-    private String bdPass;
+    private String bdUrl;
 
     private String xlUrl1;
 
@@ -65,20 +65,20 @@ public class Series {
         this.videoSrc = videoSrc;
     }
 
+    public String getPhoneSrc() {
+        return phoneSrc;
+    }
+
+    public void setPhoneSrc(String phoneSrc) {
+        this.phoneSrc = phoneSrc;
+    }
+
     public String getBdUrl() {
         return bdUrl;
     }
 
     public void setBdUrl(String bdUrl) {
         this.bdUrl = bdUrl;
-    }
-
-    public String getBdPass() {
-        return bdPass;
-    }
-
-    public void setBdPass(String bdPass) {
-        this.bdPass = bdPass;
     }
 
     public String getXlUrl1() {

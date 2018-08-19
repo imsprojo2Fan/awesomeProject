@@ -333,13 +333,20 @@
   <select id="searchByOrder" parameterType="Map" resultType="Map">
     select <include refid="Base_Column_List" />
     from resource where 1=1
-    and ${key} = #{value}
+    <if test="key !=null and key!='' ">
+      and ${key} = #{value}
+    </if>
     order by ${col} ${orderType}
 
     <if test="pageSize !=null and pageSize!='' ">
       LIMIT 0,${pageSize}
     </if>
 
+  </select>
+
+  <select id="list4item" parameterType="Map" resultType="Map">
+    select r.*,s.*
+    from resource r,series s where r.type=${type} and r.eid = s.rid and r.id=${id}
   </select>
 
 

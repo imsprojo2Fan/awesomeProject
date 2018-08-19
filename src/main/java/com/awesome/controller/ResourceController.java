@@ -90,15 +90,21 @@ public class ResourceController {
 					xl2Str = xl2Str.substring(1,xl2Str.length());
 					String[] xl2Arr = xl2Str.split(",");
 
-					String xl3Str = request.getParameter("a4");
+					String xl3Str = request.getParameter("a5");
 					xl3Str = xl3Str.substring(1,xl3Str.length());
 					String[] xl3Arr = xl3Str.split(",");
+
+					String phoneSrcStr = request.getParameter("a6");
+					phoneSrcStr = phoneSrcStr.substring(1,phoneSrcStr.length());
+					String[] phoneSrcArr = phoneSrcStr.split(",");
+
 					Random random = new Random();
 					for(int i=0;i<videoSrcArr.length;i++){
 						Map item = new HashMap();
 						item.put("rid",eid);
 						item.put("order",orderArr[i]);
 						item.put("videoSrc",videoSrcArr[i]);
+						item.put("phoneSrc",phoneSrcArr[i]);
 						item.put("bdUrl",bdArr[i]);
 						item.put("xlUrl1",xl1Arr[i]);
 						item.put("xlUrl2",xl2Arr[i]);
@@ -210,6 +216,7 @@ public class ResourceController {
 		String start = request.getParameter("pageNow");
 		String length = request.getParameter("pageSize");
 		String searchKey = request.getParameter("key");
+		String type = request.getParameter("type");
 		if(!StringUtils.isEmpty(start)){
 			PAGE_NOW = Integer.parseInt(start);
 		}
@@ -220,6 +227,7 @@ public class ResourceController {
 		qMap.put("pageNow",(PAGE_NOW-1)*PAGE_SIZE);
 		qMap.put("pageSize",PAGE_SIZE);
 		qMap.put("searchKey",searchKey);
+		qMap.put("type",type);
 
 		List cList = service.listAllCount(qMap);
 		rList = service.listByPage(qMap);

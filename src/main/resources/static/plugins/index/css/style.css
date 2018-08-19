@@ -680,6 +680,7 @@ header {
 .work {
     position: relative;
     padding: 20px;
+    cursor: pointer;
 }
 
 .work>img {
@@ -882,11 +883,12 @@ header {
     background-color: #FFF;
     z-index: 11;
     margin: 15px 0px;
+    cursor: pointer;
 }
 
 .pricing::after {
     content: "";
-    background-color: #1C1D21;
+    /*background-color: #1C1D21;*/
     position: absolute;
     left: 0;
     right: 0;
@@ -899,6 +901,7 @@ header {
 
 .pricing:hover:after {
     height: 100%;
+    border: 1px solid #6195FF;
 }
 
 .pricing .price-head {
@@ -1010,11 +1013,13 @@ header {
     background-color: #F4F4F4;
     padding: 40px 20px;
     margin: 15px 0px;
+    cursor: pointer;
 }
 
 .team::after {
     content: "";
-    background-color: #1C1D21;
+    /*background: #1C1D21;*/
+
     position: absolute;
     left: 0;
     right: 0;
@@ -1027,6 +1032,7 @@ header {
 
 .team:hover:after {
     height: 100%;
+    border: 1px solid #6195FF;
 }
 
 .team-img {
@@ -1040,7 +1046,8 @@ header {
 }
 
 .team .overlay {
-    background: #1C1D21;
+    /*background: #1C1D21;
+    border: 1px solid #6195FF;*/
     position: absolute;
     bottom: 0;
     left: 0;
@@ -1075,7 +1082,7 @@ header {
 }
 
 .team:hover .team-content h3 {
-    color: #FFF;
+    /*color: #FFF;*/
 }
 
 .team:hover .team-content span {
@@ -1108,6 +1115,13 @@ header {
 /*------------------------------------*\
 	Blog
 \*------------------------------------*/
+
+.single {
+    background-color: #FFF;
+    margin: 10px 0px;
+    border: 1px solid #eee;
+    padding: 5px;
+}
 
 .blog {
     background-color: #FFF;
@@ -1172,7 +1186,7 @@ header {
 /* -- blog tags -- */
 
 .blog-tags {
-    margin: 40px 0px;
+    margin: 20px 0px;
 }
 
 .blog-tags h5 {
@@ -1756,7 +1770,7 @@ header {
     -webkit-transform: scale(0);
         -ms-transform: scale(0);
             transform: scale(0);
-    border-radius:50%;
+    border-radius:0;
 }
 
 .preloader span:nth-child(1) {

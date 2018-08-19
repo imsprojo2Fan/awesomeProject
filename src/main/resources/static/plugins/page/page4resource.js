@@ -26,7 +26,7 @@ function loadpage() {
         onPageChange: function (num, type) {
             if (type == "change") {
                 exeData(num);
-                console.log("---"+num);
+                //console.log("---"+num);
                 pageNow = num;
                 refresh(num,12);
             }

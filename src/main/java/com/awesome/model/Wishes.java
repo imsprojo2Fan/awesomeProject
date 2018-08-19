@@ -7,11 +7,15 @@ public class Wishes {
 
     private Integer type;
 
+    private String ip;
+
     private String name;
 
     private String email;
 
     private Integer isfound;
+
+    String description;
 
     private Date updated;
 
@@ -31,6 +35,14 @@ public class Wishes {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
     public String getName() {
@@ -55,6 +67,14 @@ public class Wishes {
 
     public void setIsfound(Integer isfound) {
         this.isfound = isfound;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getUpdated() {

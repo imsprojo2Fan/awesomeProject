@@ -69,4 +69,9 @@ public class ResourceServiceImpl implements ResourceService {
 	public List<Map<String, Object>> searchByOrder(Map<String, Object> qMap) {
 		return mapper.searchByOrder(qMap);
 	}
+
+	@Override
+	public List<Map<String, Object>> list4item(Map<String, Object> qMap) {
+		return mapper.list4item(qMap);
+	}
 }

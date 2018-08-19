@@ -61,7 +61,7 @@
 
         <!-- //////////////////////////////////////////////////////////////////////////// -->
         <!-- START CONTENT -->
-        <div class="content">
+        <div class="content" style="margin-top: 155px">
 
             <!-- //////////////////////////////////////////////////////////////////////////// -->
             <!-- START CONTAINER -->
@@ -78,12 +78,24 @@
 
                             <div>
                                 <form class="bs-example bs-example-form" role="form">
-                                    <div class="row" style="text-align: center">
+                                    <div class="row" >
+                                        <div class="col-md-3">
+                                            <select onchange="refresh(1,16)" id="resourceSelect" class="selectpicker" >
+                                                <option selected value="1">电影</option>
+                                                <option value="2">电视剧</option>
+                                                <option value="3">综艺</option>
+                                                <option value="4">动漫</option>
+                                                <option value="5">纪录片</option>
+                                            </select>
+                                        </div><!-- /.col-lg-6 -->
+                                    </div><!-- /.row -->
+                                    <br/>
+                                    <div class="row">
                                         <div class="col-md-3">
                                             <div class="input-group">
                                                 <input id="key" type="text" placeholder="资源名称" class="form-control">
                                                 <span class="input-group-btn">
-                                                    <button class="btn btn-default" onclick="refresh(1,10)" type="button" style="background-color: #6195FF">
+                                                    <button class="btn btn-default" onclick="refresh(1,16)" type="button" style="background-color: #6195FF">
                                                         搜索
                                                     </button>
                                                 </span>
@@ -112,7 +124,7 @@
                                                     <ul class="pagination" id="pagination">
                                                     </ul>
                                                     <input type="hidden" id="PageCount" runat="server" />
-                                                    <input type="hidden" id="PageSize" runat="server" value="12" />
+                                                    <input type="hidden" id="PageSize" runat="server" value="16" />
                                                     <input type="hidden" id="countindex" runat="server" value="1"/>
                                                     <!--设置最多显示的页码数 可以手动设置 默认为6-->
                                                     <input type="hidden" id="visiblePages" runat="server" value="6" />
@@ -205,10 +217,6 @@
                                                     <label for="inlineCheckbox7">战争</label>
                                                 </div>
                                                 <div class="checkbox checkbox-primary checkbox-inline">
-                                                    <input type="checkbox" class="styled" id="inlineCheckbox13" value="犯罪">
-                                                    <label for="inlineCheckbox13">犯罪</label>
-                                                </div>
-                                                <div class="checkbox checkbox-primary checkbox-inline">
                                                     <input type="checkbox" class="styled" id="inlineCheckbox8" value="古装">
                                                     <label for="inlineCheckbox1">古装</label>
                                                 </div>
@@ -229,6 +237,10 @@
                                                     <label for="inlineCheckbox11">武侠</label>
                                                 </div>
                                                 <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox13" value="犯罪">
+                                                    <label for="inlineCheckbox13">犯罪</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
                                                     <input type="checkbox" class="styled" id="inlineCheckbox14" value="灾难">
                                                     <label for="inlineCheckbox14">灾难</label>
                                                 </div>
@@ -247,6 +259,10 @@
                                                 <div class="checkbox checkbox-primary checkbox-inline">
                                                     <input type="checkbox" class="styled" id="inlineCheckbox18" value="冒险">
                                                     <label for="inlineCheckbox18">冒险</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox19" value="励志">
+                                                    <label for="inlineCheckbox19">励志</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -417,10 +433,6 @@
                                                     <label for="edit_inlineCheckbox7">战争</label>
                                                 </div>
                                                 <div class="checkbox checkbox-primary checkbox-inline">
-                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox13" value="犯罪">
-                                                    <label for="edit_inlineCheckbox13">犯罪</label>
-                                                </div>
-                                                <div class="checkbox checkbox-primary checkbox-inline">
                                                     <input type="checkbox" class="styled" id="edit_inlineCheckbox8" value="古装">
                                                     <label for="edit_inlineCheckbox1">古装</label>
                                                 </div>
@@ -441,6 +453,10 @@
                                                     <label for="edit_inlineCheckbox12">武侠</label>
                                                 </div>
                                                 <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox13" value="犯罪">
+                                                    <label for="edit_inlineCheckbox13">犯罪</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
                                                     <input type="checkbox" class="styled" id="edit_inlineCheckbox14" value="灾难">
                                                     <label for="edit_inlineCheckbox14">灾难</label>
                                                 </div>
@@ -459,6 +475,10 @@
                                                 <div class="checkbox checkbox-primary checkbox-inline">
                                                     <input type="checkbox" class="styled" id="edit_inlineCheckbox18" value="冒险">
                                                     <label for="edit_inlineCheckbox18">冒险</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox19" value="励志">
+                                                    <label for="edit_inlineCheckbox19">励志</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -606,6 +626,13 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="item_phoneSrc" class="col-sm-2 control-label form-label">手机端链接</label>
+                                <div class="col-sm-10">
+                                    <input type="text"   class="form-control"  id="item_phoneSrc" placeholder="手机端链接" >
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label for="item_bdUrl" class="col-sm-2 control-label form-label">百度云</label>
                                 <div class="col-sm-10">
                                     <input type="text"   class="form-control"  id="item_bdUrl" placeholder="百度云" >
@@ -649,7 +676,7 @@
         </div>
 
         <!-- 模态框（Modal） -->
-        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog " style="width: 60%">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -680,18 +707,18 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="item_phoneSrc2" class="col-sm-2 control-label form-label">手机端连接</label>
+                                <div class="col-sm-10">
+                                    <input type="text"   class="form-control"  id="item_phoneSrc2" placeholder="手机端连接" >
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label for="item_bdUrl" class="col-sm-2 control-label form-label">百度云</label>
                                 <div class="col-sm-10">
                                     <input type="text"   class="form-control"  id="item_bdUrl2" placeholder="百度云" >
                                 </div>
                             </div>
-
-                            <!--<div class="form-group">
-                                <label for="item_bdPass" class="col-sm-2 control-label form-label">百度云密码</label>
-                                <div class="col-sm-2">
-                                    <input type="text" style="width: 80px"  maxlength="4"  class="form-control"  id="item_bdPass" placeholder="分享密码" >
-                                </div>
-                            </div>-->
 
                             <div class="form-group">
                                 <label for="item_xlUrl1" class="col-sm-2 control-label form-label">下载链接1</label>
@@ -746,6 +773,7 @@
 
         <!--<script src="https://cdn.bootcss.com/jquery_lazyload/1.9.7/jquery.lazyload.min.js"></script>-->
         <script src="../../js/resource.js"></script>
+        <script src="../../js/gutil.js"></script>
 
     </body>
 </html>

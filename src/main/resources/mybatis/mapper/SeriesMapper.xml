@@ -4,9 +4,9 @@
   <resultMap id="BaseResultMap" type="com.awesome.model.Series" >
     <id column="sid" property="sid" jdbcType="INTEGER" />
     <result column="rid" property="rid" jdbcType="VARCHAR" />
+    <result column="phoneSrc" property="phoneSrc" jdbcType="VARCHAR" />
     <result column="videoSrc" property="videoSrc" jdbcType="VARCHAR" />
     <result column="bdUrl" property="bdUrl" jdbcType="VARCHAR" />
-    <result column="bdPass" property="bdPass" jdbcType="VARCHAR" />
     <result column="xlUrl1" property="xlUrl1" jdbcType="VARCHAR" />
     <result column="xlUrl2" property="xlUrl2" jdbcType="VARCHAR" />
     <result column="xlUrl3" property="xlUrl3" jdbcType="VARCHAR" />
@@ -23,7 +23,7 @@
     <result column="created" property="created" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    sid,rid videoSrc, bdUrl, bdPass, xlUrl1, xlUrl2, xlUrl3, xlUrl4, xlUrl5, description,
+    sid,rid,videoSrc,phoneSrc, bdUrl, xlUrl1, xlUrl2, xlUrl3, xlUrl4, xlUrl5, description,
     isOn,sequence views, comments, collects, likes, updated, created
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -37,14 +37,14 @@
     where sid = #{sid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.awesome.model.Series" >
-    insert into series (sid,rid, videoSrc, bdUrl,
-      bdPass, xlUrl1, xlUrl2, 
+    insert into series (sid,rid, videoSrc,phoneSrc, bdUrl,
+      xlUrl1, xlUrl2,
       xlUrl3, xlUrl4, xlUrl5, 
       description, isOn,sequence, views,
       comments, collects, likes, 
       updated, created)
-    values (#{sid,jdbcType=INTEGER},#{rid,jdbcType=VARCHAR}, #{videoSrc,jdbcType=VARCHAR}, #{bdUrl,jdbcType=VARCHAR},
-      #{bdPass,jdbcType=VARCHAR}, #{xlUrl1,jdbcType=VARCHAR}, #{xlUrl2,jdbcType=VARCHAR}, 
+    values (#{sid,jdbcType=INTEGER},#{rid,jdbcType=VARCHAR}, #{videoSrc,jdbcType=VARCHAR},#{phoneSrc,jdbcType=VARCHAR}, #{bdUrl,jdbcType=VARCHAR},
+      #{xlUrl1,jdbcType=VARCHAR}, #{xlUrl2,jdbcType=VARCHAR},
       #{xlUrl3,jdbcType=VARCHAR}, #{xlUrl4,jdbcType=VARCHAR}, #{xlUrl5,jdbcType=VARCHAR}, 
       #{description,jdbcType=VARCHAR}, #{isOn,jdbcType=INTEGER},#{sequence,jdbcType=INTEGER}, #{views,jdbcType=INTEGER},
       #{comments,jdbcType=INTEGER}, #{collects,jdbcType=INTEGER}, #{likes,jdbcType=INTEGER}, 
@@ -64,11 +64,12 @@
       <if test="videoSrc != null" >
         videoSrc,
       </if>
+
+      <if test="phoneSrc != null" >
+        phoneSrc,
+      </if>
       <if test="bdUrl != null" >
         bdUrl,
-      </if>
-      <if test="bdPass != null" >
-        bdPass,
       </if>
       <if test="xlUrl1 != null" >
         xlUrl1,
@@ -123,11 +124,11 @@
       <if test="videoSrc != null" >
         #{videoSrc,jdbcType=VARCHAR},
       </if>
+      <if test="phoneSrc != null" >
+        #{phoneSrc,jdbcType=VARCHAR},
+      </if>
       <if test="bdUrl != null" >
         #{bdUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="bdPass != null" >
-        #{bdPass,jdbcType=VARCHAR},
       </if>
       <if test="xlUrl1 != null" >
         #{xlUrl1,jdbcType=VARCHAR},
@@ -179,11 +180,11 @@
       <if test="videoSrc != null" >
         videoSrc = #{videoSrc,jdbcType=VARCHAR},
       </if>
+      <if test="phoneSrc != null" >
+        phoneSrc = #{phoneSrc,jdbcType=VARCHAR},
+      </if>
       <if test="bdUrl != null" >
         bdUrl = #{bdUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="bdPass != null" >
-        bdPass = #{bdPass,jdbcType=VARCHAR},
       </if>
       <if test="xlUrl1 != null" >
         xlUrl1 = #{xlUrl1,jdbcType=VARCHAR},
@@ -233,8 +234,8 @@
   <update id="updateByPrimaryKey" parameterType="com.awesome.model.Series" >
     update series
     set videoSrc = #{videoSrc,jdbcType=VARCHAR},
+      phoneSrc = #{phoneSrc,jdbcType=VARCHAR},
       bdUrl = #{bdUrl,jdbcType=VARCHAR},
-      bdPass = #{bdPass,jdbcType=VARCHAR},
       xlUrl1 = #{xlUrl1,jdbcType=VARCHAR},
       xlUrl2 = #{xlUrl2,jdbcType=VARCHAR},
       xlUrl3 = #{xlUrl3,jdbcType=VARCHAR},
@@ -277,15 +278,15 @@
 
   <insert id ="insertBatch" parameterType="java.util.List" >
     insert into series
-    (rid,videoSrc, bdUrl, bdPass, xlUrl1,xlUrl2,xlUrl3,xlUrl4,xlUrl5,description,
+    (rid,videoSrc, bdUrl, xlUrl1,xlUrl2,xlUrl3,xlUrl4,xlUrl5,description,
       isOn,sequence,views,comments,collects,likes,created)
     values
     <foreach collection ="list" item="item" index= "index" separator =",">
       (
       #{item.rid},
       #{item.videoSrc},
+      #{item.phoneSrc},
       #{item.bdUrl},
-      #{item.bdPass},
       #{item.xlUrl1},
       #{item.xlUrl2},
       #{item.xlUrl3},
