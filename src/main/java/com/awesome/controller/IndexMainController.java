@@ -306,10 +306,10 @@ public class IndexMainController {
 		r.setCode(-1);
 		r.setMsg("fail");
 		r.setData(null);
-		qMap.clear();
-		rList.clear();
-		mdList.clear();
-		tempList.clear();
+		qMap = new HashMap<>();
+		rList = new ArrayList<>();
+		mdList = new ArrayList<>();
+		tempList = new ArrayList<>();
 	}
 
 	/**
