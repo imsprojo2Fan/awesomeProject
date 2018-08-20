@@ -65,8 +65,13 @@ public class ResourceController {
 		String videoSrcStr = request.getParameter("a1");
 
 		try {
+			Random random = new Random();
 			String eid = Md5Util.getMD5WithSalt(System.currentTimeMillis()+"");
 			record.setEid(eid);
+			record.setViews(random.nextInt(3000)%(3000-1000+1) + 1000);
+			record.setCollects(random.nextInt(3000)%(3000-1000+1) + 1000);
+			record.setLikes(random.nextInt(3000)%(3000-1000+1) + 1000);
+			record.setCreated(new Date());
 			int uid = service.insertSelective(record);
 			if (uid > 0) {
 
@@ -98,11 +103,10 @@ public class ResourceController {
 					phoneSrcStr = phoneSrcStr.substring(1,phoneSrcStr.length());
 					String[] phoneSrcArr = phoneSrcStr.split(",");
 
-					Random random = new Random();
 					for(int i=0;i<videoSrcArr.length;i++){
 						Map item = new HashMap();
 						item.put("rid",eid);
-						item.put("order",orderArr[i]);
+						item.put("sequence",orderArr[i]);
 						item.put("videoSrc",videoSrcArr[i]);
 						item.put("phoneSrc",phoneSrcArr[i]);
 						item.put("bdUrl",bdArr[i]);

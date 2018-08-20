@@ -218,41 +218,29 @@ function add() {
     var xlUrlArr3 = "";
     for(var i=0;i<itemArr.length;i++){
         var obj = itemArr[i];
+
         var order = obj.order;
         if(!order){
             order = 0;
         }
         Orders = Orders+","+order;
         var a1 = obj.videoSrc;
-        if(!a1){
-            a1 = "无资源链接";
-        }
         videoSrcArr = videoSrcArr+","+a1;
-        var a6 = obj.videoSrc;
-        if(!a6){
-            a6 = "无资源链接";
-        }
-        phoneSrcArr = phoneSrcArr+","+a6;
+
         var a2 = obj.bdUrl;
-        if(!a2){
-            a2 = '无资源链接';
-        }
         bdUrlArr = bdUrlArr+","+a2;
+
         var a3 = obj.xlUrl1;
-        if(!a3){
-            a3 = "无资源链接";
-        }
         xlUrlArr1 = xlUrlArr1+","+a3;
+
         var a4 = obj.xlUrl2;
-        if(!a4){
-            a4 = "无资源链接";
-        }
         xlUrlArr2 = xlUrlArr2+","+a4;
+
         var a5 = obj.xlUrl3;
-        if(!a5){
-            a5 = '无资源链接';
-        }
-        xlUrlArr3 = xlUrlArr2+","+a5;
+        xlUrlArr3 = xlUrlArr3+","+a5;
+
+        var a6 = obj.phoneSrc;
+        phoneSrcArr = phoneSrcArr+","+a6;
     }
 
     $.ajax({
@@ -287,6 +275,7 @@ function add() {
         success : function(r) {
             if (r.code == 1) {
                 swal(r.msg,'',"success");
+                $('#itemWrap').html("");
                 reset();
                 resetItem();
             } else {
@@ -502,7 +491,7 @@ var itemIndex = 0;
 var index = -1;
 
 function addItem() {
-    resetItem2();
+    resetItem();
     $('#myModal').modal("show");
 }
 
@@ -598,13 +587,12 @@ function resetItem(){
     $('#sid').val("");
     $('#item_order').val("");
     $('#itemId').val("");
-    $('#item_videoSrc').val("");
-    $('#item_phoneSrc').val("");
-    $('#item_bdUrl').val("");
-    //$('#item_bdPass').val("");
-    $('#item_xlUrl1').val("");
-    $('#item_xlUrl2').val("");
-    $('#item_xlUrl3').val("");
+    $('#item_videoSrc').val("无资源链接");
+    $('#item_phoneSrc').val("无资源链接");
+    $('#item_bdUrl').val("无资源链接");
+    $('#item_xlUrl1').val("无资源链接");
+    $('#item_xlUrl2').val("无资源链接");
+    $('#item_xlUrl3').val("无资源链接");
     $('#cancel').html("取消");
     $('#confirm').html("新增");
     $('#myModalLabel').html("新增剧集");
@@ -696,12 +684,12 @@ function resetItem2(){
     $('#sid').val("");
     $('#itemId2').val("");
     $('#item_order2').val("");
-    $('#item_videoSrc2').val("");
-    $('#item_phoneSrc2').val("");
-    $('#item_bdUrl2').val("");
-    $('#item_xlUrl12').val("");
-    $('#item_xlUrl22').val("");
-    $('#item_xlUrl32').val("");
+    $('#item_videoSrc2').val("无资源链接");
+    $('#item_phoneSrc2').val("无资源链接");
+    $('#item_bdUrl2').val("无资源链接");
+    $('#item_xlUrl12').val("无资源链接");
+    $('#item_xlUrl22').val("无资源链接");
+    $('#item_xlUrl32').val("无资源链接");
     $('#cancel2').html("取消");
     $('#confirm2').html("新增");
     $('#myModalLabel2').html("新增剧集");

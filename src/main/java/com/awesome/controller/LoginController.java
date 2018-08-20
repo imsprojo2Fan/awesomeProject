@@ -84,6 +84,12 @@ public class LoginController {
 	}
 
 	@ApiIgnore//使用该注解忽略这个API
+	@RequestMapping(value = "/blank")
+	public String blank(){
+		return "/html/blank.html";
+	}
+
+	@ApiIgnore//使用该注解忽略这个API
 	@RequestMapping(value = "/signup")
 	public String signIndex(){
 		return "/html/signup.html";

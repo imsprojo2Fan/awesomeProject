@@ -733,16 +733,26 @@
 				}else{
                     icon = '<i class="fa fa-star"></i>';
 				}
+				var count = 0;
                 for(var j=0;j<r.length;j++){
                     var obj = r[j];
                     var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
                     var error = "../image/error1.png";
+
+                    if(col==="views"){
+                        count = obj.views;
+					}else if(col==="likes"){
+                        count = obj.likes;
+					}else{
+                        count = obj.collects;
+					}
+
                     $('#popularWrap').append('<div class="widget-post">\n' +
                         '\t\t\t\t\t\t<a onclick="getItem('+obj.id+')" href="javascript:void(0);">\n' +
                         '\t\t\t\t\t\t\t<img style="width: 20%" onerror=src="'+error+'" src="'+imgSrc+'" alt="图片加载失败"> '+obj.name+'\n' +
                         '\t\t\t\t\t\t</a>\n' +
                         '\t\t\t\t\t\t<ul class="blog-meta">\n' +
-                        '\t\t\t\t\t\t\t<li>'+icon+obj.views+'</li>\n' +
+                        '\t\t\t\t\t\t\t<li>'+icon+count+'</li>\n' +
                         '\t\t\t\t\t\t</ul>\n' +
                         '\t\t\t\t\t</div>');
                 }
@@ -777,7 +787,7 @@
                 $('#backList').hide();
 			}else{
 			    //$('#itemWrap').html(GlobalFrame);
-			    $('#myFrame').attr("src","/login");
+			    $('#myFrame').attr("src","/blank");
                 $('#playBtn').html('<i class="fa fa-play-circle"></i>在线播放');
                 $('#info').show();
                 //隐藏返回列表
