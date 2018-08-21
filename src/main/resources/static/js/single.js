@@ -74,7 +74,7 @@ function getItem(id) {
         }
         $('#tab2').html('<a onclick="toMore('+type+')" href="javascript:void(0);">'+tab+'</a>');
 
-        console.log(r);
+        //console.log(r);
 
         var dataArr = r.data;
         GlobalArr = r.data;
@@ -212,7 +212,7 @@ function searchResource() {
         },
         allowOutsideClick: true
     }).then(function(val) {
-        console.log(val)
+        //console.log(val)
     });
 }
 
@@ -224,7 +224,7 @@ function request() {
 function category() {
     //获取目录概览数据
     $.post("/index/resource/category",{},function (r) {
-        console.log(r);
+        //console.log(r);
         $('#categoryWrap').html("");
         var title;
         if(r.length==0){
@@ -250,7 +250,7 @@ function category() {
 function aside(col) {
     //获取最多观看数据
     $.post("/index/resource/list4order",{col:col},function (r) {
-        console.log(r);
+        //console.log(r);
         $('#popularWrap').html("");
         if(r.length==0){
             $('#popularWrap').html("<p>暂无数据</p>");
@@ -362,7 +362,7 @@ function action(type) {
 
 function toSeries(index) {
     var obj = GlobalArr[index];
-    console.log(obj);
+    //console.log(obj);
     $('#seriesParent').hide();
     $('#backList').show();
     $('#urlWrap').show();

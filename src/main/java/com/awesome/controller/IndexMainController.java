@@ -81,6 +81,7 @@ public class IndexMainController {
 		String length = request.getParameter("pageSize");
 		String searchKey = request.getParameter("key");
 		String detailType = request.getParameter("detailType");
+
 		if(!StringUtils.isEmpty(start)){
 			PAGE_NOW = Integer.parseInt(start);
 		}
@@ -91,8 +92,12 @@ public class IndexMainController {
 		qMap.put("pageNow",(PAGE_NOW-1)*PAGE_SIZE);
 		qMap.put("pageSize",PAGE_SIZE);
 		qMap.put("searchKey",searchKey);
-		qMap.put("type",type);
+		if(StringUtils.isEmpty(searchKey)){
+			qMap.put("type",type);//当关键字搜索时可以搜索所有资源类型
+		}
 		qMap.put("detailType",detailType);
+		qMap.put("sortCol","created");
+		qMap.put("sortType","desc");
 
 		List cList = service.listAllCount(qMap);
 		rList = service.listByPage(qMap);
@@ -105,13 +110,35 @@ public class IndexMainController {
 	}
 
 	/**
+	 * 查询刷新
+	 * @return
+	 */
+	@ApiOperation(value="查询刷新", notes="查询刷新")
+	@RequestMapping(value = "/resource/list4refresh", method = RequestMethod.POST)
+	public Object list4refresh (String id,HttpSession session){
+
+
+		String 	type = (String) session.getAttribute("type");
+		if(StringUtils.isEmpty(type)){
+			type = "1";
+		}
+		init();
+
+		qMap.put("type",type);
+		qMap.put("id",id);
+		rList = service.list4refresh(qMap);
+		backMap.put("data",rList);
+
+		return backMap;
+	}
+
+	/**
 	 * 搜索查询列表
 	 * @return
 	 */
 	@ApiOperation(value="分页查询", notes="获取列表")
 	@RequestMapping(value = "/resource/list4search", method = RequestMethod.POST)
 	public Object list4search (HttpServletRequest request){
-
 
 		init();
 		String start = request.getParameter("pageNow");
@@ -140,7 +167,7 @@ public class IndexMainController {
 	}
 
 	/**
-	 * 查询列表
+	 * 查询目录
 	 * @return
 	 */
 	@ApiOperation(value="查询", notes="获取列表")
@@ -162,7 +189,7 @@ public class IndexMainController {
 	}
 
 	/**
-	 * 查询列表
+	 * 查询排序
 	 * @return
 	 */
 	@ApiOperation(value="查询", notes="获取列表")
@@ -192,7 +219,7 @@ public class IndexMainController {
 	}
 
 	/**
-	 * 查询列表
+	 * 查询剧集详情
 	 * @return
 	 */
 	@ApiOperation(value="查询", notes="获取列表")
@@ -306,6 +333,7 @@ public class IndexMainController {
 		r.setCode(-1);
 		r.setMsg("fail");
 		r.setData(null);
+		backMap = new HashMap<>();
 		qMap = new HashMap<>();
 		rList = new ArrayList<>();
 		mdList = new ArrayList<>();

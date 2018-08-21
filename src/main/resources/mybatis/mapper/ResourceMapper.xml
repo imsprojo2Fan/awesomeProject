@@ -349,5 +349,10 @@
     from resource r,series s where r.type=${type} and r.eid = s.rid and r.id=${id}
   </select>
 
+  <select id="list4refresh" parameterType="Map" resultType="Map">
+    select <include refid="Base_Column_List" />
+    from resource where 1=1 and id > ${id} and type=${type} order by id desc
+  </select>
+
 
 </mapper>

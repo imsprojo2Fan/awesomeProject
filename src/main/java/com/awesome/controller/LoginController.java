@@ -95,11 +95,6 @@ public class LoginController {
 		return "/html/signup.html";
 	}
 
-	@ApiIgnore//使用该注解忽略这个API
-	@RequestMapping(value = "/blank")
-	public String blank(){
-		return "/html/blank.html";
-	}
 
 	@ApiIgnore//使用该注解忽略这个API
 	@RequestMapping(value = "/setSession")

@@ -8,7 +8,7 @@
 6.uri为"/main/**"下的地址均需要验证登录
 7.add、edit、delete验证是否有权限操作
 8.运行指令 nohup java -jar awesome-0.0.5.jar /dev/null 2>&1 &
-  -->更改jar包文件名、prod生产环境
+  -->更改jar包文件名、pro生产环境
 
 9.windows查看端口
     netstat -aon|findstr "8080" 通过任务管理器杀死进程
