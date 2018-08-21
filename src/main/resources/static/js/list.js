@@ -6,6 +6,41 @@ var miniRefresh;
 var GlobalKey;
 $(function () {
 
+    //禁止内置浏览器整个网页被拉动---------------------------------------start
+    // var overscroll = function(el) {
+    //     el.addEventListener('touchstart', function() {
+    //         var top = el.scrollTop
+    //             , totalScroll = el.scrollHeight
+    //             , currentScroll = top + el.offsetHeight;
+    //         //If we're at the top or the bottom of the containers
+    //         //scroll, push up or down one pixel.
+    //         //
+    //         //this prevents the scroll from "passing through" to
+    //         //the body.
+    //         if(top === 0) {
+    //             el.scrollTop = 1;
+    //         } else if(currentScroll === totalScroll) {
+    //             el.scrollTop = top - 1;
+    //         }
+    //     });
+    //     el.addEventListener('touchmove', function(evt) {
+    //         //if the content is actually scrollable, i.e. the content is long enough
+    //         //that scrolling can occur
+    //         if(el.offsetHeight < el.scrollHeight)
+    //             evt._isScroller = true;
+    //     });
+    // }
+    // overscroll(document.querySelector('.scroll'));
+    // document.body.addEventListener('touchmove', function(evt) {
+    //     //In this case, the default behavior is scrolling the body, which
+    //     //would result in an overflow.  Since we don't want that, we preventDefault.
+    //     if(!evt._isScroller) {
+    //         evt.preventDefault();
+    //     }
+    // });
+    //禁止内置浏览器整个网页被拉动---------------------------------------end
+
+
     $('.order a').on('click',function () {
         var txt = $(this).html();
         var col;
@@ -39,12 +74,11 @@ $(function () {
         miniRefresh = new MiniRefresh({
             container: '#minirefresh',
             down: {
-                callback: function() {
-
+                isLock:false,
+                /*callback: function() {
+                    alert(777);
                     //console.log($(listDom.children[0]));
                     //console.log(RefreshId);
-                    return
-
                     if(!RefreshId){
                         return;
                     }else{
@@ -75,21 +109,23 @@ $(function () {
                         miniRefresh.resetSecretGarden();
                     }
 
-                },
+                },*/
                 // 本主题独有的效果
                 secretGarden: {
                     // 是否开启秘密花园（即类似淘宝二楼效果）
                     enable: true,
                     // 下拉超过200后可以出现秘密花园效果，注意，必须大于down的offset
-                    offset: 200,
+                    offset: 20,
                     // 过度动画
                     duration: 1000,
                     // 提示文字
-                    tips: '看风了风,只和有趣的人玩',
+                    tips: '看风了风,只和有趣的人玩儿',
                     inSecretGarden: function() {
+                        //alert(RefreshId);
                         // 可以像淘宝一样打开另一个页面，或者在本页面进行动画也行
                         //console.log('进入秘密花园');
                         if(!RefreshId){
+                            miniRefresh.resetSecretGarden();
                             return;
                         }else{
                             $.post("/index/resource/list4refresh",{id:RefreshId},function (r) {
@@ -102,17 +138,17 @@ $(function () {
                                     }
                                     var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
                                     var error = "../image/error1.png";
-                                    $(listDom.children[0]).before('<div class="col-sm-3" style="width: 95%;margin: 0 auto">\\n\' +\n' +
-                                        '                                <div onclick="toDetail('+obj.type+','+obj.id+')" class="blog">\\n\' +\n' +
-                                        '                                <div class="blog-img">\\n\' +\n' +
-                                        '                                <img onerror=src="'+error+'" style="width: 85%;margin: 0 auto" class="img-responsive" src="'+imgSrc+'" alt="图片加载失败">\\n\' +\n' +
-                                        '                                </div>\\n\' +\n' +
-                                        '                                <div class="blog-content">\\n\' +\n' +
-                                        '                                <br/><h4>'+obj.name+'</h4>\\n\' +\n' +
-                                        '                                <a href="javascript:void(0)">查看详情</a>\\n\' +\n' +
-                                        '                                </div>\\n\' +\n' +
-                                        '                                </div>\\n\' +\n' +
-                                        '                                </div>')
+                                    $(listDom.children[0]).before('<div class="col-sm-3" style="width: 95%;margin: 0 auto">' +
+                                        '<div onclick="toDetail('+obj.type+','+obj.id+')" class="blog">' +
+                                        '<div class="blog-img">' +
+                                        '<img onerror=src="'+error+'" style="width: 85%;margin: 0 auto" class="img-responsive" src="'+imgSrc+'" alt="图片加载失败">' +
+                                        '</div>' +
+                                        '<div class="blog-content">' +
+                                        '<br/><h4>'+obj.name+'</h4>' +
+                                        '<a href="javascript:void(0)">查看详情</a>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>');
                                 }
                             });
                             miniRefresh.resetSecretGarden();
@@ -155,6 +191,9 @@ $(function () {
                 }
             }
         });
+        if(GlobalKey){
+            miniRefresh.refreshOptions({down:{isLock:true}});//锁定不可下拉刷新
+        }
 
     }else{//pc端
         $('#minirefresh').hide();
@@ -231,6 +270,7 @@ function list4search(pageNow,pageSize,key) {
     if(isPhone()){
         GlobalPageNow = 0;
         GlobalKey = key;
+        miniRefresh.refreshOptions({down:{isLock:true}});//锁定不可下拉刷新
         miniRefresh.triggerUpLoading();//触发上拉效果
     }else{
         $.post("/index/resource/list4search",{pageNow:pageNow,pageSize:pageSize,key:key},function (r) {
@@ -381,3 +421,4 @@ function request() {
     addCookie("request","request",1,"/");
     window.location.href = "/";
 }
+

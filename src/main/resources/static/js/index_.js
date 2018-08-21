@@ -3,6 +3,8 @@ jQuery(document).ready(function() {
 });
 
 $(function () {
+
+
     $('#back-to-top').click();
 
     var toRequest = getCookieValue("request");
