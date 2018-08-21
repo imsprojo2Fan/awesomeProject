@@ -28,7 +28,7 @@ function loadpage() {
                 exeData(num);
                 //console.log("---"+num);
                 pageNow = num;
-                refresh(num,12);
+                refresh(num,18);
             }
         }
     });

@@ -1,6 +1,7 @@
 
 
 var GlobalDom;
+var storage = window.localStorage;
 $(function () {
     //调用父页面弹窗通知
     //window.parent.swalInfo('TEST',666,'error');
@@ -21,7 +22,7 @@ $(function () {
                 if(i==0){
                     $('#add').hide();
                     $("#list").show();
-                    refresh();
+                    refresh(1,18);
                 }else{
                     $('#list').hide();
                     $("#add").show();
@@ -32,12 +33,31 @@ $(function () {
     });
 
     //获取选中资源类型
-    var resourceType = window.parent.document.getElementById("resourceType").value;
+    var resourceType = storage.getItem("resourceType");
     //alert(resourceType);
+    if(!resourceType){
+        resourceType = 1;
+    }
     $('#resourceSelect').val(resourceType);
     $('#resourceSelect').selectpicker('refresh');
 
-    refresh(1,16);
+    var typeFilter = storage.getItem("typeFilter");
+    //alert(typeFilter);
+    if(!typeFilter){
+        typeFilter = "created";
+    }
+    $('#typeFilter').val(typeFilter);
+    $('#typeFilter').selectpicker('refresh');
+
+    var orderFilter = storage.getItem("orderFilter");
+    //alert(orderFilter);
+    if(!orderFilter){
+        orderFilter = "DESC";
+    }
+    $('#orderFilter').val(orderFilter);
+    $('#orderFilter').selectpicker('refresh');
+
+    refresh(1,18);
 
     $('#uploadPic').on('click',function () {
         openWindow("/main/redirect?htmlName=uploadPic","",1000,600);
@@ -46,8 +66,6 @@ $(function () {
     $('#edit_uploadPic').on('click',function () {
         openWindow("/main/redirect?htmlName=uploadPic","",1000,600);
     });
-
-
 
     /*$("img.lazy").lazyload({
         placeholder : "../../image/loading.gif",
@@ -64,9 +82,10 @@ $(function () {
 var GlobalArr;
 function refresh(pageNow,pageSize) {
     //debugger
-    //全局资源类型
-    var resourceType = $('#resourceSelect').val();
-    window.parent.document.getElementById("resourceType").value = resourceType;
+    //设置全局查询条件
+    storage.setItem("resourceType",$('#resourceSelect').val());
+    storage.setItem("typeFilter",$('#typeFilter').val());
+    storage.setItem("orderFilter",$('#orderFilter').val());
 
     var key = $('#key').val().trim();
     $.ajax({
@@ -77,6 +96,8 @@ function refresh(pageNow,pageSize) {
         data:{
             key:key,
             type:$('#resourceSelect').val(),
+            typeFilter:$('#typeFilter').val(),
+            orderFilter:$('#orderFilter').val(),
             pageNow:pageNow,
             pageSize:pageSize
         },
@@ -137,6 +158,7 @@ function refresh(pageNow,pageSize) {
 }
 
 function reset() {
+    itemArr = new Array();
     $(":input").each(function () {
         $(this).val("");
     });
@@ -432,7 +454,7 @@ function submit() {
             if (r.code == 1) {
                 swal(r.msg,'',"success");
                 back();
-                refresh(1,12);
+                refresh(1,18);
             } else {
                 swal(r.msg,' ',"error");
             }
@@ -462,7 +484,7 @@ function del(index) {
             $.post("/main/resource/delete",{id:id},function (r,status) {
                 if(status==="success"){
                     swal(r.msg,"","success");
-                    refresh(1,12);
+                    refresh(1,18);
                 }else{
                     swal(r.msg,"","error");
                 }

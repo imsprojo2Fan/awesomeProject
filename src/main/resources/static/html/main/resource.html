@@ -16,7 +16,7 @@
             }
             /*下拉框宽度设置*/
             .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
-                width: 100px;
+                width: 110px;
                 height: 34px;
             }
             .pagination > li > a:focus, .pagination > li > a:hover, .pagination > li > span:focus, .pagination > li > span{
@@ -79,13 +79,23 @@
                             <div>
                                 <form class="bs-example bs-example-form" role="form">
                                     <div class="row" >
-                                        <div class="col-md-3">
-                                            <select onchange="refresh(1,16)" id="resourceSelect" class="selectpicker" >
+                                        <div class="col-sm-6">
+                                            <select onchange="refresh(1,18)" id="resourceSelect" class="selectpicker" >
                                                 <option selected value="1">电影</option>
                                                 <option value="2">电视剧</option>
                                                 <option value="3">综艺</option>
                                                 <option value="4">动漫</option>
                                                 <option value="5">纪录片</option>
+                                            </select>
+                                            <select onchange="refresh(1,18)" id="typeFilter" class="selectpicker" >
+                                                <option selected value="created">创建时间</option>
+                                                <option value="views">最多观看</option>
+                                                <option value="likes">最多喜欢</option>
+                                                <option value="collects">最多收藏</option>
+                                            </select>
+                                            <select onchange="refresh(1,18)" id="orderFilter" class="selectpicker" >
+                                                <option selected value="DESC">倒序</option>
+                                                <option value="ASC">顺序</option>
                                             </select>
                                         </div><!-- /.col-lg-6 -->
                                     </div><!-- /.row -->
@@ -95,7 +105,7 @@
                                             <div class="input-group">
                                                 <input id="key" type="text" placeholder="资源名称" class="form-control">
                                                 <span class="input-group-btn">
-                                                    <button class="btn btn-default" onclick="refresh(1,16)" type="button" style="background-color: #6195FF">
+                                                    <button class="btn btn-default" onclick="refresh(1,18)" type="button" style="background-color: #6195FF">
                                                         搜索
                                                     </button>
                                                 </span>
@@ -124,7 +134,7 @@
                                                     <ul class="pagination" id="pagination">
                                                     </ul>
                                                     <input type="hidden" id="PageCount" runat="server" />
-                                                    <input type="hidden" id="PageSize" runat="server" value="16" />
+                                                    <input type="hidden" id="PageSize" runat="server" value="18" />
                                                     <input type="hidden" id="countindex" runat="server" value="1"/>
                                                     <!--设置最多显示的页码数 可以手动设置 默认为6-->
                                                     <input type="hidden" id="visiblePages" runat="server" value="6" />
@@ -218,7 +228,7 @@
                                                 </div>
                                                 <div class="checkbox checkbox-primary checkbox-inline">
                                                     <input type="checkbox" class="styled" id="inlineCheckbox8" value="古装">
-                                                    <label for="inlineCheckbox1">古装</label>
+                                                    <label for="inlineCheckbox8">古装</label>
                                                 </div>
                                                 <div class="checkbox checkbox-primary checkbox-inline">
                                                     <input type="checkbox" class="styled" id="inlineCheckbox9" value="都市家庭">
@@ -234,7 +244,7 @@
                                                 </div>
                                                 <div class="checkbox checkbox-primary checkbox-inline">
                                                     <input type="checkbox" class="styled" id="inlineCheckbox12" value="武侠">
-                                                    <label for="inlineCheckbox11">武侠</label>
+                                                    <label for="inlineCheckbox12">武侠</label>
                                                 </div>
                                                 <div class="checkbox checkbox-primary checkbox-inline">
                                                     <input type="checkbox" class="styled" id="inlineCheckbox13" value="犯罪">
@@ -263,6 +273,14 @@
                                                 <div class="checkbox checkbox-primary checkbox-inline">
                                                     <input type="checkbox" class="styled" id="inlineCheckbox19" value="励志">
                                                     <label for="inlineCheckbox19">励志</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox20" value="动画">
+                                                    <label for="inlineCheckbox20">动画</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox21" value="惊悚">
+                                                    <label for="inlineCheckbox21">惊悚</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -434,7 +452,7 @@
                                                 </div>
                                                 <div class="checkbox checkbox-primary checkbox-inline">
                                                     <input type="checkbox" class="styled" id="edit_inlineCheckbox8" value="古装">
-                                                    <label for="edit_inlineCheckbox1">古装</label>
+                                                    <label for="edit_inlineCheckbox8">古装</label>
                                                 </div>
                                                 <div class="checkbox checkbox-primary checkbox-inline">
                                                     <input type="checkbox" class="styled" id="edit_inlineCheckbox9" value="都市家庭">
@@ -479,6 +497,14 @@
                                                 <div class="checkbox checkbox-primary checkbox-inline">
                                                     <input type="checkbox" class="styled" id="edit_inlineCheckbox19" value="励志">
                                                     <label for="edit_inlineCheckbox19">励志</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox20" value="动画">
+                                                    <label for="edit_inlineCheckbox20">动画</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox21" value="惊悚">
+                                                    <label for="inlineCheckbox21">惊悚</label>
                                                 </div>
                                             </div>
                                         </div>

@@ -322,6 +322,11 @@
     <if test="sortCol !=null and sortCol!='' ">
       Order by ${sortCol} ${sortType}
     </if>
+
+    <if test="typeFilter !=null and typeFilter!='' ">
+      Order by ${typeFilter} ${orderFilter}
+    </if>
+
     LIMIT ${pageNow},${pageSize}
   </select>
 

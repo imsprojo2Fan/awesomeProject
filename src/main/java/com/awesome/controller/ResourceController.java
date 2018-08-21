@@ -221,6 +221,8 @@ public class ResourceController {
 		String length = request.getParameter("pageSize");
 		String searchKey = request.getParameter("key");
 		String type = request.getParameter("type");
+		String typeFilter = request.getParameter("typeFilter");
+		String orderFilter = request.getParameter("orderFilter");
 		if(!StringUtils.isEmpty(start)){
 			PAGE_NOW = Integer.parseInt(start);
 		}
@@ -232,6 +234,8 @@ public class ResourceController {
 		qMap.put("pageSize",PAGE_SIZE);
 		qMap.put("searchKey",searchKey);
 		qMap.put("type",type);
+		qMap.put("typeFilter",typeFilter);
+		qMap.put("orderFilter",orderFilter);
 
 		List cList = service.listAllCount(qMap);
 		rList = service.listByPage(qMap);
