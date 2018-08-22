@@ -54,7 +54,6 @@ public class IndexMainController {
 	List<String> mdList = new ArrayList<>();
 	List<Map<String,Object>> rList = new ArrayList<>();
 	Map<String,Object> backMap = new HashMap<>();
-	int GlobalDraw = 0;
 	@Value("com.awesome.pageNow")
 	public static int PAGE_NOW;
 	@Value("com.awesome.pageSize")
@@ -70,6 +69,10 @@ public class IndexMainController {
 	@RequestMapping(value = "/resource/list", method = RequestMethod.POST)
 	public Object getList (HttpServletRequest request, HttpSession session){
 
+		Map qMap = new HashMap();
+		Map backMap = new HashMap<>();
+		List<Map<String,Object>> rList;
+
 		String type = request.getParameter("type");
 		if(StringUtils.isEmpty(type)){
 			type = (String) session.getAttribute("type");
@@ -77,7 +80,7 @@ public class IndexMainController {
 				type = "1";
 			}
 		}
-		init();
+
 		String start = request.getParameter("pageNow");
 		String length = request.getParameter("pageSize");
 		String searchKey = request.getParameter("key");

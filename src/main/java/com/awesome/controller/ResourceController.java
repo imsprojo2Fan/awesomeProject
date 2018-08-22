@@ -131,7 +131,7 @@ public class ResourceController {
 				r.setData(uid);
 			}
 		} catch (Exception e) {
-			r.setMsg(e.getMessage());
+			r.setMsg("数据库操作失败");
 			e.printStackTrace();
 		}
 		return r;

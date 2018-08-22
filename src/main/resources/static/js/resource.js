@@ -300,6 +300,8 @@ function add() {
                 $('#itemWrap').html("");
                 reset();
                 resetItem();
+                itemIndex = 0;
+                index = -1;
             } else {
                 swal(r.msg,' ',"error");
             }
@@ -608,8 +610,6 @@ function delItem(){
 }
 
 function resetItem(){
-    itemIndex = 0;
-    index = -1;
     $('#sid').val("");
     $('#item_order').val("");
     $('#itemId').val("");

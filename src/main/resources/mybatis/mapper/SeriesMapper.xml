@@ -289,7 +289,7 @@
 
   <insert id ="insertBatch" parameterType="java.util.List" >
     insert into series
-    (rid,videoSrc,phoneSrc, bdUrl, xlUrl1,xlUrl2,xlUrl3,xlUrl4,xlUrl5,description,
+    (rid,seriesName,videoSrc,phoneSrc, bdUrl, xlUrl1,xlUrl2,xlUrl3,xlUrl4,xlUrl5,description,
       seriesIsOn,sequence,views,comments,collects,likes,created)
     values
     <foreach collection ="list" item="item" index= "index" separator =",">

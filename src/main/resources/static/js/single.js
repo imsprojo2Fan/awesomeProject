@@ -444,6 +444,11 @@ function comment() {
         swal("邮箱格式似乎不对！","( ¯▽¯；)","warning");
         return;
     }
+
+    if(!content){
+        swal("难道不想写些什么吗","~ (^_^)∠※","warning");
+        return;
+    }
     $.post("/index/comment/add",{rid:GlobalId,nickName:nickName,email:email,content:content,count:$('#comments').html()},function (r) {
         if(r.code==1){
             $('#nickName').val("");
