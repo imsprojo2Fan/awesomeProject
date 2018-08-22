@@ -7,6 +7,8 @@ public class Series {
 
     private String rid;
 
+    private String seriesName;
+
     private String videoSrc;
 
     private String phoneSrc;
@@ -25,7 +27,7 @@ public class Series {
 
     private String description;
 
-    private Integer isOn;
+    private Integer seriesIsOn;
 
     private Integer sequence;
 
@@ -55,6 +57,14 @@ public class Series {
 
     public void setRid(String rid) {
         this.rid = rid;
+    }
+
+    public String getSeriesName() {
+        return seriesName;
+    }
+
+    public void setSeriesName(String seriesName) {
+        this.seriesName = seriesName;
     }
 
     public String getVideoSrc() {
@@ -129,12 +139,12 @@ public class Series {
         this.description = description;
     }
 
-    public Integer getIsOn() {
-        return isOn;
+    public Integer getSeriesIsOn() {
+        return seriesIsOn;
     }
 
-    public void setIsOn(Integer isOn) {
-        this.isOn = isOn;
+    public void setSeriesIsOn(Integer seriesIsOn) {
+        this.seriesIsOn = seriesIsOn;
     }
 
     public Integer getSequence() {

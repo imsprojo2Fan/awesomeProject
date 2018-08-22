@@ -61,7 +61,7 @@
 			z-index:1000;
 		}
 		.loader{
-			width: 96px;
+			width: 120px;
 			height: 134px;
 			margin: 0 auto;
 			position: absolute;
@@ -279,7 +279,7 @@
 									<div style="color: #6195FF" class="la-square-loader la-2x">
 										<div></div>
 									</div>
-									<div style="margin-left: -35px;text-align: center;" class="loaderTxt">手机端暂不可播放<br/>将尽快处理<br/>可前往电脑端观看</div>
+									<div style="margin-left: -60px;text-align: center;" class="loaderTxt">手机端暂不可播放<br/>可前往电脑/百度网盘观看</div>
 								</div>
 							</div>
 
@@ -299,7 +299,8 @@
 						<div id="urlWrap" class="blog-tags" style="padding: 10px;border: 1px solid #eee;margin-top: 10px;display: none">
 							<div id="onlineWrap" >
 								<a id="backList" style="display: none;margin-right: 6px" onclick="backList();" href="javascript:void(0);"><i class="fa fa-angle-double-left"></i>返回列表</a>
-								<a id="playBtn" onclick="switchWindow();" href="javascript:void(0);"><i class="fa fa-play-circle"></i>在线播放</a>
+								<a id="playBtn" class="btn" onclick="switchWindow();"  href="javascript:void(0);"><i class="fa fa-play-circle"></i>在线播放</a>
+								<a id="stopBtn" data-toggle="tooltip" data-placement="right" title="资源已下架" style="display: none" class="btn" disabled="true" href="javascript:void(0);"><i class="fa fa-frown-o"></i>资源已下架</a>
 							</div>
 							<div id="bdWrap" style="margin-top: 6px">
 								<a class="btn" data-toggle="tooltip" data-placement="right" title="" id="bdUrl" target="_blank" href="javascript:void(0);"><i class="fa fa-cloud-download"></i>百度网盘</a>
@@ -318,11 +319,17 @@
 							<!-- comment -->
 							<!--<div class="media">
 								<div class="media-left">
-									<img class="media-object" src="../plugins/index/img/perso2.jpg" alt="">
+									<img class="media-object" src="../image/default4person.png" alt="">
 								</div>
 								<div class="media-body">
-									<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
-									<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
+									<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span>&lt;!&ndash;<a href="#" class="reply">Reply <i class="fa fa-reply"></i></a>&ndash;&gt;</h4>
+									<p>
+										Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.
+										Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.
+										Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.
+										Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.
+										Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.
+									</p>
 								</div>
 							</div>-->
 							<!-- /comment -->
@@ -334,11 +341,11 @@
 						<div class="reply-form">
 							<h3 class="title">写点观感</h3>
 							<form onsubmit="return checkLength()">
-								<input class="input" type="text" placeholder="昵称">
-								<input class="input" type="email" placeholder="邮箱">
-								<textarea placeholder="一些想法"></textarea>
+								<input id="nickName" maxlength="20" class="input" type="text" placeholder="昵称">
+								<input id="email" maxlength="25" class="input" type="email" placeholder="邮箱">
+								<textarea id="content" placeholder="一些想法"></textarea>
 								<div style="text-align: center">
-									<button onClick="sub();" type="button" class="main-btn">提交</button>
+									<button onClick="comment();" type="button" class="main-btn">提交</button>
 								</div>
 							</form>
 						</div>

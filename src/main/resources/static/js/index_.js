@@ -183,7 +183,7 @@ function sub() {
             $('#nickName').val("");
             $('#email').val("");
             $('#description').val("");
-            swal("您的请求已提交!","小哥哥将尽快为您服务 /偷笑","success");
+            swal("已成功提交!","小哥哥将尽快为您处理 /偷笑","success");
         }else{
             swal("火星人来袭","服务貌似不在线了..","error");
         }

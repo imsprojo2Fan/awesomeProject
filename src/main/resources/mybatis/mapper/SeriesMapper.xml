@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.awesome.model.Series" >
     <id column="sid" property="sid" jdbcType="INTEGER" />
     <result column="rid" property="rid" jdbcType="VARCHAR" />
+    <result column="seriesName" property="seriesName" jdbcType="VARCHAR" />
     <result column="phoneSrc" property="phoneSrc" jdbcType="VARCHAR" />
     <result column="videoSrc" property="videoSrc" jdbcType="VARCHAR" />
     <result column="bdUrl" property="bdUrl" jdbcType="VARCHAR" />
@@ -13,7 +14,7 @@
     <result column="xlUrl4" property="xlUrl4" jdbcType="VARCHAR" />
     <result column="xlUrl5" property="xlUrl5" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
-    <result column="isOn" property="isOn" jdbcType="INTEGER" />
+    <result column="seriesIsOn" property="seriesIsOn" jdbcType="INTEGER" />
     <result column="sequence" property="sequence" jdbcType="INTEGER" />
     <result column="views" property="views" jdbcType="INTEGER" />
     <result column="comments" property="comments" jdbcType="INTEGER" />
@@ -23,8 +24,8 @@
     <result column="created" property="created" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    sid,rid,videoSrc,phoneSrc, bdUrl, xlUrl1, xlUrl2, xlUrl3, xlUrl4, xlUrl5, description,
-    isOn,sequence views, comments, collects, likes, updated, created
+    sid,rid,seriesName,videoSrc,phoneSrc, bdUrl, xlUrl1, xlUrl2, xlUrl3, xlUrl4, xlUrl5, description,
+    seriesIsOn,sequence views, comments, collects, likes, updated, created
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -37,16 +38,16 @@
     where sid = #{sid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.awesome.model.Series" >
-    insert into series (sid,rid, videoSrc,phoneSrc, bdUrl,
+    insert into series (sid,rid,seriesName, videoSrc,phoneSrc, bdUrl,
       xlUrl1, xlUrl2,
       xlUrl3, xlUrl4, xlUrl5, 
-      description, isOn,sequence, views,
+      description, seriesIsOn,sequence, views,
       comments, collects, likes, 
       updated, created)
-    values (#{sid,jdbcType=INTEGER},#{rid,jdbcType=VARCHAR}, #{videoSrc,jdbcType=VARCHAR},#{phoneSrc,jdbcType=VARCHAR}, #{bdUrl,jdbcType=VARCHAR},
+    values (#{sid,jdbcType=INTEGER},#{rid,jdbcType=VARCHAR},#{seriesName,jdbcType=VARCHAR}, #{videoSrc,jdbcType=VARCHAR},#{phoneSrc,jdbcType=VARCHAR}, #{bdUrl,jdbcType=VARCHAR},
       #{xlUrl1,jdbcType=VARCHAR}, #{xlUrl2,jdbcType=VARCHAR},
       #{xlUrl3,jdbcType=VARCHAR}, #{xlUrl4,jdbcType=VARCHAR}, #{xlUrl5,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{isOn,jdbcType=INTEGER},#{sequence,jdbcType=INTEGER}, #{views,jdbcType=INTEGER},
+      #{description,jdbcType=VARCHAR}, #{seriesIsOn,jdbcType=INTEGER},#{sequence,jdbcType=INTEGER}, #{views,jdbcType=INTEGER},
       #{comments,jdbcType=INTEGER}, #{collects,jdbcType=INTEGER}, #{likes,jdbcType=INTEGER}, 
       #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP})
   </insert>
@@ -59,6 +60,9 @@
 
       <if test="rid != null" >
         rid,
+      </if>
+      <if test="seriesName != null" >
+        seriesName,
       </if>
 
       <if test="videoSrc != null" >
@@ -89,8 +93,8 @@
       <if test="description != null" >
         description,
       </if>
-      <if test="isOn != null" >
-        isOn,
+      <if test="seriesIsOn != null" >
+        seriesIsOn,
       </if>
       <if test="sequence != null" >
         sequence,
@@ -121,6 +125,9 @@
       <if test="rid != null" >
         #{rid,jdbcType=VARCHAR},
       </if>
+      <if test="seriesName != null" >
+        #{seriesName,jdbcType=VARCHAR},
+      </if>
       <if test="videoSrc != null" >
         #{videoSrc,jdbcType=VARCHAR},
       </if>
@@ -148,8 +155,8 @@
       <if test="description != null" >
         #{description,jdbcType=VARCHAR},
       </if>
-      <if test="isOn != null" >
-        #{isOn,jdbcType=INTEGER},
+      <if test="seriesIsOn != null" >
+        #{seriesIsOn,jdbcType=INTEGER},
       </if>
       <if test="sequence != null" >
         #{sequence,jdbcType=INTEGER},
@@ -177,6 +184,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.awesome.model.Series" >
     update series
     <set >
+      <if test="seriesName != null" >
+        seriesName = #{seriesName,jdbcType=VARCHAR},
+      </if>
       <if test="videoSrc != null" >
         videoSrc = #{videoSrc,jdbcType=VARCHAR},
       </if>
@@ -204,8 +214,8 @@
       <if test="description != null" >
         description = #{description,jdbcType=VARCHAR},
       </if>
-      <if test="isOn != null" >
-        isOn = #{isOn,jdbcType=INTEGER},
+      <if test="seriesIsOn != null" >
+        seriesIsOn = #{seriesIsOn,jdbcType=INTEGER},
       </if>
       <if test="sequence != null" >
         sequence = #{sequence,jdbcType=INTEGER},
@@ -233,7 +243,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.awesome.model.Series" >
     update series
-    set videoSrc = #{videoSrc,jdbcType=VARCHAR},
+    set seriesName = #{seriesName,jdbcType=VARCHAR},
+      videoSrc = #{videoSrc,jdbcType=VARCHAR},
       phoneSrc = #{phoneSrc,jdbcType=VARCHAR},
       bdUrl = #{bdUrl,jdbcType=VARCHAR},
       xlUrl1 = #{xlUrl1,jdbcType=VARCHAR},
@@ -242,7 +253,7 @@
       xlUrl4 = #{xlUrl4,jdbcType=VARCHAR},
       xlUrl5 = #{xlUrl5,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
-      isOn = #{isOn,jdbcType=INTEGER},
+      seriesIsOn = #{seriesIsOn,jdbcType=INTEGER},
       sequence = #{sequence,jdbcType=INTEGER},
       views = #{views,jdbcType=INTEGER},
       comments = #{comments,jdbcType=INTEGER},
@@ -279,11 +290,12 @@
   <insert id ="insertBatch" parameterType="java.util.List" >
     insert into series
     (rid,videoSrc,phoneSrc, bdUrl, xlUrl1,xlUrl2,xlUrl3,xlUrl4,xlUrl5,description,
-      isOn,sequence,views,comments,collects,likes,created)
+      seriesIsOn,sequence,views,comments,collects,likes,created)
     values
     <foreach collection ="list" item="item" index= "index" separator =",">
       (
       #{item.rid},
+      #{item.seriesName},
       #{item.videoSrc},
       #{item.phoneSrc},
       #{item.bdUrl},
@@ -293,7 +305,7 @@
       #{item.xlUrl4},
       #{item.xlUrl5},
       #{item.description},
-      #{item.isOn},
+      #{item.seriesIsOn},
       #{item.sequence},
       #{item.views},
       #{item.comments},

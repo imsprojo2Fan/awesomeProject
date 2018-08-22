@@ -5,17 +5,19 @@ import java.util.Date;
 public class Comment {
     private Integer id;
 
-    private Integer fid;
-
-    private Integer mid;
-
-    private Integer pid;
+    private Integer rid;
 
     private Integer uid;
 
+    private String ip;
+
+    private String nickName;
+
+    private String email;
+
     private String content;
 
-    private Integer zancount;
+    private Integer zanCount;
 
     private Date created;
 
@@ -27,28 +29,44 @@ public class Comment {
         this.id = id;
     }
 
-    public Integer getFid() {
-        return fid;
+    public Integer getRid() {
+        return rid;
     }
 
-    public void setFid(Integer fid) {
-        this.fid = fid;
+    public void setRid(Integer rid) {
+        this.rid = rid;
     }
 
-    public Integer getMid() {
-        return mid;
+    public String getIp() {
+        return ip;
     }
 
-    public void setMid(Integer mid) {
-        this.mid = mid;
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
-    public Integer getPid() {
-        return pid;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setPid(Integer pid) {
-        this.pid = pid;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Integer getZanCount() {
+        return zanCount;
+    }
+
+    public void setZanCount(Integer zanCount) {
+        this.zanCount = zanCount;
     }
 
     public Integer getUid() {
@@ -67,13 +85,6 @@ public class Comment {
         this.content = content;
     }
 
-    public Integer getZancount() {
-        return zancount;
-    }
-
-    public void setZancount(Integer zancount) {
-        this.zancount = zancount;
-    }
 
     public Date getCreated() {
         return created;

@@ -106,6 +106,7 @@ public class ResourceController {
 					for(int i=0;i<videoSrcArr.length;i++){
 						Map item = new HashMap();
 						item.put("rid",eid);
+						item.put("seriesName",record.getName());
 						item.put("sequence",orderArr[i]);
 						item.put("videoSrc",videoSrcArr[i]);
 						item.put("phoneSrc",phoneSrcArr[i]);

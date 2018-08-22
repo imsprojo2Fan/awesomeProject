@@ -1,13 +1,11 @@
 package com.awesome.controller;
 
 import com.awesome.config.JsonResult;
+import com.awesome.model.Comment;
 import com.awesome.model.Feedback;
 import com.awesome.model.Resource;
 import com.awesome.model.Wishes;
-import com.awesome.service.FeedbackService;
-import com.awesome.service.ResourceService;
-import com.awesome.service.SeriesService;
-import com.awesome.service.WishesService;
+import com.awesome.service.*;
 import com.awesome.util.Md5Util;
 import com.awesome.util.SendMailUtil;
 import io.swagger.annotations.ApiOperation;
@@ -46,6 +44,9 @@ public class IndexMainController {
 	private WishesService wishesService;
 
 	@Autowired
+	private CommentService commentService;
+
+	@Autowired
 	private SendMailUtil sendMail;
 
 	Map<String,Object> qMap = new HashMap<>();
@@ -81,14 +82,12 @@ public class IndexMainController {
 		String length = request.getParameter("pageSize");
 		String searchKey = request.getParameter("key");
 		String detailType = request.getParameter("detailType");
-
 		if(!StringUtils.isEmpty(start)){
 			PAGE_NOW = Integer.parseInt(start);
 		}
 		if(!StringUtils.isEmpty(length)){
 			PAGE_SIZE = Integer.parseInt(length);
 		}
-
 		qMap.put("pageNow",(PAGE_NOW-1)*PAGE_SIZE);
 		qMap.put("pageSize",PAGE_SIZE);
 		qMap.put("searchKey",searchKey);
@@ -136,7 +135,7 @@ public class IndexMainController {
 	 * 搜索查询列表
 	 * @return
 	 */
-	@ApiOperation(value="分页查询", notes="获取列表")
+	@ApiOperation(value="搜索查询列表", notes="获取列表")
 	@RequestMapping(value = "/resource/list4search", method = RequestMethod.POST)
 	public Object list4search (HttpServletRequest request){
 
@@ -294,6 +293,8 @@ public class IndexMainController {
 		}
 		return r;
 	}
+
+
 	@ApiOperation(value="留言求片", notes="留言求片")
 	@RequestMapping(value = "/feedback/wishes",method = RequestMethod.POST)
 	public Object wishes(HttpServletRequest request){
@@ -328,6 +329,56 @@ public class IndexMainController {
 		return r;
 	}
 
+	@ApiOperation(value="评论", notes="评论")
+	@RequestMapping(value = "/comment/add",method = RequestMethod.POST)
+	public Object comment(HttpServletRequest request, Comment record,String counts){
+
+		init();
+		int count = 0;
+		if(!StringUtils.isEmpty(counts)){
+			count = Integer.parseInt(counts);
+		}
+
+		record.setIp(getLocalIp(request));
+		record.setCreated(new Date());
+		int res = commentService.insertSelective(record);
+		if(res>0){
+			Resource resource = new Resource();
+			resource.setId(record.getRid());
+			resource.setComments(count+1);
+			service.updateByPrimaryKeySelective(resource);
+			r.setCode(1);
+			r.setMsg("success");
+		}
+		return r;
+	}
+
+	@ApiOperation(value="评论", notes="评论")
+	@RequestMapping(value = "/comment/list",method = RequestMethod.POST)
+	public Object list4comment(String id,HttpServletRequest request){
+
+		init();
+
+		String start = request.getParameter("pageNow");
+		String length = request.getParameter("pageSize");
+		if(!StringUtils.isEmpty(start)){
+			PAGE_NOW = Integer.parseInt(start);
+		}
+		if(!StringUtils.isEmpty(length)){
+			PAGE_SIZE = Integer.parseInt(length);
+		}
+		qMap.put("pageNow",(PAGE_NOW-1)*PAGE_SIZE);
+		qMap.put("pageSize",PAGE_SIZE);
+		qMap.put("sortCol","created");
+		qMap.put("sortType","DESC");
+		qMap.put("rid",id);
+
+		int count = commentService.listAllCount(qMap);
+		rList = commentService.listByPage(qMap);
+		backMap.put("count",count);
+		backMap.put("data",rList);
+		return backMap;
+	}
 
 	public void init(){
 		r.setCode(-1);
@@ -367,6 +418,7 @@ public class IndexMainController {
 				ip = realIp + "/" + forwarded;
 			}
 		}
-		return ip;
+		String ipArr[] = ip.split("/");
+		return ipArr[0];
 	}
 }

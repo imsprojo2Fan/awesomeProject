@@ -74,12 +74,11 @@ $(function () {
         //skip_invisible : true
     });*/
 
-
     GlobalDom = $('#edit_type').html();
-
 
 });
 var GlobalArr;
+//刷新数据
 function refresh(pageNow,pageSize) {
     //debugger
     //设置全局查询条件
@@ -181,7 +180,7 @@ function back() {
     $('#nav2').hide();
     $('#edit').hide();
 }
-
+//上传图片
 function openWindow(url,name,iWidth,iHeight)
 {
 
@@ -196,6 +195,7 @@ function openWindow(url,name,iWidth,iHeight)
 }
 
 var itemArr = new Array();
+//新增数据
 function add() {
     var name = $('#name').val().trim();
     var director = $('#director').val().trim();
@@ -310,7 +310,7 @@ function add() {
         }
     });
 }
-
+//更新数据
 function edit(index_) {
     //console.log(GlobalArr[index_]);
     var obj = GlobalArr[index_];
@@ -330,6 +330,7 @@ function edit(index_) {
             obj_.id = index;
             obj_.sid = obj.sid;
             obj_.eid = obj.rid;
+            obj_.seriesIsOn = obj.seriesIsOn;
             obj_.sequence = obj.sequence;
             obj_.videoSrc = obj.videoSrc;
             obj_.phoneSrc = obj.phoneSrc;
@@ -390,7 +391,7 @@ function edit(index_) {
     $('#nav2').show();
     $('#edit').show();
 }
-
+//更新数据
 function submit() {
     var name = $('#edit_name').val().trim();
     var director = $('#edit_director').val().trim();
@@ -466,6 +467,7 @@ function submit() {
     });
 }
 
+//删除数据
 function del(index) {
     var obj = GlobalArr[index];
     var id = obj.id;
@@ -516,7 +518,7 @@ function addItem() {
     resetItem();
     $('#myModal').modal("show");
 }
-
+//新增数据-->新增/更新剧集确认
 function itemConfirm(){
     //debugger
     var type = $('#confirm').html().trim();
@@ -554,7 +556,7 @@ function itemConfirm(){
     $('#myModal').modal("hide");
 
 }
-
+//新增数据-->编辑剧集
 function editItem(index) {
     //console.log(index);
     //console.log(itemArr);
@@ -573,7 +575,7 @@ function editItem(index) {
     $('#item_xlUrl3').val(item.xlUrl3);
     $('#myModal').modal("show");
 }
-
+//新增数据-->删除剧集
 function delItem(){
     //debugger
     var type = $('#cancel').html().trim();
@@ -606,6 +608,8 @@ function delItem(){
 }
 
 function resetItem(){
+    itemIndex = 0;
+    index = -1;
     $('#sid').val("");
     $('#item_order').val("");
     $('#itemId').val("");
@@ -619,13 +623,13 @@ function resetItem(){
     $('#confirm').html("新增");
     $('#myModalLabel').html("新增剧集");
 }
-
+//编辑数据-->新增剧集
 function addItem2() {
     resetItem2();
     //console.log(itemArr);
     $('#myModal2').modal("show");
 }
-
+//编辑数据-->新增/更新剧集确认
 function itemConfirm2(){
     //debugger
     var type = $('#confirm2').html().trim();
@@ -633,6 +637,7 @@ function itemConfirm2(){
         var rid = itemArr[0].eid;
         $.post("/main/series/add",{
             rid:rid,
+            seriesIsOn:$('#edit_seriesIsOn').val(),
             sequence:$('#item_order2').val().trim(),
             videoSrc:$('#item_videoSrc2').val().trim(),
             phoneSrc:$('#item_phoneSrc2').val().trim(),
@@ -648,6 +653,7 @@ function itemConfirm2(){
     }else{//编辑更新
         $.post("/main/series/edit",{
             sid:$('#sid').val(),
+            seriesIsOn:$('#edit_seriesIsOn').val(),
             sequence:$('#item_order2').val().trim(),
             videoSrc:$('#item_videoSrc2').val().trim(),
             phoneSrc:$('#item_phoneSrc2').val().trim(),
@@ -665,8 +671,10 @@ function itemConfirm2(){
     $('#myModal').modal("hide");
 
 }
-
+//编辑数据-->编辑剧集
 function editItem2(index) {
+    //debugger
+    //alert(index);
     //console.log(index);
     //console.log(itemArr);
     $('#myModalLabel2').html("编辑剧集");
@@ -675,6 +683,8 @@ function editItem2(index) {
     var item = itemArr[index];
     //console.log(item);
     $('#sid').val(item.sid);
+    $('#edit_seriesIsOn').val(item.seriesIsOn);
+    $('#edit_seriesIsOn').selectpicker('refresh');
     $('#item_order2').val(item.sequence);
     $('#item_videoSrc2').val(item.videoSrc);
     $('#item_phoneSrc2').val(item.phoneSrc);
@@ -684,7 +694,7 @@ function editItem2(index) {
     $('#item_xlUrl32').val(item.xlUrl3);
     $('#myModal2').modal("show");
 }
-
+//编辑数据-->删除剧集
 function delItem2(){
 
     var type = $('#cancel2').html().trim();
@@ -701,7 +711,7 @@ function delItem2(){
     $('#myModal2').modal("hide");
 
 }
-
+//编辑数据-->重置模态框
 function resetItem2(){
     $('#sid').val("");
     $('#itemId2').val("");

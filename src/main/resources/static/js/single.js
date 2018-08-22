@@ -53,8 +53,6 @@ $(function () {
         $('#actionWrap').hide();
         //隐藏迅雷下载
         $('#downloadWrap').hide();
-    }else{
-        $("[data-toggle='tooltip']").tooltip();
     }
 
     var myFrame = document.getElementById('myFrame');
@@ -147,16 +145,11 @@ function getItem(id) {
 
             if(dataArr.length==1){//剧集数为1时直接显示在线播放等
 
-                //图片绑定播放事件
-                $('#img').on("click",function () {
-                    switchWindow();
-                });
-
                 $('#urlWrap').show();
                 //处理移动端及电脑端在线资源链接
                 if(isPhone()){
                     var phoneSrc = obj.phoneSrc;
-                    if(phoneSrc=="无资源链接"){
+                    if(!phoneSrc||phoneSrc=="无资源链接"){
                         GlobalVideoSrc = "";
                     }else{
                         GlobalVideoSrc = phoneSrc+"?rel=0&amp;autoplay=1";
@@ -166,26 +159,50 @@ function getItem(id) {
                 }
 
                 var bdUrl = obj.bdUrl;
+                var isOn = obj.isOn;
+                if(isOn===0){
+                    $('#stopBtn').show();
+                    $('#playBtn').hide();
+                    $('#play').hide();
+                }else{
+                    $('#stopBtn').hide();
+                    $('#playBtn').show();
+
+                    if(!isPhone()){
+                        $('#play').show();
+                    }
+                    //图片绑定播放事件
+                    $('#img').on("click",function () {
+                        switchWindow();
+                    });
+                }
                 if(isPhone()){
                     $('#bdUrl').hide();
                     $('#bdUrl2').show();
-                    if(bdUrl!="无资源链接"){
-                        var pass = bdUrl.substring(bdUrl.length-4,bdUrl.length);
-                        var url = bdUrl.substring(3,bdUrl.length-9);
+
+                    if(bdUrl&&bdUrl!="无资源链接"){
+                        bdUrl = bdUrl.substring(3,bdUrl.length);
+                        bdUrl = bdUrl.replace(":","：");
+                        var bdArr = bdUrl.split("密码：");
+                        var pass = bdArr[1];
+                        var url = bdArr[0].replace("：",":");
                         GlobalBdUrl = url;
                         $('#copy').val(pass);
                     }
 
                 }else{
-                    if(bdUrl!="无资源链接"){
-                        var pass = bdUrl.substring(bdUrl.length-4,bdUrl.length);
-                        var url = bdUrl.substring(3,bdUrl.length-9);
+                    if(bdUrl&&bdUrl!="无资源链接"){
+                        bdUrl = bdUrl.substring(3,bdUrl.length);
+                        bdUrl = bdUrl.replace(":","：");
+                        var bdArr = bdUrl.split("密码：");
+                        var pass = bdArr[1];
+                        var url = bdArr[0].replace("：",":");
+                        $('#bdUrl').attr("disabled",false);
                         $('#bdUrl').attr("href",url);
                         $('#bdUrl').attr('title',"密码:"+pass).tooltip('fixTitle');
                     }else{
                         $('#bdUrl').attr("disabled",true);
-                        //$("#bdUrl").css("pointer-events","none");
-                        $('#bdUrl').attr("href","");
+                        $('#bdUrl').attr("href","javascript:void(0);");
                         $('#bdUrl').attr('title',"暂无分享链接").tooltip('fixTitle');
                     }
                 }
@@ -193,11 +210,23 @@ function getItem(id) {
                 $('#downloadWrap').html("");
                 for(var k=0;k<3;k++){
                     if(k===0){
-                        $('#downloadWrap').append('<a style="margin-right: 6px"  href="javascript:down(\''+obj.xlUrl1+'\')"><i class="fa  fa-download"></i>迅雷下载一</a>')
+                        if(!obj.xlUrl1||obj.xlUrl1==="无资源链接"){
+                            $('#downloadWrap').append('<a style="margin-right: 6px" data-toggle="tooltip" data-placement="bottom" title="暂无下载链接" class="btn" disabled="true"  href="javascript:void(0);"><i class="fa  fa-download"></i>迅雷下载一</a>')
+                        }else{
+                            $('#downloadWrap').append('<a style="margin-right: 6px" class="btn"  href="javascript:down(\''+obj.xlUrl1+'\')"><i class="fa  fa-download"></i>迅雷下载一</a>')
+                        }
                     }else if(k===1){
-                        $('#downloadWrap').append('<a style="margin-right: 6px"  href="javascript:down(\''+obj.xlUrl2+'\')"><i class="fa  fa-download"></i>迅雷下载二</a>')
+                        if(!obj.xlUrl2||obj.xlUrl2==="无资源链接"){
+                            $('#downloadWrap').append('<a style="margin-right: 6px" data-toggle="tooltip" data-placement="bottom" title="暂无下载链接" class="btn" disabled="true"  href="javascript:void(0);"><i class="fa  fa-download"></i>迅雷下载二</a>')
+                        }else{
+                            $('#downloadWrap').append('<a style="margin-right: 6px" class="btn"  href="javascript:down(\''+obj.xlUrl2+'\')"><i class="fa  fa-download"></i>迅雷下载二</a>')
+                        }
                     }else{
-                        $('#downloadWrap').append('<a  href="javascript:down(\''+obj.xlUrl3+'\')"><i class="fa  fa-download"></i>迅雷下载三</a>')
+                        if(!obj.xlUrl3||obj.xlUrl3==="无资源链接"){
+                            $('#downloadWrap').append('<a class="btn" data-toggle="tooltip" data-placement="bottom" title="暂无下载链接" disabled="true" target="_blank" href="javascript:void(0);"><i class="fa  fa-download"></i>迅雷下载三</a>')
+                        }else{
+                            $('#downloadWrap').append('<a class="btn" href="javascript:down(\''+obj.xlUrl3+'\')"><i class="fa  fa-download"></i>迅雷下载三</a>')
+                        }
                     }
                 }
             }else{//多剧集处理
@@ -209,11 +238,24 @@ function getItem(id) {
                 if(sequence<10){
                     sequence = "0"+sequence;
                 }
-                $('#seriesWrap').append('<a style="margin-right: 5px" onclick="toSeries('+i+');" href="javascript:void(0);">'+sequence+'</a>');
+
+                var seriesIsOn = obj.seriesIsOn;
+                var sid = "s"+i;
+                if(obj.isOn===0){//整季下架
+                    $('#seriesWrap').append('<a id="'+sid+'" style="margin-right: 5px" class="btn" disabled="true" data-toggle="tooltip" data-placement="top" title="资源已下架" href="javascript:void(0);">'+sequence+'</a>');
+                }else{
+                    if(seriesIsOn===0){//当前集下架
+                        $('#seriesWrap').append('<a style="margin-right: 5px" class="btn" disabled="true" data-toggle="tooltip" data-placement="top" title="资源已下架" href="javascript:void(0);">'+sequence+'</a>');
+                    }else{
+                        $('#seriesWrap').append('<a style="margin-right: 5px" onclick="toSeries('+i+');" href="javascript:void(0);">'+sequence+'</a>');
+                    }
+                }
             }
         }
         category();
         aside("views");
+        //获取评论列表
+        list4comment(GlobalId,1,10);
     });
 
     //初始化资源信息
@@ -311,7 +353,7 @@ function aside(col) {
                 '\t\t\t\t\t</div>');
         }
     });
-
+    $("[data-toggle='tooltip']").tooltip();
     $("#preloader").delay(300).fadeOut();
 }
 
@@ -324,6 +366,7 @@ function toMore(type) {
 }
 
 function switchWindow() {
+    //debugger
     var txt = $('#playBtn').html();
     $('#info').hide();
     $('#iframe').hide();
@@ -339,7 +382,7 @@ function switchWindow() {
         }
         //隐藏返回列表
         $('#backList').hide();
-    }else{
+    }else if(txt.indexOf("返回详情")>0){
         //$('#itemWrap').html(GlobalFrame);
         $('#myFrame').attr("src","/blank");
         $('#playBtn').html('<i class="fa fa-play-circle"></i>在线播放');
@@ -371,7 +414,7 @@ function report() {
             if(r.code==1){
                 swal(
                     '您反馈的问题已提交',
-                    '小哥哥将尽快处理呢,笔芯',
+                    '小哥哥将尽快处理呢,笔芯❤',
                     'success'
                 );
             }else{
@@ -381,8 +424,36 @@ function report() {
     })
 }
 
-function sub() {
-    swal("Oops,功能还未开放喔","有什么感想可以悄悄告诉我的 /偷笑","info");
+function comment() {
+    //swal("Oops,功能还未开放喔","有什么感想可以悄悄告诉我的 /偷笑","info");
+    var nickName = $('#nickName').val().trim();
+    var email = $('#email').val().trim();
+    var content = $('#content').val().trim();
+    if(!nickName){
+        swal("昵称似乎忘记填写了","^ˇ^≡","warning");
+        return;
+    }
+
+    if(!email){
+        swal("邮箱不能为空喔","~ (^_^)∠※","warning");
+        return;
+    }
+
+    var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
+    if(!reg.test(email)){
+        swal("邮箱格式似乎不对！","( ¯▽¯；)","warning");
+        return;
+    }
+    $.post("/index/comment/add",{rid:GlobalId,nickName:nickName,email:email,content:content,count:$('#comments').html()},function (r) {
+        if(r.code==1){
+            $('#nickName').val("");
+            $('#email').val("");
+            $('#content').val("");
+            swal("我貌似发现了一个潜在的诗人","(☆＿☆)","success");
+        }else{
+            swal("服务器貌似被火星人占领了","( ⊙ o ⊙ )","error");
+        }
+    })
 }
 
 function down(url) {
@@ -390,15 +461,30 @@ function down(url) {
 }
 
 function action(type) {
-    swal("火星人来袭警告","该操作需要登录才行","warning");
+    swal("火星人来袭","该操作需要登录才行","warning");
 }
 
 function toSeries(index) {
     var obj = GlobalArr[index];
-    //console.log(obj);
+    console.log(obj);
     $('#seriesParent').hide();
     $('#backList').show();
     $('#urlWrap').show();
+
+    if(obj.seriesIsOn===0){
+        $('#stopBtn').show();
+        $('#playBtn').hide();
+        $('#play').hide();
+    }else{
+        $('#stopBtn').hide();
+        $('#playBtn').show();
+        //图片绑定播放事件
+        $('#img').on("click",function () {
+            switchWindow();
+        });
+    }
+
+
     //处理移动端及电脑端在线资源链接
     if(isPhone()){
         var phoneSrc = obj.phoneSrc;
@@ -415,22 +501,28 @@ function toSeries(index) {
     if(isPhone()){
         $('#bdUrl').hide();
         $('#bdUrl2').show();
-        if(bdUrl!="无资源链接"){
-            var pass = bdUrl.substring(bdUrl.length-4,bdUrl.length);
-            var url = bdUrl.substring(3,bdUrl.length-9);
+        if(bdUrl&&bdUrl!="无资源链接"){
+            bdUrl = bdUrl.substring(3,bdUrl.length);
+            bdUrl = bdUrl.replace(":","：");
+            var bdArr = bdUrl.split("密码：");
+            var pass = bdArr[0].replace("：",":");
+            var url = bdArr[0].replace("：",":");
             GlobalBdUrl = url;
             $('#copy').val(pass);
         }
     }else{
-        if(bdUrl!="无资源链接"){
-            var pass = bdUrl.substring(bdUrl.length-4,bdUrl.length);
-            var url = bdUrl.substring(3,bdUrl.length-9);
+        if(bdUrl&&bdUrl!="无资源链接"){
+            bdUrl = bdUrl.substring(3,bdUrl.length);
+            bdUrl = bdUrl.replace(":","：");
+            var bdArr = bdUrl.split("密码：");
+            var pass = bdArr[1];
+            var url = bdArr[0].replace("：",":");
+            $('#bdUrl').attr("disabled",false);
             $('#bdUrl').attr("href",url);
             $('#bdUrl').attr('title',"密码:"+pass).tooltip('fixTitle');
         }else{
             $('#bdUrl').attr("disabled",true);
-            //$("#bdUrl").css("pointer-events","none");
-            $('#bdUrl').attr("href","");
+            $('#bdUrl').attr("href","javascript:void(0);");
             $('#bdUrl').attr('title',"暂无分享链接").tooltip('fixTitle');
         }
     }
@@ -438,11 +530,23 @@ function toSeries(index) {
     $('#downloadWrap').html("");
     for(var k=0;k<3;k++){
         if(k===0){
-            $('#downloadWrap').append('<a style="margin-right: 6px"  href="javascript:down(\''+obj.xlUrl1+'\')"><i class="fa  fa-download"></i>迅雷下载一</a>')
+            if(!obj.xlUrl1||obj.xlUrl1==="无资源链接"){
+                $('#downloadWrap').append('<a style="margin-right: 6px" data-toggle="tooltip" data-placement="bottom" title="暂无下载链接" class="btn" disabled="true"  href="javascript:void(0);"><i class="fa  fa-download"></i>迅雷下载一</a>')
+            }else{
+                $('#downloadWrap').append('<a style="margin-right: 6px" class="btn"  href="javascript:down(\''+obj.xlUrl1+'\')"><i class="fa  fa-download"></i>迅雷下载一</a>')
+            }
         }else if(k===1){
-            $('#downloadWrap').append('<a style="margin-right: 6px"  href="javascript:down(\''+obj.xlUrl2+'\')"><i class="fa  fa-download"></i>迅雷下载二</a>')
+            if(!obj.xlUrl2||obj.xlUrl2==="无资源链接"){
+                $('#downloadWrap').append('<a style="margin-right: 6px" data-toggle="tooltip" data-placement="bottom" title="暂无下载链接" class="btn" disabled="true"  href="javascript:void(0);"><i class="fa  fa-download"></i>迅雷下载二</a>')
+            }else{
+                $('#downloadWrap').append('<a style="margin-right: 6px" class="btn"  href="javascript:down(\''+obj.xlUrl2+'\')"><i class="fa  fa-download"></i>迅雷下载二</a>')
+            }
         }else{
-            $('#downloadWrap').append('<a  href="javascript:down(\''+obj.xlUrl3+'\')"><i class="fa  fa-download"></i>迅雷下载三</a>')
+            if(!obj.xlUrl3||obj.xlUrl3==="无资源链接"){
+                $('#downloadWrap').append('<a class="btn" data-toggle="tooltip" data-placement="bottom" title="暂无下载链接" disabled="true" target="_blank" href="javascript:void(0);"><i class="fa  fa-download"></i>迅雷下载三</a>')
+            }else{
+                $('#downloadWrap').append('<a class="btn" href="javascript:down(\''+obj.xlUrl3+'\')"><i class="fa  fa-download"></i>迅雷下载三</a>')
+            }
         }
     }
 }
@@ -471,5 +575,97 @@ function toBDCloud() {
         });
     }else{
         swal("暂无网盘分享链接","小哥哥将尽快处理","error");
+    }
+}
+
+function list4comment(id,pageNow,pageSize) {
+    $.post("/index/comment/list",{id:id,pageNow:pageNow,pageSize:pageSize},function (r) {
+        console.log(r);
+        var dataArr = r.data;
+        var count = r.count;
+        $('#commentWrap').html("");
+        for(var i=0;i<dataArr.length;i++){
+            var obj = dataArr[i];
+            var nickName = obj.nickName;
+            var created = obj.created;
+            created = getDateDiff(created);
+            if(nickName.length>10){
+                nickName = nickName.substring(0,10)+"...";
+            }
+
+            $('#commentWrap').append('<div class="media">\n' +
+                '\t\t\t\t\t\t\t\t<div class="media-left">\n' +
+                '\t\t\t\t\t\t\t\t\t<img class="media-object" src="../image/default4person2.png" alt="">\n' +
+                '\t\t\t\t\t\t\t\t</div>\n' +
+                '\t\t\t\t\t\t\t\t<div class="media-body">\n' +
+                '\t\t\t\t\t\t\t\t\t<h4 class="media-heading">'+nickName+'<span class="time">'+created+'</span><!--<a href="#" class="reply">Reply <i class="fa fa-reply"></i></a>--></h4>\n' +
+                '\t\t\t\t\t\t\t\t\t<p>'+obj.content+'</p>\n' +
+                '\t\t\t\t\t\t\t\t</div>\n' +
+                '\t\t\t\t\t\t\t</div>');
+        }
+    });
+}
+
+
+//字符串转换为时间戳
+function getDateTimeStamp (dateStr) {
+    return Date.parse(dateStr.replace(/-/gi,"/"));
+}
+
+function getDateDiff (dateStr) {
+    var publishTime = getDateTimeStamp(dateStr)/1000,
+        d_seconds,
+        d_minutes,
+        d_hours,
+        d_days,
+        timeNow = parseInt(new Date().getTime()/1000),
+        d,
+
+        date = new Date(publishTime*1000),
+        Y = date.getFullYear(),
+        M = date.getMonth() + 1,
+        D = date.getDate(),
+        H = date.getHours(),
+        m = date.getMinutes(),
+        s = date.getSeconds();
+    //小于10的在前面补0
+    if (M < 10) {
+        M = '0' + M;
+    }
+    if (D < 10) {
+        D = '0' + D;
+    }
+    if (H < 10) {
+        H = '0' + H;
+    }
+    if (m < 10) {
+        m = '0' + m;
+    }
+    if (s < 10) {
+        s = '0' + s;
+    }
+
+    d = timeNow - publishTime;
+    d_days = parseInt(d/86400);
+    d_hours = parseInt(d/3600);
+    d_minutes = parseInt(d/60);
+    d_seconds = parseInt(d);
+
+    if(d_days > 0 && d_days < 3){
+        return d_days + '天前';
+    }else if(d_days <= 0 && d_hours > 0){
+        return d_hours + '小时前';
+    }else if(d_hours <= 0 && d_minutes > 0){
+        return d_minutes + '分钟前';
+    }else if (d_seconds < 60) {
+        if (d_seconds <= 0) {
+            return '刚刚发表';
+        }else {
+            return d_seconds + '秒前';
+        }
+    }else if (d_days >= 3 && d_days < 30){
+        return M + '-' + D + '&nbsp;' + H + ':' + m;
+    }else if (d_days >= 30) {
+        return Y + '-' + M + '-' + D + '&nbsp;' + H + ':' + m;
     }
 }

@@ -621,7 +621,7 @@
         <!-- End Content -->
         <!-- //////////////////////////////////////////////////////////////////////////// -->
 
-        <!-- 模态框（Modal） -->
+        <!-- 新增剧集 模态框（Modal） -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog " style="width: 60%">
                 <div class="modal-content">
@@ -701,7 +701,7 @@
             </div><!-- /.modal -->
         </div>
 
-        <!-- 模态框（Modal） -->
+        <!-- 编辑剧集 模态框（Modal） -->
         <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog " style="width: 60%">
                 <div class="modal-content">
@@ -710,13 +710,24 @@
                             &times;
                         </button>
                         <h4 class="modal-title" id="myModalLabel2">
-                            新增剧集
+                            编辑剧集
                         </h4>
                     </div>
                     <div class="modal-body">
                         <form class="form-horizontal">
                             <input type="hidden" id="sid">
                             <input type="hidden" id="itemId2">
+
+                            <div class="form-group">
+                                <label for="edit_isOn" class="col-sm-2 control-label form-label">是否上映</label>
+                                <div class="col-sm-10">
+                                    <select  id="edit_seriesIsOn" class="selectpicker" >
+                                        <option selected value="1">上映</option>
+                                        <option value="0">下架</option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <label for="item_videoSrc" class="col-sm-2 control-label form-label">剧集顺序</label>
