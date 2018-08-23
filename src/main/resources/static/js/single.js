@@ -120,7 +120,7 @@ function getItem(id) {
             $('#director').html("导演："+obj.director);
             var actor = obj.actor;
             if(actor.length>25){
-                actor = actor.substring(0,45)+"...";
+                actor = actor.substring(0,40)+"...";
             }
             $('#actor').html("主演："+actor);
             $('#publish').html("发行日期："+obj.publish);

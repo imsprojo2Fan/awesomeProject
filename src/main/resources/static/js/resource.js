@@ -569,6 +569,7 @@ function editItem(index) {
     var item = itemArr[index];
     $('#sid').val(item.sid);
     $('#itemId').val(item.id);
+    $('#item_order').val(item.order);
     $('#item_videoSrc').val(item.videoSrc);
     $('#item_phoneSrc').val(item.phoneSrc);
     $('#item_bdUrl').val(item.bdUrl);
