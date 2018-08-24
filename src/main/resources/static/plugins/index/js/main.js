@@ -97,7 +97,7 @@
 
 function search() {
     swal({
-        title: '请输入资源名称',  //标题
+        title: '请输入关键字',  //标题
         input: 'text',
         showCancelButton: true,
         cancelButtonText:'取消',

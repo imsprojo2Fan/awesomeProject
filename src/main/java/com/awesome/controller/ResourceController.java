@@ -107,6 +107,7 @@ public class ResourceController {
 						Map item = new HashMap();
 						item.put("rid",eid);
 						item.put("seriesName",record.getName());
+						item.put("seriesIsOn",1);
 						item.put("sequence",orderArr[i]);
 						item.put("videoSrc",videoSrcArr[i]);
 						item.put("phoneSrc",phoneSrcArr[i]);

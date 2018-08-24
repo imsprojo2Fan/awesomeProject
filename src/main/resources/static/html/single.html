@@ -107,12 +107,11 @@
 			opacity: 0.8; /* 通用，其他浏览器 有效*/
 		}
 
-
 	</style>
 </head>
 
 <body>
-
+    <div style="display: none;width: 128px" id='qrcode'></div>
 	<input id="copy" type="hidden">
 
 	<!-- Header -->
@@ -185,7 +184,7 @@
 						<div id="info" style="border:1px solid #eee;">
 							<div class="blog-img">
 								<div>
-									<div id="play" title="播放" style="position: absolute;z-index: 11;left: 95px;top: 152px"><img onclick="switchWindow()" style="cursor: pointer" width="50%" src="../image/play.png"></div>
+									<div id="play" title="播放" style="position: absolute;z-index: 11;left: 95px;top: 150px"><img onclick="switchWindow()" style="cursor: pointer" width="50%" src="../image/play.png"></div>
 									<img id="img"  style="width: 30%;float: left;padding-right: 15px" class="img-responsive" src="../image/default.jpg" onerror=src="../image/error.png" alt="图片加载失败">
 								</div>
 								<div >
@@ -232,10 +231,10 @@
 							<div class="blog-tags" style="margin-top: -8px">
 								<div >
 									<h5>操作：</h5>
-									<a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="查看">
-										<i class="fa fa-eye"></i><span id="views"></span>
-									</a>
-									<span id="actionWrap">
+                                    <span id="actionWrap">
+                                        <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="查看">
+                                            <i class="fa fa-eye"></i><span id="views"></span>
+                                        </a>
 										<a href="javascript:action('collect')" data-toggle="tooltip" data-placement="bottom" title="收藏">
 											<i class="fa fa-star"></i><span id="collects"></span>
 										</a>
@@ -243,6 +242,9 @@
 											<i class="fa fa-heart"></i><span id="likes"></span>
 										</a>
 									</span>
+                                    <a href="javascript:share();" >
+                                        <i class="fa fa-share-square-o"></i>点我分享
+                                    </a>
 									<a href="javascript:report();" >
 										<i class="fa fa-bug"></i>不能看?点我
 									</a>
@@ -301,7 +303,8 @@
 								<a id="backList" class="btn" style="display: none;margin-right: 6px" onclick="backList();" href="javascript:void(0);"><i class="fa fa-angle-double-left"></i>返回列表</a>
 								<a id="playBtn" class="btn" onclick="switchWindow();"  href="javascript:void(0);"><i class="fa fa-play-circle"></i>在线播放</a>
 								<a id="stopBtn" data-toggle="tooltip" data-placement="right" title="资源已下架" style="display: none" class="btn" disabled="true" href="javascript:void(0);"><i class="fa fa-frown-o"></i>资源已下架</a>
-							</div>
+							    <span id="title"></span>
+                            </div>
 							<div id="bdWrap" style="margin-top: 6px">
 								<a class="btn" data-toggle="tooltip" data-placement="right" title="" id="bdUrl" target="_blank" href="javascript:void(0);"><i class="fa fa-cloud-download"></i>百度网盘</a>
 								<a class="btn" onclick="toBDCloud()" title="" id="bdUrl2" target="_blank" href="javascript:void(0);" style="display: none"><i class="fa fa-cloud-download"></i>百度网盘</a>
@@ -426,8 +429,8 @@
 					<!-- /footer logo -->
 
 					<!-- footer copyright -->
-					<div class="footer-copyright" style="text-transform:none">
-						<p>本站资源均由机器人自动爬取于互联网</p>
+					<div class="footer-copyright" style="text-transform:none;font-size: 13px">
+						<p>本站资源均由机器人自动爬取于互联网,不承担任何法律责任</p>
 						<p>如若侵犯到您的权益请邮件联系imsprojo2fan@gmail.com,我们将尽快处理</p>
 						<p>Copyright © 2018. All Rights Reserved.</p>
 					</div>
@@ -472,6 +475,7 @@
 	<script type="text/javascript" src="../plugins/index/js/jquery.magnific-popup.js"></script>
 	<script type="text/javascript" src="../plugins/index/js/main.js"></script>
 	<script type="text/javascript" src="../js/gutil.js"></script>
+    <script type="text/javascript" src="../js/qrcode.min.js"></script>
 
 	<script src="../js/single.js">
 

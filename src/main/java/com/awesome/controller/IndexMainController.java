@@ -12,13 +12,17 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -28,7 +32,7 @@ import java.util.*;
  * @Modified By:
  */
 @RequestMapping("/index")
-@RestController
+@Controller
 public class IndexMainController {
 
 	@Autowired
@@ -66,6 +70,7 @@ public class IndexMainController {
 	 * @return
 	 */
 	@ApiOperation(value="分页查询", notes="获取列表")
+	@ResponseBody
 	@RequestMapping(value = "/resource/list", method = RequestMethod.POST)
 	public Object getList (HttpServletRequest request, HttpSession session){
 
@@ -116,6 +121,7 @@ public class IndexMainController {
 	 * @return
 	 */
 	@ApiOperation(value="查询刷新", notes="查询刷新")
+	@ResponseBody
 	@RequestMapping(value = "/resource/list4refresh", method = RequestMethod.POST)
 	public Object list4refresh (String id,HttpSession session){
 
@@ -135,10 +141,48 @@ public class IndexMainController {
 	}
 
 	/**
+	 * 分享链接
+	 * @return
+	 */
+	@ApiOperation(value="分享链接", notes="分享链接")
+	@ResponseBody
+	@RequestMapping(value = "/resource/share", method = RequestMethod.GET)
+	public Object share (HttpServletRequest request,HttpSession session,HttpServletResponse response) throws IOException {
+
+		init();
+		String eid = request.getParameter("v");
+		if(StringUtils.isEmpty(eid)){
+			r.setCode(-1);
+			r.setMsg("Parameter Error!");
+			r.setData(null);
+			return r;
+		}
+
+		//根据eid获取资源id
+		qMap.put("key","eid");
+		qMap.put("value",eid);
+		rList = service.searchByKey(qMap);
+
+		if(rList.size()>0){
+			session.setAttribute("itemId",rList.get(0).get("id").toString());
+			//跳转single.html
+			response.sendRedirect("/single");
+			return null;
+
+		}else{
+			r.setCode(-1);
+			r.setMsg("未找到相关资源!");
+			r.setData(null);
+		}
+		return r;
+	}
+
+	/**
 	 * 搜索查询列表
 	 * @return
 	 */
 	@ApiOperation(value="搜索查询列表", notes="获取列表")
+	@ResponseBody
 	@RequestMapping(value = "/resource/list4search", method = RequestMethod.POST)
 	public Object list4search (HttpServletRequest request){
 
@@ -173,6 +217,7 @@ public class IndexMainController {
 	 * @return
 	 */
 	@ApiOperation(value="查询", notes="获取列表")
+	@ResponseBody
 	@RequestMapping(value = "/resource/category", method = RequestMethod.POST)
 	public Object category(){
 
@@ -195,6 +240,7 @@ public class IndexMainController {
 	 * @return
 	 */
 	@ApiOperation(value="查询", notes="获取列表")
+	@ResponseBody
 	@RequestMapping(value = "/resource/list4order", method = RequestMethod.POST)
 	public Object searchByOrder(HttpServletRequest request,HttpSession session){
 
@@ -225,6 +271,7 @@ public class IndexMainController {
 	 * @return
 	 */
 	@ApiOperation(value="查询", notes="获取列表")
+	@ResponseBody
 	@RequestMapping(value = "/resource/list4item", method = RequestMethod.POST)
 	public Object list4item(HttpSession session,String id){
 
@@ -270,6 +317,7 @@ public class IndexMainController {
 	 * @return
 	 */
 	@ApiOperation(value="查询", notes="获取列表")
+	@ResponseBody
 	@RequestMapping(value = "/resource/report", method = RequestMethod.POST)
 	public Object report(Integer id,String name,HttpServletRequest request){
 
@@ -299,6 +347,7 @@ public class IndexMainController {
 
 
 	@ApiOperation(value="留言求片", notes="留言求片")
+	@ResponseBody
 	@RequestMapping(value = "/feedback/wishes",method = RequestMethod.POST)
 	public Object wishes(HttpServletRequest request){
 		String ip = getLocalIp(request);
@@ -333,6 +382,7 @@ public class IndexMainController {
 	}
 
 	@ApiOperation(value="评论", notes="评论")
+	@ResponseBody
 	@RequestMapping(value = "/comment/add",method = RequestMethod.POST)
 	public Object comment(HttpServletRequest request, Comment record,String counts){
 
@@ -356,7 +406,8 @@ public class IndexMainController {
 		return r;
 	}
 
-	@ApiOperation(value="评论", notes="评论")
+	@ApiOperation(value="评论列表", notes="评论列表")
+	@ResponseBody
 	@RequestMapping(value = "/comment/list",method = RequestMethod.POST)
 	public Object list4comment(String id,HttpServletRequest request){
 
@@ -382,6 +433,7 @@ public class IndexMainController {
 		backMap.put("data",rList);
 		return backMap;
 	}
+
 
 	public void init(){
 		r.setCode(-1);

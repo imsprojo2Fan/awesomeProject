@@ -22,7 +22,8 @@ $(function () {
                 if(i==0){
                     $('#add').hide();
                     $("#list").show();
-                    refresh(1,18);
+                    //refresh(1,18);
+                    self.location.reload();
                 }else{
                     $('#list').hide();
                     $("#add").show();

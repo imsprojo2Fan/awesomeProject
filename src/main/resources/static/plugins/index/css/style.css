@@ -682,6 +682,7 @@ header {
     position: relative;
     padding: 20px;
     cursor: pointer;
+    border: 1px solid #eee;
 }
 
 .work>img {

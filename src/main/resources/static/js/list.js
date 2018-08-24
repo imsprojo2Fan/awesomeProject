@@ -152,6 +152,10 @@ $(function () {
                                 }
                             });
                             miniRefresh.resetSecretGarden();
+                            if(isPhone()){//重置手机端图片样式
+                                $('.img-responsive').css("max-width","75%");
+                                $('.img-responsive').css("margin","0 auto");
+                            }
                         }
                     }
                 }
@@ -187,8 +191,14 @@ $(function () {
                                 '\t\t\t\t</div>');
                         }
                         miniRefresh.endUpLoading(listDom.children.length >= r.recordsTotal ? true : false);
+                        if(isPhone()){//重置手机端图片样式
+                            $('.img-responsive').css("max-width","75%");
+                            $('.img-responsive').css("margin","0 auto");
+                        }
                     });
+
                 }
+
             }
         });
         if(GlobalKey){
@@ -261,6 +271,10 @@ function listItem(pageNow,pageSize) {
 
         aside("views");
 
+        if(isPhone()){//重置手机端图片样式
+            $('.img-responsive').css("max-width","75%");
+            $('.img-responsive').css("margin","0 auto");
+        }
 
     });
 }
@@ -391,7 +405,7 @@ function toDetail(type,itemId) {
 
 function searchResource() {
     swal({
-        title: '请输入资源名称',//标题
+        title: '请输入关键字',//标题
         input: 'text',
         showCancelButton: true,
         cancelButtonText:'取消',

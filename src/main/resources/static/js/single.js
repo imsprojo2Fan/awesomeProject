@@ -1,7 +1,8 @@
 var GlobalId;
+var GlobalRid;
 var GlobalName;
 var GlobalVideoSrc;
-var GlobalArr;
+var GlobalDataArr;
 var GlobalBdUrl;
 var isSeries;//是否多剧集
 var GlobalFrame;
@@ -108,10 +109,11 @@ function getItem(id) {
         //console.log(r);
 
         var dataArr = r.data;
-        GlobalArr = r.data;
+        GlobalDataArr = r.data;
         for(var i=0;i<dataArr.length;i++){
             var obj = dataArr[i];
             GlobalId = obj.id;
+            GlobalRid = obj.eid;
             GlobalName = obj.name;
             $('#tab3').html(obj.name);
             $('#name').html(obj.name);
@@ -191,6 +193,12 @@ function getItem(id) {
                     }
 
                 }else{
+
+                    var name = obj.name;
+                    var nameArr = name.split(" ");
+                    name = nameArr[0];
+                    $('#title').html(name);
+
                     if(bdUrl&&bdUrl!="无资源链接"){
                         bdUrl = bdUrl.substring(3,bdUrl.length);
                         bdUrl = bdUrl.replace(":","：");
@@ -231,9 +239,43 @@ function getItem(id) {
                 }
             }else{//多剧集处理
                 isSeries = true;
-                $('#seriesParent').show();
                 $('#play').hide();
+                $('#urlWrap').show();
 
+
+                if(isPhone()){
+                    $('#bdUrl').hide();
+                    $('#bdUrl2').show();
+
+                    if(bdUrl&&bdUrl!="无资源链接"){
+                        bdUrl = bdUrl.substring(3,bdUrl.length);
+                        bdUrl = bdUrl.replace(":","：");
+                        var bdArr = bdUrl.split("密码：");
+                        var pass = bdArr[1];
+                        var url = bdArr[0].replace("：",":");
+                        GlobalBdUrl = url;
+                        $('#copy').val(pass);
+                    }
+
+                }else{
+                    if(bdUrl&&bdUrl!="无资源链接"){
+                        bdUrl = bdUrl.substring(3,bdUrl.length);
+                        bdUrl = bdUrl.replace(":","：");
+                        var bdArr = bdUrl.split("密码：");
+                        var pass = bdArr[1];
+                        var url = bdArr[0].replace("：",":");
+                        $('#bdUrl').attr("disabled",false);
+                        $('#bdUrl').attr("href",url);
+                        $('#bdUrl').attr('title',"密码:"+pass).tooltip('fixTitle');
+                    }else{
+                        $('#bdUrl').attr("disabled",true);
+                        $('#bdUrl').attr("href","javascript:void(0);");
+                        $('#bdUrl').attr('title',"暂无分享链接").tooltip('fixTitle');
+                    }
+                }
+
+
+                /*$('#seriesParent').show();
                 var sequence = obj.sequence;
                 if(sequence<10){
                     sequence = "0"+sequence;
@@ -249,23 +291,25 @@ function getItem(id) {
                     }else{
                         $('#seriesWrap').append('<a style="margin-right: 5px" onclick="toSeries('+i+');" href="javascript:void(0);">'+sequence+'</a>');
                     }
-                }
+                }*/
             }
         }
         category();
         aside("views");
         //获取评论列表
         list4comment(GlobalId,1,10);
+        makeCode(GlobalRid);
     });
 
     //初始化资源信息
     $('#playBtn').html('<i class="fa fa-angle-double-left"></i>返回详情');
     $('#playBtn').click();
+
 }
 
 function searchResource() {
     swal({
-        title: '请输入资源名称',  //标题
+        title: '请输入关键字',  //标题
         input: 'text',
         showCancelButton: true,
         cancelButtonText:'取消',
@@ -371,18 +415,65 @@ function switchWindow() {
     $('#info').hide();
     $('#iframe').hide();
     if(txt.indexOf("在线播放")>0){
+        
+        if(isSeries){//处理多剧集
+            $('#seriesParent').show();
+
+            $('#seriesWrap').html("");
+            for(var i=0;i<GlobalDataArr.length;i++){
+                var obj = GlobalDataArr[i];
+                var sequence = obj.sequence;
+                if(sequence<10){
+                    sequence = "0"+sequence;
+                }
+                var seriesIsOn = obj.seriesIsOn;
+                var sid = "s"+i;
+                if(obj.isOn===0){//整季下架
+                    $('#seriesWrap').append('<a id="'+sid+'" style="margin-right: 5px" class="btn" disabled="true" data-toggle="tooltip" data-placement="top" title="资源已下架" href="javascript:void(0);">'+sequence+'</a>');
+                }else{
+                    if(seriesIsOn===0){//当前集下架
+                        $('#seriesWrap').append('<a style="margin-right: 5px" class="btn" disabled="true" data-toggle="tooltip" data-placement="top" title="资源已下架" href="javascript:void(0);">'+sequence+'</a>');
+                    }else{
+                        $('#seriesWrap').append('<a style="margin-right: 5px" onclick="toSeries('+i+');" href="javascript:void(0);">'+sequence+'</a>');
+                    }
+                }
+                if(i===0&&obj.isOn!==0&&seriesIsOn!==0){//默认播放第一集
+                    if(isPhone()){
+                        var phoneSrc = obj.phoneSrc;
+                        if(!phoneSrc||phoneSrc=="无资源链接"){
+                            GlobalVideoSrc = "";
+                        }else{
+                            GlobalVideoSrc = phoneSrc+"?rel=0&amp;autoplay=1";
+                        }
+                    }else{
+                        GlobalVideoSrc = obj.videoSrc+"?rel=0&amp;autoplay=1";
+                    }
+                    var name = obj.name;
+                    var nameArr = name.split(" ");
+                    name = nameArr[0];
+                    var sequence = obj.sequence;
+                    if(sequence<10){
+                        sequence = "0"+sequence;
+                    }
+                    $('#title').html(name+"-"+sequence);
+                }
+            }
+        }
+
+
         $('#playBtn').html('<i class="fa fa-angle-double-left"></i>返回详情');
         $('#iframe').show();
         if(GlobalVideoSrc){
-            $('#frameLoading').show();
-            $('#myFrame').attr("src",GlobalVideoSrc);
+           $('#frameLoading').show();
+           $('#myFrame').attr("src",GlobalVideoSrc);
         }else{//移动端地址为空时显示资源不可播放
-            $('#frameLoading').hide();
-            $('#tipLoading').show();
+           $('#frameLoading').hide();
+           $('#tipLoading').show();
         }
-        //隐藏返回列表
-        $('#backList').hide();
+
+
     }else if(txt.indexOf("返回详情")>0){
+        $('#title').html("");
         //$('#itemWrap').html(GlobalFrame);
         $('#myFrame').attr("src","/blank");
         $('#playBtn').html('<i class="fa fa-play-circle"></i>在线播放');
@@ -392,10 +483,40 @@ function switchWindow() {
             $('#backList').show();
         }
     }
+
+    //隐藏返回列表
+    $('#backList').hide();
+
     //返回顶部
     $('body,html').animate({
         scrollTop: 0
     }, 300);
+}
+
+function share() {
+    //debugger
+    var dom = $('#qrcode').clone();
+    $(dom).css("display","block");
+    $(dom).css("margin","0 auto");
+    swal({
+        title: "<small>长按扫码/保存</small>",
+        text:'',
+        html: dom
+    });
+
+
+}
+
+function makeCode(rid) {
+    var url = "http://awesome.zooori.cn/index/resource/share?v="+rid;
+    var qrcode = new QRCode("qrcode", {
+        text: url,
+        width: 128,
+        height: 128,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
 }
 
 function report() {
@@ -470,25 +591,20 @@ function action(type) {
 }
 
 function toSeries(index) {
-    var obj = GlobalArr[index];
+    var obj = GlobalDataArr[index];
     console.log(obj);
-    $('#seriesParent').hide();
-    $('#backList').show();
-    $('#urlWrap').show();
+    //$('#seriesParent').hide();
+    //$('#backList').show();
+    //$('#urlWrap').show();
 
-    if(obj.seriesIsOn===0){
-        $('#stopBtn').show();
-        $('#playBtn').hide();
-        $('#play').hide();
-    }else{
-        $('#stopBtn').hide();
-        $('#playBtn').show();
-        //图片绑定播放事件
-        $('#img').on("click",function () {
-            switchWindow();
-        });
+    var name = obj.name;
+    var nameArr = name.split(" ");
+    name = nameArr[0];
+    var sequence = obj.sequence;
+    if(sequence<10){
+        sequence = "0"+sequence;
     }
-
+    $('#title').html(name+"-"+sequence);
 
     //处理移动端及电脑端在线资源链接
     if(isPhone()){
@@ -501,7 +617,19 @@ function toSeries(index) {
     }else{
         GlobalVideoSrc = obj.videoSrc+"?rel=0&amp;autoplay=1";
     }
+    if(GlobalVideoSrc){
+        $('#frameLoading').show();
+        $('#myFrame').attr("src",GlobalVideoSrc);
+    }else{//移动端地址为空时显示资源不可播放
+        $('#frameLoading').hide();
+        $('#tipLoading').show();
+    }
 
+    $('#playBtn').html('<i class="fa fa-angle-double-left"></i>返回详情');
+    $('#info').hide();//隐藏详情
+    $('#iframe').show();//打开iframe
+
+    //--------------------------------------------百度网盘
     var bdUrl = obj.bdUrl;
     if(isPhone()){
         $('#bdUrl').hide();
@@ -532,6 +660,7 @@ function toSeries(index) {
         }
     }
 
+    //--------------------------------------------迅雷下载
     $('#downloadWrap').html("");
     for(var k=0;k<3;k++){
         if(k===0){

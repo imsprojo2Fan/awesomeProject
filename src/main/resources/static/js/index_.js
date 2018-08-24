@@ -154,6 +154,9 @@ $(function () {
         $('#2request').click();
         deleteCookie("request","/");
     }
+
+    $('#banner').show();
+
     //获取电影列表
     $.post("/index/resource/list",{pageNow:1,pageSize:12,type:1},function (r) {
         //console.log(r);
@@ -178,7 +181,6 @@ $(function () {
             }
             $('#movie2more').show();
         }
-
     });
 
 });

@@ -55,7 +55,7 @@
                 $("#uploadInf").html("<p>上传成功，文件名是：" + response+ "</p>");
                 setTimeout(function () {
                     window.close();
-                },1500);
+                },200);
             },
             onFailure: function(file, response){          // 文件上传失败的回调方法
                 console.info("此文件上传失败：");
