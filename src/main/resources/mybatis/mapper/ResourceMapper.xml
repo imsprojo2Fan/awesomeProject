@@ -36,8 +36,8 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from resource r,series s
-    where r.id = #{id,jdbcType=INTEGER} and r.eid=s.rid
+    delete from resource , series
+    where resource.id = #{id,jdbcType=INTEGER} and resource.eid=series.rid
   </delete>
   <insert id="insert" parameterType="com.awesome.model.Resource" >
     insert into resource (id, eid, name,
