@@ -370,15 +370,23 @@ function aside(col) {
             return;
         }
         var icon;
-        if(col==="views"){
-            icon = '<i class="fa fa-eye"></i>';
-        }else if(col==="likes"){
-            icon = '<i class="fa fa-heart"></i>';
-        }else{
-            icon = '<i class="fa fa-star"></i>';
-        }
+        var dCount;
+
         for(var j=0;j<r.length;j++){
             var obj = r[j];
+
+            if(col==="views"){
+                icon = '<i class="fa fa-eye"></i>';
+                dCount = obj.views;
+            }else if(col==="likes"){
+                icon = '<i class="fa fa-heart"></i>';
+                dCount = obj.likes;
+            }else{
+                icon = '<i class="fa fa-star"></i>';
+                dCount = obj.collects;
+
+            }
+
             var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
             var error = "../image/error1.png";
             $('#popularWrap').append('<div class="widget-post">\n' +
@@ -386,7 +394,7 @@ function aside(col) {
                 '\t\t\t\t\t\t\t<img style="width: 20%" onerror=src="'+error+'" src="'+imgSrc+'" alt="图片加载失败"> '+obj.name+'\n' +
                 '\t\t\t\t\t\t</a>\n' +
                 '\t\t\t\t\t\t<ul class="blog-meta">\n' +
-                '\t\t\t\t\t\t\t<li>'+icon+obj.views+'</li>\n' +
+                '\t\t\t\t\t\t\t<li>'+icon+dCount+'</li>\n' +
                 '\t\t\t\t\t\t</ul>\n' +
                 '\t\t\t\t\t</div>');
         }

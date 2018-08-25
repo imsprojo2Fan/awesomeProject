@@ -115,6 +115,7 @@ function getItem(id) {
             GlobalId = obj.id;
             GlobalRid = obj.eid;
             GlobalName = obj.name;
+            var bdUrl = obj.bdUrl;
             $('#tab3').html(obj.name);
             $('#name').html(obj.name);
             var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
@@ -160,7 +161,6 @@ function getItem(id) {
                     GlobalVideoSrc = obj.videoSrc+"?rel=0&amp;autoplay=1";
                 }
 
-                var bdUrl = obj.bdUrl;
                 var isOn = obj.isOn;
                 if(isOn===0){
                     $('#stopBtn').show();
@@ -258,6 +258,7 @@ function getItem(id) {
                     }
 
                 }else{
+                    //debugger
                     if(bdUrl&&bdUrl!="无资源链接"){
                         bdUrl = bdUrl.substring(3,bdUrl.length);
                         bdUrl = bdUrl.replace(":","：");
@@ -376,15 +377,23 @@ function aside(col) {
             return;
         }
         var icon;
-        if(col==="views"){
-            icon = '<i class="fa fa-eye"></i>';
-        }else if(col==="likes"){
-            icon = '<i class="fa fa-heart"></i>';
-        }else{
-            icon = '<i class="fa fa-star"></i>';
-        }
+        var dCount;
+
         for(var j=0;j<r.length;j++){
             var obj = r[j];
+
+            if(col==="views"){
+                icon = '<i class="fa fa-eye"></i>';
+                dCount = obj.views;
+            }else if(col==="likes"){
+                icon = '<i class="fa fa-heart"></i>';
+                dCount = obj.likes;
+            }else{
+                icon = '<i class="fa fa-star"></i>';
+                dCount = obj.collects;
+
+            }
+
             var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
             var error = "../image/error1.png";
             $('#popularWrap').append('<div class="widget-post">\n' +
@@ -392,7 +401,7 @@ function aside(col) {
                 '\t\t\t\t\t\t\t<img style="width: 20%" onerror=src="'+error+'" src="'+imgSrc+'" alt="图片加载失败"> '+obj.name+'\n' +
                 '\t\t\t\t\t\t</a>\n' +
                 '\t\t\t\t\t\t<ul class="blog-meta">\n' +
-                '\t\t\t\t\t\t\t<li>'+icon+obj.views+'</li>\n' +
+                '\t\t\t\t\t\t\t<li>'+icon+dCount+'</li>\n' +
                 '\t\t\t\t\t\t</ul>\n' +
                 '\t\t\t\t\t</div>');
         }
@@ -527,7 +536,7 @@ function report() {
         showCancelButton: true,
         confirmButtonColor: '#6195FF',
         cancelButtonColor: '#d33',
-        confirmButtonText: '确定了啦',
+        confirmButtonText: '确定..',
         cancelButtonText:'你再试试',
     }).then(function(){
 

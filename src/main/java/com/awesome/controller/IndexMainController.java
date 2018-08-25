@@ -262,7 +262,7 @@ public class IndexMainController {
 		map.put("col",col);
 		map.put("orderType","desc");
 		map.put("pageSize",7);
-		rList = service.searchByOrder(map);
+		List rList = service.searchByOrder(map);
 		return rList;
 	}
 
