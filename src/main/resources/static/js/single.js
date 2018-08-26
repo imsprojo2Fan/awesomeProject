@@ -424,6 +424,8 @@ function switchWindow() {
     $('#info').hide();
     $('#iframe').hide();
     if(txt.indexOf("在线播放")>0){
+
+        $('#urlWrap').css("margin-top","30px");
         
         if(isSeries){//处理多剧集
             $('#seriesParent').show();
@@ -479,8 +481,6 @@ function switchWindow() {
            $('#frameLoading').hide();
            $('#tipLoading').show();
         }
-
-
     }else if(txt.indexOf("返回详情")>0){
         $('#title').html("");
         //$('#itemWrap').html(GlobalFrame);
@@ -491,6 +491,7 @@ function switchWindow() {
         if(isSeries){
             $('#backList').show();
         }
+        $('#urlWrap').css("margin-top","15px");
     }
 
     //隐藏返回列表

@@ -297,12 +297,7 @@ function add() {
         },
         success : function(r) {
             if (r.code == 1) {
-                swal(r.msg,'',"success");
-                $('#itemWrap').html("");
-                reset();
-                resetItem();
-                itemIndex = 0;
-                index = -1;
+                self.location.reload();
             } else {
                 swal(r.msg,' ',"error");
             }
@@ -456,9 +451,7 @@ function submit() {
         },
         success : function(r) {
             if (r.code == 1) {
-                swal(r.msg,'',"success");
-                back();
-                refresh(1,18);
+                self.location.reload();
             } else {
                 swal(r.msg,' ',"error");
             }
