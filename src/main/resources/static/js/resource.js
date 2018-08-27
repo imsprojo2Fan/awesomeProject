@@ -617,6 +617,7 @@ function resetItem(){
     $('#cancel').html("取消");
     $('#confirm').html("新增");
     $('#myModalLabel').html("新增剧集");
+    itemArr = new Array();
 }
 //编辑数据-->新增剧集
 function addItem2() {

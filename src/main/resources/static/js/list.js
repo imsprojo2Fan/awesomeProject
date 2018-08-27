@@ -247,16 +247,20 @@ function listItem(pageNow,pageSize) {
         }
         for(var i=0;i<dataArr.length;i++){
             var obj = dataArr[i];
+            var name = obj.name;
+            if(name.length>9){
+                name = name.substring(0,9)+"...";
+            }
             var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
             //var description = obj.description.substring(0,15)+"...";
             var error = "../image/error1.png";
             $('#itemWrap').append('<div class="col-sm-3">\n' +
-                '\t\t\t\t\t<div onclick="toDetail('+obj.type+','+obj.id+')" class="blog">\n' +
+                '\t\t\t\t\t<div title="'+obj.name+'" onclick="toDetail('+obj.type+','+obj.id+')" class="blog">\n' +
                 '\t\t\t\t\t\t<div class="blog-img">\n' +
                 '\t\t\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive" src="'+imgSrc+'" alt="图片加载失败">\n' +
                 '\t\t\t\t\t\t</div>\n' +
                 '\t\t\t\t\t\t<div class="blog-content">\n' +
-                '\t\t\t\t\t\t\t<h5>'+obj.name+'</h5>\n' +
+                '\t\t\t\t\t\t\t<h5>'+name+'</h5>\n' +
                 '\t\t\t\t\t\t\t<a href="javascript:void(0)">查看详情</a>\n' +
                 '\t\t\t\t\t\t</div>\n' +
                 '\t\t\t\t\t</div>\n' +

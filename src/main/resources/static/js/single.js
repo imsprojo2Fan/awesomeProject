@@ -419,14 +419,15 @@ function toMore(type) {
 }
 
 function switchWindow() {
+
+    $('#tipPlay').hide();
+
     //debugger
     var txt = $('#playBtn').html();
     $('#info').hide();
     $('#iframe').hide();
     if(txt.indexOf("在线播放")>0){
 
-        $('#urlWrap').css("margin-top","30px");
-        
         if(isSeries){//处理多剧集
             $('#seriesParent').show();
 
@@ -477,6 +478,7 @@ function switchWindow() {
         if(GlobalVideoSrc){
            $('#frameLoading').show();
            $('#myFrame').attr("src",GlobalVideoSrc);
+           $('#tipPlay').show();
         }else{//移动端地址为空时显示资源不可播放
            $('#frameLoading').hide();
            $('#tipLoading').show();
@@ -491,7 +493,6 @@ function switchWindow() {
         if(isSeries){
             $('#backList').show();
         }
-        $('#urlWrap').css("margin-top","15px");
     }
 
     //隐藏返回列表
@@ -601,6 +602,7 @@ function action(type) {
 }
 
 function toSeries(index) {
+    $('#tipPlay').hide();
     var obj = GlobalDataArr[index];
     console.log(obj);
     //$('#seriesParent').hide();
@@ -630,6 +632,7 @@ function toSeries(index) {
     if(GlobalVideoSrc){
         $('#frameLoading').show();
         $('#myFrame').attr("src",GlobalVideoSrc);
+        $('#tipPlay').show();
     }else{//移动端地址为空时显示资源不可播放
         $('#frameLoading').hide();
         $('#tipLoading').show();
@@ -693,6 +696,11 @@ function toSeries(index) {
             }
         }
     }
+
+    //返回顶部
+    $('body,html').animate({
+        scrollTop: 0
+    }, 300);
 }
 
 function backList() {
