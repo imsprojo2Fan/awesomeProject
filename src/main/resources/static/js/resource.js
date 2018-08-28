@@ -28,6 +28,7 @@ $(function () {
                     $('#list').hide();
                     $("#add").show();
                     resetItem();
+                    itemArr = new Array();
                 }
             }
         });
@@ -561,7 +562,7 @@ function editItem(index) {
     $('#confirm').html("确定");
     $('#myModalLabel').html("编辑剧集");
     var item = itemArr[index];
-    $('#sid').val(item.sid);
+    //$('#sid').val(item.sid);
     $('#itemId').val(item.id);
     $('#item_order').val(item.order);
     $('#item_videoSrc').val(item.videoSrc);
@@ -617,7 +618,6 @@ function resetItem(){
     $('#cancel').html("取消");
     $('#confirm').html("新增");
     $('#myModalLabel').html("新增剧集");
-    itemArr = new Array();
 }
 //编辑数据-->新增剧集
 function addItem2() {
