@@ -5,7 +5,7 @@
 
     <groupId>com.awesome</groupId>
     <artifactId>awesome</artifactId>
-    <version>0.0.12</version>
+    <version>0.0.14</version>
     <packaging>jar</packaging>
 
     <name>awesome</name>

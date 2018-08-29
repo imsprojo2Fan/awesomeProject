@@ -184,10 +184,10 @@ function getItem(id) {
 
                     if(bdUrl&&bdUrl!="无资源链接"){
                         bdUrl = bdUrl.substring(3,bdUrl.length);
-                        bdUrl = bdUrl.replace(":","：");
-                        var bdArr = bdUrl.split("密码：");
+                        bdUrl = bdUrl.replace("：",":");
+                        var bdArr = bdUrl.split("密码:");
                         var pass = bdArr[1];
-                        var url = bdArr[0].replace("：",":");
+                        var url = bdArr[0];
                         GlobalBdUrl = url;
                         $('#copy').val(pass);
                     }
@@ -241,7 +241,6 @@ function getItem(id) {
                 isSeries = true;
                 $('#play').hide();
                 $('#urlWrap').show();
-
 
                 if(isPhone()){
                     $('#bdUrl').hide();
@@ -510,7 +509,7 @@ function share() {
     $(dom).css("display","block");
     $(dom).css("margin","0 auto");
     swal({
-        title: "<small>长按扫码/保存</small>",
+        title: "<p>长按扫码/保存分享</p>",
         text:'',
         html: dom
     });

@@ -8,7 +8,6 @@ $(document).ready(function(){
     $(window).scroll(function(e){
         p = $(this).scrollTop();
         //下滚至此位置获取电视剧列表
-
         var mod01 = Math.floor($('#movie').offset().top);
 
         //下滚至此位置获取综艺列表
@@ -38,13 +37,17 @@ $(document).ready(function(){
                         }else{
                             for(var i=0;i<dataArr.length;i++){
                                 var obj = dataArr[i];
+                                var name = obj.name;
+                                if(name.length>8){
+                                    name = name.substring(0,8)+"...";
+                                }
                                 var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
                                 var error = "../image/error1.png";
-                                $('#seriesWrap').append('<div onclick="toDetail('+obj.type+','+obj.id+')" class="col-sm-3 work">\n' +
+                                $('#seriesWrap').append('<div title="'+obj.name+'" onclick="toDetail('+obj.type+','+obj.id+')" class="col-sm-3 work">\n' +
                                     '\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive" src="'+imgSrc+'" alt="图片加载失败">\n' +
                                     '\t\t\t\t\t<div class="overlay"></div>\n' +
                                     '\t\t\t\t\t<div class="work-content">\n' +
-                                    '\t\t\t\t\t\t<h3>'+obj.name+'</h3>\n' +
+                                    '\t\t\t\t\t\t<h3>'+name+'</h3>\n' +
                                     '\t\t\t\t\t\t<div class="work-link">\n' +
                                     '\t\t\t\t\t\t\t<a href="javascript:void(0)" title="查看详情"><i class="fa fa-external-link"></i></a>\n' +
                                     '\t\t\t\t\t\t</div>\n' +
@@ -167,14 +170,18 @@ $(function () {
         }else{
             for(var i=0;i<dataArr.length;i++){
                 var obj = dataArr[i];
+                var name = obj.name;
+                if(name.length>7){
+                    name = name.substring(0,7)+"...";
+                }
                 var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
                 var error = "../image/error1.png";
                 //var description = obj.description.substring(0,15)+"...";
-                $('#movieWrap').append('<div class="col-sm-3">\n' +
+                $('#movieWrap').append('<div title="'+obj.name+'" class="col-sm-3">\n' +
                     '\t\t\t\t\t<div onclick="toDetail('+obj.type+','+obj.id+')" class="about">\n' +
                     '\t\t\t\t\t\t<!--<i class="fa fa-cogs"></i>-->\n' +
                     '\t\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive" src="'+imgSrc+'" alt="图片加载失败">\n' +
-                    '\t\t\t\t\t\t<h3>'+obj.name+'</h3>\n' +
+                    '\t\t\t\t\t\t<h3>'+name+'</h3>\n' +
                     '\t\t\t\t\t\t<a href="javascript:void(0)">查看详情</a>\n' +
                     '\t\t\t\t\t</div>\n' +
                     '\t\t\t\t</div>');
