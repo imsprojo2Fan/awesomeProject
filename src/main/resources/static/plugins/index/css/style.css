@@ -132,7 +132,7 @@ ul, ol {
 
 .sm-padding {
     padding-top: 15px;
-    padding-bottom: 15px;
+    padding-bottom: 40px;
 }
 
 
@@ -679,6 +679,7 @@ header {
 \*------------------------------------*/
 
 .work {
+    min-height: 100%;
     position: relative;
     padding: 20px;
     cursor: pointer;
@@ -687,6 +688,7 @@ header {
 
 .work>img {
   width: 100%;
+    min-height: 285px;
 }
 
 .work .overlay {

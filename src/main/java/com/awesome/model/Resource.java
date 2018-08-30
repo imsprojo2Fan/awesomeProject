@@ -7,7 +7,6 @@ public class Resource {
 
     private String eid;
 
-
     private String name;
 
     private String director;

@@ -128,7 +128,7 @@ function getItem(id) {
             var bdUrl = obj.bdUrl;
             $('#tab3').html(obj.name);
             $('#name').html(obj.name);
-            var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
+            var imgSrc = ""+obj.imgSrc2;
             $('#img').attr('src',imgSrc);
             $('#img').attr("data-original",imgSrc);
             $('#director').html("导演："+obj.director);
@@ -418,7 +418,7 @@ function aside(col) {
 
             }
 
-            var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
+            var imgSrc = ""+obj.imgSrc2;
             var error = "../image/error1.png";
             $('#popularWrap').append('<div class="widget-post">\n' +
                 '\t\t\t\t\t\t<a onclick="getItem('+obj.id+')" href="javascript:void(0);">\n' +
@@ -851,7 +851,7 @@ function preLoading() {
     var interval = setInterval(function () {
         var src = $('#img').attr('src');
         //console.log(src);
-        if(src.indexOf("zooori")>0){
+        if(src.indexOf("doubanio")>0){
             $("#preloader").fadeOut(200);
             window.clearInterval(interval);
         }

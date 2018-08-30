@@ -121,7 +121,7 @@ function refresh(pageNow,pageSize) {
                 }
                 for(var i=0;i<dataArr.length;i++){
                     var obj = dataArr[i];
-                    var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
+                    var imgSrc = ""+obj.imgSrc2;
                     //var error = "https://interesting.zooori.cn/pic/error.png";
                     var error = "../../image/error1.png";
                     var name = obj.name;
@@ -222,6 +222,7 @@ function add() {
     var publish = $('#publish').val();
     var length = $('#length').val().trim();
     var imgSrc1 = $('#picVal').val();
+    var imgSrc2 = $('#imgSrc2').val().trim();
     var description = $('#description').val().trim();
     if(!name){
         swal("名字不能为空！","","error");
@@ -290,6 +291,7 @@ function add() {
             publish:publish,
             length:length,
             imgSrc1:imgSrc1,
+            imgSrc2:imgSrc2,
             description:description,
             a0:Orders,
             a1:videoSrcArr,
@@ -391,9 +393,9 @@ function edit(index_) {
     $('#edit_length').val(obj.length);
     $('#edit_description').val(obj.description);
     $('#edit_picVal').val(obj.imgSrc1);
-    var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
-    $('#edit_picName').html('<img width="6%" style="float: right" class="img-responsive" src="'+imgSrc+'">')
-
+    var imgSrc = obj.imgSrc2;
+    $('#edit_pic').html('<img width="6%" style="float: right;min-height: 75px;margin-top: -35px;" class="img-responsive" src="'+imgSrc+'">');
+    $('#edit_imgSrc2').val(obj.imgSrc2);
     $('#nav1').hide();
     $('#list').hide();
     $('#nav2').show();
@@ -419,6 +421,7 @@ function submit() {
     var publish = $('#edit_publish').val();
     var length = $('#edit_length').val().trim();
     var imgSrc1 = $('#edit_picVal').val();
+    var imgSrc2 = $('#edit_imgSrc2').val().trim();
 
     var description = $('#edit_description').val().trim();
     if(!name){
@@ -452,6 +455,7 @@ function submit() {
             publish:publish,
             length:length,
             imgSrc1:imgSrc1,
+            imgSrc2:imgSrc2,
             description:description,
             isOn:$('#edit_isOn').val()
         },

@@ -102,7 +102,7 @@ $(function () {
                                     if(i==0){
                                         RefreshId = obj.id;
                                     }
-                                    var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
+                                    var imgSrc = ""+obj.imgSrc2;
                                     var error = "../image/error1.png";
                                     var imgId = "IMG-"+i;
                                     $(listDom.children[0]).before('<div class="col-sm-3" style="width: 95%;margin: 0 auto">' +
@@ -148,7 +148,7 @@ $(function () {
                             if(GlobalPageNow==1&&i==0){
                                 RefreshId = obj.id;
                             }
-                            var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
+                            var imgSrc = ""+obj.imgSrc2;
                             var error = "../image/error1.png";
                             var imgId = "IMG-"+i;
                             $('#listData').append('<div class="col-sm-3" style="width: 95%;margin: 0 auto">\n' +
@@ -231,7 +231,7 @@ function listItem(pageNow,pageSize) {
             if(name.length>9){
                 name = name.substring(0,9)+"...";
             }
-            var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
+            var imgSrc = ""+obj.imgSrc2;
             //var description = obj.description.substring(0,15)+"...";
             var imgId = "IMG-"+i;
             var error = "../image/error1.png";
@@ -295,7 +295,7 @@ function list4search(pageNow,pageSize,key) {
             }
             for(var i=0;i<dataArr.length;i++){
                 var obj = dataArr[i];
-                var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
+                var imgSrc = ""+obj.imgSrc2;
                 //var description = obj.description.substring(0,15)+"...";
                 var error = "../image/error1.png";
                 var imgId = "IMG-"+i;
@@ -400,7 +400,7 @@ function aside(col) {
 
             }
 
-            var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
+            var imgSrc = ""+obj.imgSrc2;
             var error = "../image/error1.png";
             $('#popularWrap').append('<div class="widget-post">\n' +
                 '\t\t\t\t\t\t<a onclick="toDetail('+obj.type+','+obj.id+')" href="javascript:void(0);">\n' +

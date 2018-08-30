@@ -26,6 +26,9 @@
                 background-color: #6195FF;
                 border-color: #6195FF;
             }
+            .img-responsive{
+                min-height: 155px;
+            }
         </style>
 
     </head>
@@ -231,8 +234,8 @@
                                                     <label for="inlineCheckbox8">古装</label>
                                                 </div>
                                                 <div class="checkbox checkbox-primary checkbox-inline">
-                                                    <input type="checkbox" class="styled" id="inlineCheckbox9" value="都市家庭">
-                                                    <label for="inlineCheckbox2">都市家庭</label>
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox9" value="家庭">
+                                                    <label for="inlineCheckbox9">家庭</label>
                                                 </div>
                                                 <div class="checkbox checkbox-primary checkbox-inline">
                                                     <input type="checkbox" class="styled" id="inlineCheckbox10" value="悬疑">
@@ -281,6 +284,10 @@
                                                 <div class="checkbox checkbox-primary checkbox-inline">
                                                     <input type="checkbox" class="styled" id="inlineCheckbox21" value="惊悚">
                                                     <label for="inlineCheckbox21">惊悚</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="inlineCheckbox22" value="历史">
+                                                    <label for="inlineCheckbox22">历史</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -349,6 +356,13 @@
                                         <label for="description" class="col-sm-2 control-label form-label">简介</label>
                                         <div class="col-sm-10">
                                             <textarea type="text" style="min-height: 120px;resize: vertical" class="form-control" id="description" placeholder="简介" ></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="imgSrc2" class="col-sm-2 control-label form-label">豆瓣图片</label>
+                                        <div class="col-sm-10" >
+                                            <input type="text" class="form-control" id="imgSrc2" maxlength="90" placeholder="图片链接">
                                         </div>
                                     </div>
 
@@ -455,8 +469,8 @@
                                                     <label for="edit_inlineCheckbox8">古装</label>
                                                 </div>
                                                 <div class="checkbox checkbox-primary checkbox-inline">
-                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox9" value="都市家庭">
-                                                    <label for="edit_inlineCheckbox2">都市家庭</label>
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox9" value="家庭">
+                                                    <label for="edit_inlineCheckbox9">家庭</label>
                                                 </div>
                                                 <div class="checkbox checkbox-primary checkbox-inline">
                                                     <input type="checkbox" class="styled" id="edit_inlineCheckbox10" value="悬疑">
@@ -504,7 +518,11 @@
                                                 </div>
                                                 <div class="checkbox checkbox-primary checkbox-inline">
                                                     <input type="checkbox" class="styled" id="edit_inlineCheckbox21" value="惊悚">
-                                                    <label for="inlineCheckbox21">惊悚</label>
+                                                    <label for="edit_inlineCheckbox21">惊悚</label>
+                                                </div>
+                                                <div class="checkbox checkbox-primary checkbox-inline">
+                                                    <input type="checkbox" class="styled" id="edit_inlineCheckbox22" value="历史">
+                                                    <label for="edit_inlineCheckbox22">历史</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -584,6 +602,14 @@
                                         <label for="edit_description" class="col-sm-2 control-label form-label">简介</label>
                                         <div class="col-sm-10">
                                             <textarea type="text" style="min-height: 120px;resize: vertical" class="form-control" id="edit_description" placeholder="简介" ></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="edit_imgSrc" class="col-sm-2 control-label form-label">豆瓣图片</label>
+                                        <div class="col-sm-10" >
+                                            <input type="text" style="width: 93%" class="form-control" id="edit_imgSrc2" maxlength="90" placeholder="图片链接">
+                                            <span class="text-info" id="edit_pic"></span>
                                         </div>
                                     </div>
 
