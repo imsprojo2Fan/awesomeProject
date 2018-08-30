@@ -47,7 +47,7 @@ $(document).ready(function(){
                                 if(name.length>8){
                                     name = name.substring(0,8)+"...";
                                 }
-                                var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
+                                var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc2;
                                 var error = "../image/error1.png";
                                 $('#seriesWrap').append('<div title="'+obj.name+'" onclick="toDetail('+obj.type+','+obj.id+')" class="col-sm-3 work">\n' +
                                     '\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
@@ -84,7 +84,7 @@ $(document).ready(function(){
                         }else{
                             for(var i=0;i<dataArr.length;i++){
                                 var obj = dataArr[i];
-                                var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
+                                var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc2;
                                 var error = "../image/error1.png";
                                 $('#varietyWrap').append('<div onclick="toDetail('+obj.type+','+obj.id+')" class="col-sm-3">\n' +
                                     '\t\t\t\t\t<div class="team">\n' +
@@ -121,7 +121,7 @@ $(document).ready(function(){
                         }else{
                             for(var i=0;i<dataArr.length;i++){
                                 var obj = dataArr[i];
-                                var imgSrc = "http://interesting.zooori.cn/pic/"+obj.imgSrc1;
+                                var imgSrc = "http://interesting.zooori.cn/pic/"+obj.imgSrc2;
                                 var error = "../image/error1.png";
                                 $('#animateWrap').append('<div onclick="toDetail('+obj.type+','+obj.id+')" class="col-sm-3">\n' +
                                     '\t\t\t\t\t<div class="pricing">\n' +
@@ -185,7 +185,7 @@ $(function () {
                 if(name.length>7){
                     name = name.substring(0,7)+"...";
                 }
-                var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
+                var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc2;
                 var error = "../image/error1.png";
                 //var description = obj.description.substring(0,15)+"...";
                 var imgId = "IMG-"+i;
