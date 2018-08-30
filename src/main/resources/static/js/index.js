@@ -31,6 +31,14 @@ function swalInfo(title,msg,type){
     swal(title,msg,type);
 }
 
+function loading(flag) {
+    if(flag){
+        $('#loading').show();
+    }else{
+        $('#loading').hide();
+    }
+}
+
 var clicCount = 0;
 function isHide() {
 

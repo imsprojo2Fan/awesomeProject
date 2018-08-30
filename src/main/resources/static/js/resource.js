@@ -103,8 +103,9 @@ function refresh(pageNow,pageSize) {
             pageSize:pageSize
         },
         beforeSend:function(){
-            $("body").parent().css("overflow-y","hidden");
-            $('#loading').fadeIn(200);
+            //$("body").parent().css("overflow-y","hidden");
+            //$('#loading').fadeIn(200);
+            window.parent.loading(true);
         },
         success : function(r,status) {
             if (status == "success") {
@@ -130,7 +131,7 @@ function refresh(pageNow,pageSize) {
                     $('#content').append('<div class="col-sm-2">\n' +
                         '                                            <div class="team fa-border" style="padding: 30px">\n' +
                         '                                                <div class="team-img">\n' +
-                        '                                                    <img style="cursor: pointer" onclick="edit('+i+')" onerror=src="'+error+'" title="'+obj.name+'" class="img-responsive " src="'+imgSrc+'" alt="图片加载失败">\n' +
+                        '                                                    <img style="cursor: pointer" onclick="edit('+i+')" onerror=src="'+error+'" title="'+obj.name+'" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
                         '                                                </div>\n' +
                         '                                                <div class="team-content">\n' +
                         '                                                    <h6>'+name+'</h6>\n' +
@@ -147,13 +148,19 @@ function refresh(pageNow,pageSize) {
                     loadData(r.recordsTotal);
                     loadpage();
                 }
+
+                $("img.lazy").lazyload({
+                    effect : "fadeIn",
+                    placeholder : "../image/loading.gif"
+                });
             } else {
                 swal(r.msg,' ',"error");
             }
         },
         complete:function () {
             $("body").parent().css("overflow-y","auto");
-            $('#loading').fadeOut(200);
+            $('#loading').hide();
+            window.parent.loading(false);
         }
     });
 }
@@ -295,6 +302,7 @@ function add() {
         beforeSend:function(){
             $("body").parent().css("overflow-y","hidden");
             $('#loading').fadeIn(200);
+            window.parent.loading(true);
         },
         success : function(r) {
             if (r.code == 1) {
@@ -306,6 +314,7 @@ function add() {
         complete:function () {
             $("body").parent().css("overflow-y","auto");
             $('#loading').fadeOut(200);
+            window.parent.loading(false);
         }
     });
 }

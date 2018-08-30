@@ -75,41 +75,6 @@ $(function () {
             container: '#minirefresh',
             down: {
                 isLock:false,
-                /*callback: function() {
-                    alert(777);
-                    //console.log($(listDom.children[0]));
-                    //console.log(RefreshId);
-                    if(!RefreshId){
-                        return;
-                    }else{
-                        $.post("/index/resource/list4refresh",{id:RefreshId},function (r) {
-                            //.log(r);
-                            var dataArr = r.data;
-                            for(var i=0;i<r.data.length;i++){
-                                var obj = dataArr[i];
-                                if(i==0){
-                                    RefreshId = obj.id;
-                                }
-                                var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
-                                var error = "../image/error1.png";
-                                $(listDom.children[0]).before('<div class="col-sm-3" style="width: 95%;margin: 0 auto">\\n\' +\n' +
-                                    '                                <div onclick="toDetail('+obj.type+','+obj.id+')" class="blog">\\n\' +\n' +
-                                    '                                <div class="blog-img">\\n\' +\n' +
-                                    '                                <img onerror=src="'+error+'" style="width: 85%;margin: 0 auto" class="img-responsive" src="'+imgSrc+'" alt="图片加载失败">\\n\' +\n' +
-                                    '                                </div>\\n\' +\n' +
-                                    '                                <div class="blog-content">\\n\' +\n' +
-                                    '                                <br/><h4>'+obj.name+'</h4>\\n\' +\n' +
-                                    '                                <a href="javascript:void(0)">查看详情</a>\\n\' +\n' +
-                                    '                                </div>\\n\' +\n' +
-                                    '                                </div>\\n\' +\n' +
-                                    '                                </div>')
-                            }
-                        });
-                        //miniRefresh.endDownLoading(true);
-                        miniRefresh.resetSecretGarden();
-                    }
-
-                },*/
                 // 本主题独有的效果
                 secretGarden: {
                     // 是否开启秘密花园（即类似淘宝二楼效果）
@@ -128,6 +93,7 @@ $(function () {
                             miniRefresh.resetSecretGarden();
                             return;
                         }else{
+                            preLoading();
                             $.post("/index/resource/list4refresh",{id:RefreshId},function (r) {
                                 //console.log(r);
                                 var dataArr = r.data;
@@ -138,10 +104,11 @@ $(function () {
                                     }
                                     var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
                                     var error = "../image/error1.png";
+                                    var imgId = "IMG-"+i;
                                     $(listDom.children[0]).before('<div class="col-sm-3" style="width: 95%;margin: 0 auto">' +
                                         '<div onclick="toDetail('+obj.type+','+obj.id+')" class="blog">' +
                                         '<div class="blog-img">' +
-                                        '<img onerror=src="'+error+'" style="width: 85%;margin: 0 auto" class="img-responsive" src="'+imgSrc+'" alt="图片加载失败">' +
+                                        '<img id="'+imgId+'" onerror=src="'+error+'" style="width: 85%;margin: 0 auto" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">' +
                                         '</div>' +
                                         '<div class="blog-content">' +
                                         '<br/><h4>'+obj.name+'</h4>' +
@@ -156,6 +123,11 @@ $(function () {
                                 $('.img-responsive').css("max-width","75%");
                                 $('.img-responsive').css("margin","0 auto");
                             }
+
+                            /*$("img.lazy").lazyload({
+                                effect : "fadeIn",
+                                placeholder : "../image/loading.gif"
+                            });*/
                         }
                     }
                 }
@@ -163,7 +135,7 @@ $(function () {
             up: {
                 isAuto: true,
                 callback: function() {
-
+                    preLoading();
                     GlobalPageNow++;
                     $.post("/index/resource/list",{pageNow:GlobalPageNow,pageSize:10,key:GlobalKey},function (r) {
                         //console.log(r);
@@ -178,10 +150,11 @@ $(function () {
                             }
                             var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
                             var error = "../image/error1.png";
+                            var imgId = "IMG-"+i;
                             $('#listData').append('<div class="col-sm-3" style="width: 95%;margin: 0 auto">\n' +
                                 '\t\t\t\t\t<div onclick="toDetail('+obj.type+','+obj.id+')" class="blog">\n' +
                                 '\t\t\t\t\t\t<div class="blog-img">\n' +
-                                '\t\t\t\t\t\t\t<img onerror=src="'+error+'" style="width: 85%;margin: 0 auto" class="img-responsive" src="'+imgSrc+'" alt="图片加载失败">\n' +
+                                '\t\t\t\t\t\t\t<img id="'+imgId+'" onerror=src="'+error+'" style="width: 85%;margin: 0 auto" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
                                 '\t\t\t\t\t\t</div>\n' +
                                 '\t\t\t\t\t\t<div class="blog-content">\n' +
                                 '\t\t\t\t\t\t\t<br/><h4>'+obj.name+'</h4>\n' +
@@ -195,6 +168,11 @@ $(function () {
                             $('.img-responsive').css("max-width","75%");
                             $('.img-responsive').css("margin","0 auto");
                         }
+
+                        /*$("img.lazy").lazyload({
+                            effect : "fadeIn",
+                            placeholder : "../image/loading.gif"
+                        });*/
                     });
 
                 }
@@ -222,6 +200,8 @@ $(function () {
 
 function listItem(pageNow,pageSize) {
 
+    preLoading();
+    $("#preloader").fadeIn();
     $.post("/index/resource/list",{pageNow:pageNow,pageSize:pageSize},function (r) {
         //console.log(r);
 
@@ -253,22 +233,30 @@ function listItem(pageNow,pageSize) {
             }
             var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
             //var description = obj.description.substring(0,15)+"...";
+            var imgId = "IMG-"+i;
             var error = "../image/error1.png";
             $('#itemWrap').append('<div class="col-sm-3">\n' +
                 '\t\t\t\t\t<div title="'+obj.name+'" onclick="toDetail('+obj.type+','+obj.id+')" class="blog">\n' +
                 '\t\t\t\t\t\t<div class="blog-img">\n' +
-                '\t\t\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive" src="'+imgSrc+'" alt="图片加载失败">\n' +
+                '\t\t\t\t\t\t\t<img id="'+imgId+'" onerror=src="'+error+'" class="img-responsive lazy" data-original="'+imgSrc+'"  src="'+imgSrc+'" alt="图片加载失败">\n' +
                 '\t\t\t\t\t\t</div>\n' +
                 '\t\t\t\t\t\t<div class="blog-content">\n' +
                 '\t\t\t\t\t\t\t<h5>'+name+'</h5>\n' +
                 '\t\t\t\t\t\t\t<a href="javascript:void(0)">查看详情</a>\n' +
                 '\t\t\t\t\t\t</div>\n' +
                 '\t\t\t\t\t</div>\n' +
-                '\t\t\t\t</div>')
+                '\t\t\t\t</div>');
         }
+
         if(pageNow===1&&r.recordsTotal!=0){
             loadData(r.recordsTotal);
             loadpage();
+        }
+        if(!isPhone()){
+            $("img.lazy").lazyload({
+                effect : "fadeIn",
+                placeholder : "../image/loading.gif"
+            });
         }
 
         category();
@@ -285,12 +273,15 @@ function listItem(pageNow,pageSize) {
 
 function list4search(pageNow,pageSize,key) {
 
+    preLoading();
+
     if(isPhone()){
         GlobalPageNow = 0;
         GlobalKey = key;
         miniRefresh.refreshOptions({down:{isLock:true}});//锁定不可下拉刷新
         miniRefresh.triggerUpLoading();//触发上拉效果
     }else{
+        $("#preloader").fadeIn();
         $.post("/index/resource/list4search",{pageNow:pageNow,pageSize:pageSize,key:key},function (r) {
             //console.log(r);
 
@@ -307,10 +298,11 @@ function list4search(pageNow,pageSize,key) {
                 var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
                 //var description = obj.description.substring(0,15)+"...";
                 var error = "../image/error1.png";
+                var imgId = "IMG-"+i;
                 $('#itemWrap').append('<div class="col-sm-3">\n' +
                     '\t\t\t\t\t<div onclick="toDetail('+obj.type+','+obj.id+')" class="blog">\n' +
                     '\t\t\t\t\t\t<div class="blog-img">\n' +
-                    '\t\t\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive" src="'+imgSrc+'" alt="图片加载失败">\n' +
+                    '\t\t\t\t\t\t\t<img id="'+imgId+'" onerror=src="'+error+'" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
                     '\t\t\t\t\t\t</div>\n' +
                     '\t\t\t\t\t\t<div class="blog-content">\n' +
                     '\t\t\t\t\t\t\t<h5>'+obj.name+'</h5>\n' +
@@ -326,6 +318,13 @@ function list4search(pageNow,pageSize,key) {
             category();
             aside("views");
 
+            if(!isPhone()){
+                $("img.lazy").lazyload({
+                    effect : "fadeIn",
+                    placeholder : "../image/loading.gif"
+                });
+            }
+
         });
     }
 }
@@ -339,6 +338,11 @@ function toMore(type) {
 }
 
 function category() {
+
+    if(isPhone()){
+        return;
+    }
+
     //获取目录概览数据
     $.post("/index/resource/category",{},function (r) {
         //console.log(r);
@@ -365,6 +369,11 @@ function category() {
 }
 
 function aside(col) {
+
+    if(isPhone()){
+        return;
+    }
+
     //获取最多观看数据
     $.post("/index/resource/list4order",{col:col},function (r) {
         //console.log(r);
@@ -404,7 +413,6 @@ function aside(col) {
         }
     });
 
-    $("#preloader").delay(300).fadeOut();
 }
 
 function toDetail(type,itemId) {
@@ -446,5 +454,15 @@ function searchResource() {
 function request() {
     addCookie("request","request",1,"/");
     window.location.href = "/";
+}
+
+function preLoading() {
+    var interval = setInterval(function () {
+        var imgHeight = $('#IMG-0').height();
+        if(imgHeight>10){
+            $("#preloader").fadeOut(200);
+            window.clearInterval(interval);
+        }
+    },10);
 }
 

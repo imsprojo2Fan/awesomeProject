@@ -111,6 +111,18 @@
 </head>
 
 <body>
+
+	<!-- Preloader -->
+	<div id="preloader">
+		<div class="preloader">
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+	</div>
+	<!-- /Preloader -->
+
     <div style="display: none;width: 128px" id='qrcode'></div>
 	<input id="copy" type="hidden">
 
@@ -185,7 +197,7 @@
 							<div class="blog-img">
 								<div>
 									<div id="play" title="播放" style="position: absolute;z-index: 11;left: 95px;top: 150px"><img onclick="switchWindow()" style="cursor: pointer" width="50%" src="../image/play.png"></div>
-									<img id="img"  style="width: 30%;float: left;padding-right: 15px" class="img-responsive" src="../image/default.jpg" onerror=src="../image/error.png" alt="图片加载失败">
+									<img id="img"  style="width: 30%;float: left;padding-right: 15px" class="img-responsive lazy" data-original="../image/default.jpg" src="../image/default.jpg" onerror=src="../image/error.png" alt="图片加载失败">
 								</div>
 								<div >
 									<h2 id="name"></h2>
@@ -459,19 +471,9 @@
 	<div id="back-to-top"></div>
 	<!-- /Back to top -->
 
-	<!-- Preloader -->
-	<div id="preloader">
-		<div class="preloader">
-			<span></span>
-			<span></span>
-			<span></span>
-			<span></span>
-		</div>
-	</div>
-	<!-- /Preloader -->
-
 	<!-- jQuery Plugins -->
 	<script src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/lazy_load.js"></script>
 	<script type="text/javascript" src="../plugins/index/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="../plugins/index/js/owl.carousel.min.js"></script>
 	<script type="text/javascript" src="../plugins/index/js/jquery.magnific-popup.js"></script>

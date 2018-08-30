@@ -84,11 +84,21 @@ $(function () {
 
     getItem("");
 
+    $("img.lazy").lazyload({
+        effect : "fadeIn",
+        placeholder : "../image/loading.gif"
+    });
+
+
 });
 
 function getItem(id) {
 
-    $("#preloader").delay(300).fadeIn();
+    $("#preloader").fadeIn(200);
+
+    preLoading();
+
+    //preLoading();
 
     $.post("/index/resource/list4item",{id,id},function (r) {
         //debugger
@@ -120,6 +130,7 @@ function getItem(id) {
             $('#name').html(obj.name);
             var imgSrc = "https://interesting.zooori.cn/pic/"+obj.imgSrc1;
             $('#img').attr('src',imgSrc);
+            $('#img').attr("data-original",imgSrc);
             $('#director').html("导演："+obj.director);
             var actor = obj.actor;
             if(actor.length>25){
@@ -294,8 +305,10 @@ function getItem(id) {
                 }*/
             }
         }
-        category();
-        aside("views");
+        if(!id){
+            category();
+            aside("views");
+        }
         //获取评论列表
         list4comment(GlobalId,1,10);
         makeCode(GlobalRid);
@@ -304,6 +317,8 @@ function getItem(id) {
     //初始化资源信息
     $('#playBtn').html('<i class="fa fa-angle-double-left"></i>返回详情');
     $('#playBtn').click();
+
+    //$("#preloader").delay(300).fadeOut();
 
 }
 
@@ -341,6 +356,11 @@ function request() {
 }
 
 function category() {
+
+    if(isPhone()){
+        return;
+    }
+
     //获取目录概览数据
     $.post("/index/resource/category",{},function (r) {
         //console.log(r);
@@ -367,6 +387,11 @@ function category() {
 }
 
 function aside(col) {
+
+    if(isPhone()){
+        return;
+    }
+
     //获取最多观看数据
     $.post("/index/resource/list4order",{col:col},function (r) {
         //console.log(r);
@@ -406,7 +431,7 @@ function aside(col) {
         }
     });
     $("[data-toggle='tooltip']").tooltip();
-    $("#preloader").delay(300).fadeOut();
+
 }
 
 function toMore(type) {
@@ -518,7 +543,7 @@ function share() {
 }
 
 function makeCode(rid) {
-    var url = "http://awesome.zooori.cn/index/resource/share?v="+rid;
+    var url = "https://interesting.zooori.cn/index/resource/share?v="+rid;
     var qrcode = new QRCode("qrcode", {
         text: url,
         width: 128,
@@ -819,4 +844,16 @@ function getDateDiff (dateStr) {
     }else if (d_days >= 30) {
         return Y + '-' + M + '-' + D + '&nbsp;' + H + ':' + m;
     }
+}
+
+function preLoading() {
+    //$('#preloader').fadeIn(200);
+    var interval = setInterval(function () {
+        var src = $('#img').attr('src');
+        //console.log(src);
+        if(src.indexOf("zooori")>0){
+            $("#preloader").fadeOut(200);
+            window.clearInterval(interval);
+        }
+    },10);
 }
