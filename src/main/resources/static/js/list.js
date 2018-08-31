@@ -457,6 +457,12 @@ function request() {
 }
 
 function preLoading() {
+
+    //返回顶部
+    $('body,html').animate({
+        scrollTop: 0
+    }, 300);
+
     var interval = setInterval(function () {
         var imgHeight = $('#IMG-0').height();
         if(imgHeight>10){

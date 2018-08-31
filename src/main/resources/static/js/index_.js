@@ -1,9 +1,10 @@
 jQuery(document).ready(function() {
-
     RevolutionSlider.initRSfullWidth();
 });
 
-
+window.onload = function(){
+    $("#preloader").fadeOut(200);
+}
 
 $(document).ready(function(){
 
@@ -185,7 +186,7 @@ $(function () {
                 if(name.length>7){
                     name = name.substring(0,7)+"...";
                 }
-                var imgSrc = ""+obj.imgSrc2;
+                var imgSrc = obj.imgSrc2;
                 var error = "../image/error1.png";
                 //var description = obj.description.substring(0,15)+"...";
                 var imgId = "IMG-"+i;
@@ -208,7 +209,7 @@ $(function () {
     var interval = setInterval(function () {
         var imgHeight = $('#IMG-0').height();
         if(imgHeight>10){
-            $("#preloader").delay(300).fadeOut();
+            //$("#preloader").delay(300).fadeOut();
             window.clearInterval(interval);
         }
     },10);

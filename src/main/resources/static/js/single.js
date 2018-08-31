@@ -492,6 +492,10 @@ function switchWindow() {
                         sequence = "0"+sequence;
                     }
                     $('#title').html(name+"-"+sequence);
+                    //添加选中状态
+                    var dom = $('#seriesWrap a')[0];
+                    $(dom).css("color","#fff");
+                    $(dom).css("background","#6195FF");
                 }
             }
         }
@@ -626,6 +630,22 @@ function action(type) {
 }
 
 function toSeries(index) {
+
+    $('#seriesWrap a').each(function (index2) {//移除选中状态
+
+        if(index==index2){
+            //添加选中状态
+            $(this).css("color","#fff");
+            $(this).css("background","#6195FF");
+        }else{
+            $(this).css("color","#10161A");
+            $(this).css("background","#F4F4F4");
+        }
+
+    });
+
+
+
     $('#tipPlay').hide();
     var obj = GlobalDataArr[index];
     console.log(obj);

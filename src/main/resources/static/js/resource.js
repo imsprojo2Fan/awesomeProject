@@ -163,6 +163,11 @@ function refresh(pageNow,pageSize) {
             window.parent.loading(false);
         }
     });
+
+    //返回顶部
+    $('body,html').animate({
+        scrollTop: 0
+    }, 300);
 }
 
 function reset() {
