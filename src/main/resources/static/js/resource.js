@@ -313,6 +313,7 @@ function add() {
         },
         success : function(r) {
             if (r.code == 1) {
+                reset();
                 self.location.reload();
             } else {
                 swal(r.msg,' ',"error");
