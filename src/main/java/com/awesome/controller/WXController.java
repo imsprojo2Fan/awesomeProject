@@ -126,19 +126,13 @@ public class WXController {
 	@ApiOperation(value="查询刷新", notes="查询刷新")
 	@ResponseBody
 	@RequestMapping(value = "/resource/list4refresh", method = RequestMethod.POST)
-	public Object list4refresh (HttpSession session,HttpServletResponse response,@RequestBody Map<String, Object> params){
+	public Object list4refresh (HttpServletResponse response,@RequestBody Map<String, Object> params){
 
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		JSONObject rJson = new JSONObject(params);
-
 		String id = rJson.getString("id");
-
-		String 	type = (String) session.getAttribute("type");
-		if(StringUtils.isEmpty(type)){
-			type = "1";
-		}
+		String 	type = rJson.getString("type");
 		init();
-
 		qMap.put("type",type);
 		qMap.put("id",id);
 		rList = service.list4refresh(qMap);
@@ -300,7 +294,7 @@ public class WXController {
 
 		Map map = new HashMap();
 
-		String type = (String) session.getAttribute("type");
+		String type = rJson.getString("type");
 		if(StringUtils.isEmpty(type)){
 			type = "1";
 		}
