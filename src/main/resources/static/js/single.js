@@ -142,7 +142,7 @@ function getItem(id) {
             $('#views').html(obj.views);
             $('#collects').html(obj.collects);
             $('#likes').html(obj.likes);
-            $('#comments').html("("+obj.comments+")");
+            //$('#comments').html("("+obj.comments+")");
             if(obj.comments==0){
                 $('#commentWrap').html("<p style='margin-left: 6px'>暂无评论</p>");
             }
@@ -310,7 +310,7 @@ function getItem(id) {
             aside("views");
         }
         //获取评论列表
-        list4comment(GlobalId,1,10);
+        list4comment(GlobalId,1,1000);
         makeCode(GlobalRid);
     });
 
@@ -500,7 +500,6 @@ function switchWindow() {
             }
         }
 
-
         $('#playBtn').html('<i class="fa fa-angle-double-left"></i>返回详情');
         $('#iframe').show();
         if(GlobalVideoSrc){
@@ -611,6 +610,8 @@ function comment() {
     }
     $.post("/index/comment/add",{rid:GlobalId,nickName:nickName,email:email,content:content,count:$('#comments').html()},function (r) {
         if(r.code==1){
+            //获取评论列表
+            list4comment(GlobalId,1,1000);
             $('#nickName').val("");
             $('#email').val("");
             $('#content').val("");
@@ -778,7 +779,7 @@ function list4comment(id,pageNow,pageSize) {
     $.post("/index/comment/list",{id:id,pageNow:pageNow,pageSize:pageSize},function (r) {
         console.log(r);
         var dataArr = r.data;
-        var count = r.count;
+        $('#comments').html("("+r.count+")");
         $('#commentWrap').html("");
         for(var i=0;i<dataArr.length;i++){
             var obj = dataArr[i];
