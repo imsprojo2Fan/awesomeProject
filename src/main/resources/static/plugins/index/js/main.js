@@ -54,6 +54,9 @@
 		wScroll > 200 ? $('#back-to-top').fadeIn() : $('#back-to-top').fadeOut();
 
         // Search Appear
+        wScroll > 200 ? $('#qr4code').fadeIn() : $('#qr4code').fadeOut();
+
+        // Search Appear
         wScroll > 200 ? $('#search').fadeIn() : $('#search').fadeOut();
 	});
 
@@ -124,4 +127,15 @@ function search() {
     }).then(function(email) {
 
     });
+}
+
+function qr4code() {
+    swal({
+        title: '看风了风',
+        text: '扫码进群可获得更多资源信息',
+        imageUrl: 'http://awesome.zooori.cn/pic/qr4code.jpg',
+        imageWidth: 275,
+        imageHeight: 335,
+        animation: false
+    })
 }

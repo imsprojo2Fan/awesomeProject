@@ -1691,7 +1691,7 @@ header {
 #search {
     display:none;
     position: fixed;
-    bottom: 90px;
+    bottom: 140px;
     right: 20px;
     width: 50px;
     height: 50px;
@@ -1707,6 +1707,32 @@ header {
 }
 
 #search:hover {
+    opacity: 0.8;
+}
+
+/*------------------------------------*\
+	qr4code
+\*------------------------------------*/
+
+#qr4code {
+    display:none;
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background: #6195FF;
+    border-radius:3px;
+    color: #FFF;
+    z-index: 1059;
+    -webkit-transition: 0.2s opacity;
+    transition: 0.2s opacity;
+    cursor: pointer;
+}
+
+#qr4code:hover {
     opacity: 0.8;
 }
 
