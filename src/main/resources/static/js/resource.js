@@ -249,6 +249,7 @@ function add() {
     var Orders = "";
     var videoSrcArr = "";
     var phoneSrcArr = "";
+    var m3u8Arr = "";
     var bdUrlArr = "";
     var xlUrlArr1 = "";
     var xlUrlArr2 = "";
@@ -278,6 +279,9 @@ function add() {
 
         var a6 = obj.phoneSrc;
         phoneSrcArr = phoneSrcArr+","+a6;
+
+        var a7 = obj.m3u8;
+        m3u8Arr = m3u8Arr+","+a7;
     }
 
     $.ajax({
@@ -304,7 +308,8 @@ function add() {
             a3:xlUrlArr1,
             a4:xlUrlArr2,
             a5:xlUrlArr3,
-            a6:phoneSrcArr
+            a6:phoneSrcArr,
+            a7:m3u8Arr
         },
         beforeSend:function(){
             $("body").parent().css("overflow-y","hidden");
@@ -350,6 +355,7 @@ function edit(index_) {
             obj_.sequence = obj.sequence;
             obj_.videoSrc = obj.videoSrc;
             obj_.phoneSrc = obj.phoneSrc;
+            obj_.m3u8 = obj.m3u8;
             obj_.bdUrl = obj.bdUrl;
             obj_.xlUrl1 = obj.xlUrl1;
             obj_.xlUrl2 = obj.xlUrl2;
@@ -400,7 +406,7 @@ function edit(index_) {
     $('#edit_description').val(obj.description);
     $('#edit_picVal').val(obj.imgSrc1);
     var imgSrc = obj.imgSrc2;
-    $('#edit_pic').html('<img width="6%" style="float: right;min-height: 75px;margin-top: -35px;" class="img-responsive" src="'+imgSrc+'">');
+    $('#edit_pic').html('<img width="6%" style="float: right;min-height: 75px;margin-top: -35px;" src="'+imgSrc+'">');
     $('#edit_imgSrc2').val(obj.imgSrc2);
     $('#nav1').hide();
     $('#list').hide();
@@ -546,6 +552,7 @@ function itemConfirm(){
         obj.order = $('#item_order').val().trim();
         obj.videoSrc = $('#item_videoSrc').val().trim();
         obj.phoneSrc = $('#item_phoneSrc').val().trim();
+        obj.m3u8 = $('#item_m3u8').val().trim();
         obj.bdUrl = $('#item_bdUrl').val().trim();
         obj.xlUrl1 = $('#item_xlUrl1').val().trim();
         obj.xlUrl2 = $('#item_xlUrl2').val().trim();
@@ -563,6 +570,7 @@ function itemConfirm(){
         obj.order = $('#item_order').val().trim();
         obj.videoSrc = $('#item_videoSrc').val().trim();
         obj.phoneSrc = $('#item_phoneSrc').val().trim();
+        obj.m3u8 = $('#item_m3u8').val().trim();
         obj.bdUrl = $('#item_bdUrl').val().trim();
         obj.xlUrl1 = $('#item_xlUrl1').val().trim();
         obj.xlUrl2 = $('#item_xlUrl2').val().trim();
@@ -586,6 +594,7 @@ function editItem(index) {
     $('#item_order').val(item.order);
     $('#item_videoSrc').val(item.videoSrc);
     $('#item_phoneSrc').val(item.phoneSrc);
+    $('#item_m3u8').val(item.m3u8);
     $('#item_bdUrl').val(item.bdUrl);
     $('#item_xlUrl1').val(item.xlUrl1);
     $('#item_xlUrl2').val(item.xlUrl2);
@@ -630,6 +639,7 @@ function resetItem(){
     $('#itemId').val("");
     $('#item_videoSrc').val("无资源链接");
     $('#item_phoneSrc').val("无资源链接");
+    $('#item_m3u8').val("无资源链接");
     $('#item_bdUrl').val("无资源链接");
     $('#item_xlUrl1').val("无资源链接");
     $('#item_xlUrl2').val("无资源链接");
@@ -656,6 +666,7 @@ function itemConfirm2(){
             sequence:$('#item_order2').val().trim(),
             videoSrc:$('#item_videoSrc2').val().trim(),
             phoneSrc:$('#item_phoneSrc2').val().trim(),
+            m3u8:$('#item_m3u82').val().trim(),
             bdUrl:$('#item_bdUrl2').val().trim(),
             xlUrl1:$('#item_xlUrl12').val().trim(),
             xlUrl2:$('#item_xlUrl22').val().trim(),
@@ -672,6 +683,7 @@ function itemConfirm2(){
             sequence:$('#item_order2').val().trim(),
             videoSrc:$('#item_videoSrc2').val().trim(),
             phoneSrc:$('#item_phoneSrc2').val().trim(),
+            m3u8:$('#item_m3u82').val().trim(),
             bdUrl:$('#item_bdUrl2').val().trim(),
             xlUrl1:$('#item_xlUrl12').val().trim(),
             xlUrl2:$('#item_xlUrl22').val().trim(),
@@ -703,6 +715,7 @@ function editItem2(index) {
     $('#item_order2').val(item.sequence);
     $('#item_videoSrc2').val(item.videoSrc);
     $('#item_phoneSrc2').val(item.phoneSrc);
+    $('#item_m3u82').val(item.m3u8);
     $('#item_bdUrl2').val(item.bdUrl);
     $('#item_xlUrl12').val(item.xlUrl1);
     $('#item_xlUrl22').val(item.xlUrl2);
@@ -733,6 +746,7 @@ function resetItem2(){
     $('#item_order2').val("");
     $('#item_videoSrc2').val("无资源链接");
     $('#item_phoneSrc2').val("无资源链接");
+    $('#item_m3u82').val("无资源链接");
     $('#item_bdUrl2').val("无资源链接");
     $('#item_xlUrl12').val("无资源链接");
     $('#item_xlUrl22').val("无资源链接");

@@ -1,17 +1,18 @@
 package com.awesome.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.awesome.config.JsonResult;
-import com.awesome.model.Comment;
-import com.awesome.model.Feedback;
-import com.awesome.model.Resource;
-import com.awesome.model.Wishes;
+import com.awesome.model.*;
 import com.awesome.service.*;
 import com.awesome.util.Md5Util;
+import com.awesome.util.OkHttpUtil;
 import com.awesome.util.SendMailUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -51,7 +52,13 @@ public class WXController {
 	private CommentService commentService;
 
 	@Autowired
+	private WXInfoService wxInfoService;
+
+	@Autowired
 	private SendMailUtil sendMail;
+
+	@Autowired
+	private RedisTemplate<String,Object> redisTemplate;
 
 	Map<String,Object> qMap = new HashMap<>();
 	List<List> tempList = new ArrayList<>();
@@ -63,6 +70,12 @@ public class WXController {
 	@Value("com.awesome.pageSize")
 	public static int PAGE_SIZE;
 	JsonResult r = new JsonResult();
+
+	@Value("${wx.appId}")
+	private String appId;
+
+	@Value("${wx.appSecret}")
+	private String appSecret;
 
 
 	/**
@@ -405,6 +418,45 @@ public class WXController {
 		return r;
 	}
 
+	@ApiOperation(value="反馈建议", notes="反馈建议")
+	@ResponseBody
+	@RequestMapping(value = "/feedback",method = RequestMethod.POST)
+	public Object feedback(HttpServletRequest request,HttpServletResponse response,@RequestBody Map<String, Object> params){
+
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		JSONObject rJson = new JSONObject(params);
+
+		String ip = getLocalIp(request);
+		String nickName = rJson.getString("nickName");
+		String email = rJson.getString("email");
+		String type = rJson.getString("type");
+		String description = rJson.getString("description");
+		Wishes wishes = new Wishes();
+		wishes.setType(Integer.parseInt(type));
+		wishes.setIp(ip);
+		wishes.setEmail(email);
+		wishes.setName(nickName);
+		wishes.setDescription(description);
+		wishes.setCreated(new Date());
+		int res = wishesService.insertSelective(wishes);
+		if(res>0){
+
+			//执行发邮件操作
+			SimpleMailMessage message = new SimpleMailMessage();
+			message.setFrom("zooori@foxmail.com");
+			message.setTo("imsprojo2fan@foxmail.com");
+			message.setSubject("[看风了风]反馈建议");
+			String md5Mail = Md5Util.getMD5WithSalt(email);
+			String link = "ip:"+ip+"\n昵称:"+nickName+"\n邮箱:"+email+"\n建议内容:"+description;
+			message.setText(link);
+			sendMail.asyncMethod(message,qMap,md5Mail,-1);
+
+			r.setCode(1);
+			r.setMsg("success");
+		}
+		return r;
+	}
+
 	@ApiOperation(value="评论", notes="评论")
 	@ResponseBody
 	@RequestMapping(value = "/comment/add",method = RequestMethod.POST)
@@ -466,6 +518,118 @@ public class WXController {
 		backMap.put("count",count);
 		backMap.put("data",rList);
 		return backMap;
+	}
+
+	@ApiOperation(value="通过code获取sessionId", notes="通过code获取sessionId")
+	@ResponseBody
+	@RequestMapping(value = "/code4session",method = RequestMethod.POST)
+	public Object code4session(HttpServletResponse response,@RequestBody Map<String, Object> params){
+
+		init();
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		JSONObject rJson = new JSONObject(params);
+		String code = rJson.getString("code");
+
+		code = Md5Util.getMD5WithSalt(code);
+
+		//redis缓存
+		ValueOperations<String,Object> redis = redisTemplate.opsForValue();
+		redis.set("sessionId",code);
+
+
+		//微信端登录code值
+		String wxCode = code;
+		Map<String, String> requestUrlParam = new HashMap<String, String>();
+		requestUrlParam.put("appid", appId);  //开发者设置中的appId
+		requestUrlParam.put("secret", appSecret); //开发者设置中的appSecret
+		requestUrlParam.put("js_code", wxCode); //小程序调用wx.login返回的code
+		requestUrlParam.put("grant_type", "authorization_code");    //默认参数 authorization_code
+
+		//发送post请求读取调用微信 https://api.weixin.qq.com/sns/jscode2session 接口获取openid用户唯一标识
+		String url = "https://api.weixin.qq.com/sns/jscode2session";
+		String result = OkHttpUtil.get(url,requestUrlParam);
+		return result;
+
+	}
+
+	@ApiOperation(value="解密微信加密数据", notes="解密微信加密数据")
+	@ResponseBody
+	@RequestMapping(value = "/decode",method = RequestMethod.POST)
+	public Object decode(HttpServletResponse response,@RequestBody Map<String, Object> params){
+
+		init();
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		JSONObject rJson = new JSONObject(params);
+		String sessionId = rJson.getString("sessionId");
+		String encryptedData = rJson.getString("encryptedData");
+		String iv = rJson.getString("iv");
+
+		if(StringUtils.isEmpty(sessionId)||StringUtils.isEmpty(encryptedData)||StringUtils.isEmpty(iv)){
+			backMap.put("msg","parameter error!");
+			return backMap;
+		}
+
+		//获取本地sessionId
+		ValueOperations<String,Object> redis = redisTemplate.opsForValue();
+		if(StringUtils.isEmpty(redis.get("sessionId"))){
+			backMap.put("msg","redis sessionId error!");
+			return backMap;
+		}
+
+		String lSessionId = redis.get("sessionId").toString();
+
+		if(!lSessionId.equals(sessionId)){
+			backMap.put("msg","redis sessionId not equal!");
+			return backMap;
+		}
+
+
+		return backMap;
+	}
+
+	@ApiOperation(value="存储微信用户信息", notes="存储微信用户信息")
+	@ResponseBody
+	@RequestMapping(value = "/save4wx",method = RequestMethod.POST)
+	public Object save4wx(HttpServletResponse response,@RequestBody Map<String, Object> params){
+
+		init();
+		int res = 0;
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		JSONObject rJson = new JSONObject(params);
+		String openid = rJson.getString("openid");
+		String nickName = rJson.getString("nickName");
+		String avatar = rJson.getString("avatar");
+		String gender = rJson.getString("gender");
+		String province = rJson.getString("province");
+		String city = rJson.getString("city");
+
+		WXInfo wxInfo = new WXInfo();
+		wxInfo.setOpenid(openid);
+		wxInfo.setNickname(nickName);
+		wxInfo.setGender(Integer.parseInt(gender));
+		wxInfo.setAvatar(avatar);
+		wxInfo.setProvince(province);
+		wxInfo.setCity(city);
+		wxInfo.setCreated(new Date());
+		//查询是否已存在
+		qMap.put("key","openid");
+		qMap.put("value",openid);
+		rList = wxInfoService.searchByKey(qMap);
+
+		if(rList.size()==0){
+			res = wxInfoService.insertSelective(wxInfo);
+		}else{
+			String id = rList.get(0).get("id").toString();
+			Integer id_ = Integer.parseInt(id);
+			wxInfo.setId(id_);
+			res = wxInfoService.updateByPrimaryKeySelective(wxInfo);
+		}
+
+		if(res>0){
+			r.setMsg("success");
+			r.setCode(1);
+		}
+		return r;
 	}
 
 

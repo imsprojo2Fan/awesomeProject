@@ -103,6 +103,10 @@ public class ResourceController {
 					phoneSrcStr = phoneSrcStr.substring(1,phoneSrcStr.length());
 					String[] phoneSrcArr = phoneSrcStr.split(",");
 
+					String m3u8Str = request.getParameter("a7");
+					m3u8Str = m3u8Str.substring(1,m3u8Str.length());
+					String[] m3u8Arr = m3u8Str.split(",");
+
 					for(int i=0;i<videoSrcArr.length;i++){
 						Map item = new HashMap();
 						item.put("rid",eid);
@@ -111,6 +115,7 @@ public class ResourceController {
 						item.put("sequence",orderArr[i]);
 						item.put("videoSrc",videoSrcArr[i]);
 						item.put("phoneSrc",phoneSrcArr[i]);
+						item.put("m3u8",m3u8Arr[i]);
 						item.put("bdUrl",bdArr[i]);
 						item.put("xlUrl1",xl1Arr[i]);
 						item.put("xlUrl2",xl2Arr[i]);

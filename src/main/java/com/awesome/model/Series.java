@@ -13,6 +13,8 @@ public class Series {
 
     private String phoneSrc;
 
+    private String m3u8;
+
     private String bdUrl;
 
     private String xlUrl1;
@@ -81,6 +83,14 @@ public class Series {
 
     public void setPhoneSrc(String phoneSrc) {
         this.phoneSrc = phoneSrc;
+    }
+
+    public String getM3u8() {
+        return m3u8;
+    }
+
+    public void setM3u8(String m3u8) {
+        this.m3u8 = m3u8;
     }
 
     public String getBdUrl() {

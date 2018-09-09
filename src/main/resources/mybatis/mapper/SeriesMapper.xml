@@ -7,6 +7,7 @@
     <result column="seriesName" property="seriesName" jdbcType="VARCHAR" />
     <result column="phoneSrc" property="phoneSrc" jdbcType="VARCHAR" />
     <result column="videoSrc" property="videoSrc" jdbcType="VARCHAR" />
+    <result column="m3u8" property="m3u8" jdbcType="VARCHAR" />
     <result column="bdUrl" property="bdUrl" jdbcType="VARCHAR" />
     <result column="xlUrl1" property="xlUrl1" jdbcType="VARCHAR" />
     <result column="xlUrl2" property="xlUrl2" jdbcType="VARCHAR" />
@@ -24,7 +25,7 @@
     <result column="created" property="created" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    sid,rid,seriesName,videoSrc,phoneSrc, bdUrl, xlUrl1, xlUrl2, xlUrl3, xlUrl4, xlUrl5, description,
+    sid,rid,seriesName,videoSrc,phoneSrc,m3u8, bdUrl, xlUrl1, xlUrl2, xlUrl3, xlUrl4, xlUrl5, description,
     seriesIsOn,sequence views, comments, collects, likes, updated, created
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -38,13 +39,13 @@
     where sid = #{sid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.awesome.model.Series" >
-    insert into series (sid,rid,seriesName, videoSrc,phoneSrc, bdUrl,
+    insert into series (sid,rid,seriesName, videoSrc,phoneSrc,m3u8, bdUrl,
       xlUrl1, xlUrl2,
       xlUrl3, xlUrl4, xlUrl5, 
       description, seriesIsOn,sequence, views,
       comments, collects, likes, 
       updated, created)
-    values (#{sid,jdbcType=INTEGER},#{rid,jdbcType=VARCHAR},#{seriesName,jdbcType=VARCHAR}, #{videoSrc,jdbcType=VARCHAR},#{phoneSrc,jdbcType=VARCHAR}, #{bdUrl,jdbcType=VARCHAR},
+    values (#{sid,jdbcType=INTEGER},#{rid,jdbcType=VARCHAR},#{seriesName,jdbcType=VARCHAR}, #{videoSrc,jdbcType=VARCHAR},#{phoneSrc,jdbcType=VARCHAR},#{m3u8,jdbcType=VARCHAR}, #{bdUrl,jdbcType=VARCHAR},
       #{xlUrl1,jdbcType=VARCHAR}, #{xlUrl2,jdbcType=VARCHAR},
       #{xlUrl3,jdbcType=VARCHAR}, #{xlUrl4,jdbcType=VARCHAR}, #{xlUrl5,jdbcType=VARCHAR}, 
       #{description,jdbcType=VARCHAR}, #{seriesIsOn,jdbcType=INTEGER},#{sequence,jdbcType=INTEGER}, #{views,jdbcType=INTEGER},
@@ -71,6 +72,9 @@
 
       <if test="phoneSrc != null" >
         phoneSrc,
+      </if>
+      <if test="m3u8 != null" >
+        m3u8,
       </if>
       <if test="bdUrl != null" >
         bdUrl,
@@ -134,6 +138,9 @@
       <if test="phoneSrc != null" >
         #{phoneSrc,jdbcType=VARCHAR},
       </if>
+      <if test="m3u8 != null" >
+        #{m3u8,jdbcType=VARCHAR},
+      </if>
       <if test="bdUrl != null" >
         #{bdUrl,jdbcType=VARCHAR},
       </if>
@@ -193,6 +200,9 @@
       <if test="phoneSrc != null" >
         phoneSrc = #{phoneSrc,jdbcType=VARCHAR},
       </if>
+      <if test="m3u8 != null" >
+        m3u8 = #{m3u8,jdbcType=VARCHAR},
+      </if>
       <if test="bdUrl != null" >
         bdUrl = #{bdUrl,jdbcType=VARCHAR},
       </if>
@@ -246,6 +256,7 @@
     set seriesName = #{seriesName,jdbcType=VARCHAR},
       videoSrc = #{videoSrc,jdbcType=VARCHAR},
       phoneSrc = #{phoneSrc,jdbcType=VARCHAR},
+      m3u8 = #{m3u8,jdbcType=VARCHAR},
       bdUrl = #{bdUrl,jdbcType=VARCHAR},
       xlUrl1 = #{xlUrl1,jdbcType=VARCHAR},
       xlUrl2 = #{xlUrl2,jdbcType=VARCHAR},
@@ -289,7 +300,7 @@
 
   <insert id ="insertBatch" parameterType="java.util.List" >
     insert into series
-    (rid,seriesName,videoSrc,phoneSrc, bdUrl, xlUrl1,xlUrl2,xlUrl3,xlUrl4,xlUrl5,description,
+    (rid,seriesName,videoSrc,phoneSrc,m3u8, bdUrl, xlUrl1,xlUrl2,xlUrl3,xlUrl4,xlUrl5,description,
       seriesIsOn,sequence,views,comments,collects,likes,created)
     values
     <foreach collection ="list" item="item" index= "index" separator =",">
@@ -298,6 +309,7 @@
       #{item.seriesName},
       #{item.videoSrc},
       #{item.phoneSrc},
+      #{item.m3u8},
       #{item.bdUrl},
       #{item.xlUrl1},
       #{item.xlUrl2},
