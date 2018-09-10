@@ -132,7 +132,7 @@ function search() {
 function qr4code() {
     swal({
         title: '看风了风',
-        text: '扫码进群可获得更多资源信息',
+        text: '扫码进群获取更多分享资源信息',
         imageUrl: 'http://awesome.zooori.cn/pic/qr4code.jpg',
         imageWidth: 275,
         imageHeight: 335,

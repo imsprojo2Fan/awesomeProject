@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>电视管理</title>
+    <!-- ========== Css Files ========== -->
+    <link href="../../css/root.css" rel="stylesheet">
+    <style>
+        html{
+            overflow-y:auto;
+        }
+        .content{
+            padding-top:165px;
+        }
+        /*下拉框宽度设置*/
+        .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+            width: 140px;
+            height: 34px;
+        }
+        .red{
+            color: red;
+        }
+        .col-center-block {
+            float: none;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .modal-dialog{
+            /*margin-left:35%;*/
+        }
+        #tip{
+            color: red;
+            font-size: 12px;
+        }
+
+        .transparent_class {
+            filter:alpha(opacity=85);
+            -moz-opacity:0.85;
+            -khtml-opacity: 0.85;
+            opacity: 0.85;
+        }
+    </style>
+</head>
+<body style="padding-bottom: 8%">
+<div id="loading" class="loading-wrap">
+    <div class="loader" >
+        <div class="la-ball-clip-rotate-multiple la-3x">
+            <div></div>
+            <div></div>
+        </div>
+        <div class="loaderTxt">数据交互中...</div>
+    </div>
+</div>
+
+<div style="position: fixed;top:0px;width: 100%;z-index: 99">
+
+    <div class="transparent_class" id="blank" style="width: 100%;height: 60px;background-color:#6195FF"></div>
+    <!-- Start Page Header -->
+    <div class="page-header" style="margin: 0 0">
+        <h1 class="title">电视管理</h1>
+        <ol class="breadcrumb">
+            <li><a class="active" href="javascript:void(0)">数据列表</a></li>
+            <li><a href="javascript:void(0)">新增数据</a></li>
+        </ol>
+    </div>
+
+</div>
+
+<!-- //////////////////////////////////////////////////////////////////////////// -->
+<!-- START CONTENT -->
+<div class="content">
+
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+    <!-- START CONTAINER -->
+    <div class="container-padding" >
+
+        <!-- Start Row -->
+        <div class="row">
+
+            <!-- Start Panel -->
+            <div id="panel" class="col-sm-12">
+                <div class="panel panel-default">
+                    <div id="tab1" class="panel-body table-responsive">
+                        <table id="myTable" class="table display">
+                            <thead>
+                            <tr>
+                                <th>频道名称</th>
+                                <th>所属类型</th>
+                                <th>所属地区</th>
+                                <th>创建时间</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="tab2" style="display: none">
+                        <div class="panel-body">
+                            <form class="form-horizontal">
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label form-label"></label>
+                                    <div class="col-sm-10">
+                                        <p class="form-control-static"></p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="name" class="col-sm-2 control-label form-label">频道名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" maxlength="20" style="ime-mode:disabled" id="name" onKeyUp="value=value.replace(/[^/a-zA-Z0-9]/g,'')" placeholder="频道名称">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label form-label">所属类型</label>
+                                    <div class="col-sm-6">
+                                        <select id="typeSelect" class="selectpicker" >
+                                            <option selected value="综合">综合</option>
+                                            <option value="新闻">新闻</option>
+                                            <option value="新闻">综艺</option>
+                                            <option value="财经">财经</option>
+                                            <option value="体育">体育</option>
+                                            <option value="其他">其他</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label form-label">所属地区分类</label>
+                                    <div class="col-sm-6">
+                                        <select id="areaSelect" class="selectpicker" >
+                                            <option selected value="新闻">央视</option>
+                                            <option value="新闻">省视</option>
+                                            <option value="财经">地方</option>
+                                            <option value="体育">港澳台</option>
+                                            <option value="其他">海外</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="imgSrc" class="col-sm-2 control-label form-label">图片地址</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"  style="ime-mode:disabled" id="imgSrc"  placeholder="图片地址">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="url1" class="col-sm-2 control-label form-label">播放线路1</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"  style="ime-mode:disabled" id="url1"  placeholder="播放线路1">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="url2" class="col-sm-2 control-label form-label">播放线路2</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"  style="ime-mode:disabled" id="url2"  placeholder="播放线路2">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="url3" class="col-sm-2 control-label form-label">播放线路3</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"  style="ime-mode:disabled" id="url3"  placeholder="播放线路3">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="url4" class="col-sm-2 control-label form-label">播放线路4</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"  style="ime-mode:disabled" id="url4"  placeholder="播放线路4">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="url5" class="col-sm-2 control-label form-label">播放线路5</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"  style="ime-mode:disabled" id="url5"  placeholder="播放线路5">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-6">
+                                        <a href="javascript:add()" class="btn btn-default">提交</a>&nbsp;&nbsp;
+                                        <a id="reset" href="javascript:reset()" class="btn btn-danger">重置</a>
+                                    </div>
+                                </div>
+
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Panel -->
+
+        </div>
+        <!-- End Row -->
+
+
+    </div>
+    <!-- END CONTAINER -->
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        查看详情
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="col-sm-offset-1">
+                        <p class="form-control-static" >频道名称：<span id="detail_name"></span></p>
+                    </div>
+                    <div class="col-sm-offset-1">
+                        <p class="form-control-static" >唯一识别：<span id="detail_tid"></span></p>
+                    </div>
+                    <div class="col-sm-offset-1">
+                        <p class="form-control-static" >所属类型：<span id="detail_type"></span></p>
+                    </div>
+                    <div class="col-sm-offset-1">
+                        <p class="form-control-static" >所属地区：<span id="detail_area"></span></p>
+                    </div>
+                    <div class="col-sm-offset-1">
+                        <p class="form-control-static" >播放线路1：<span id="detail_url1"></span></p>
+                    </div>
+                    <div class="col-sm-offset-1">
+                        <p class="form-control-static" >播放线路2：<span id="detail_url2"></span></p>
+                    </div>
+                    <div class="col-sm-offset-1">
+                        <p class="form-control-static" >播放线路3：<span id="detail_url3"></span></p>
+                    </div>
+                    <div class="col-sm-offset-1">
+                        <p class="form-control-static" >播放线路4：<span id="detail_url4"></span></p>
+                    </div>
+                    <div class="col-sm-offset-1">
+                        <p class="form-control-static" >播放线路5：<span id="detail_url5"></span></p>
+                    </div>
+                    <div class="col-sm-offset-1">
+                        <p class="form-control-static" >创建时间：<span id="detail_created"></span></p>
+                    </div>
+                    <div class="col-sm-offset-1">
+                        <p class="form-control-static" >最近一次更新：<span id="detail_updated"></span></p>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title" id="editModalLabel">
+                        编辑信息&nbsp;&nbsp;<span id="tip"></span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label form-label"></label>
+                            <div class="col-sm-10">
+                                <p class="form-control-static"></p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit_name" class="col-sm-2 control-label form-label">唯一识别</label>
+                            <div class="col-sm-10">
+                                <input type="hidden" id="edit_id">
+                                <input type="text" disabled class="form-control" maxlength="20" style="ime-mode:disabled" id="edit_tid" onKeyUp="value=value.replace(/[^/a-zA-Z0-9]/g,'')" placeholder="频道名称">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit_name" class="col-sm-2 control-label form-label">频道名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" maxlength="20" style="ime-mode:disabled" id="edit_name" onKeyUp="value=value.replace(/[^/a-zA-Z0-9]/g,'')" placeholder="频道名称">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label form-label">所属类型</label>
+                            <div class="col-sm-6">
+                                <select id="edit_typeSelect" class="selectpicker" >
+                                    <option selected value="综合">综合</option>
+                                    <option value="新闻">新闻</option>
+                                    <option value="新闻">综艺</option>
+                                    <option value="财经">财经</option>
+                                    <option value="体育">体育</option>
+                                    <option value="其他">其他</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label form-label">所属地区分类</label>
+                            <div class="col-sm-6">
+                                <select id="edit_areaSelect" class="selectpicker" >
+                                    <option selected value="新闻">央视</option>
+                                    <option value="新闻">省视</option>
+                                    <option value="财经">地方</option>
+                                    <option value="体育">港澳台</option>
+                                    <option value="其他">海外</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit_imgSrc" class="col-sm-2 control-label form-label">图片地址</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  style="ime-mode:disabled" id="edit_imgSrc"  placeholder="图片地址">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit_url1" class="col-sm-2 control-label form-label">播放线路1</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  style="ime-mode:disabled" id="edit_url1"  placeholder="播放线路1">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit_url2" class="col-sm-2 control-label form-label">播放线路2</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  style="ime-mode:disabled" id="edit_url2"  placeholder="播放线路2">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit_url3" class="col-sm-2 control-label form-label">播放线路3</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  style="ime-mode:disabled" id="edit_url3"  placeholder="播放线路3">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit_url4" class="col-sm-2 control-label form-label">播放线路4</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  style="ime-mode:disabled" id="edit_url4"  placeholder="播放线路4">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit_url5" class="col-sm-2 control-label form-label">播放线路5</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  style="ime-mode:disabled" id="edit_url5"  placeholder="播放线路5">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="edit()" class="btn btn-default">
+                        提交更新
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+</div>
+<!-- End Content -->
+<!-- //////////////////////////////////////////////////////////////////////////// -->
+
+<!-- ================================================
+jQuery Library
+================================================ -->
+<script type="text/javascript" src="../../js/jquery.min.js"></script>
+
+<!-- ================================================
+Bootstrap Core JavaScript File
+================================================ -->
+<script src="../../plugins/bootstrap/bootstrap.min.js"></script>
+
+<!-- ================================================
+Bootstrap Select
+================================================ -->
+<script type="text/javascript" src="../../plugins/bootstrap/bootstrap-select/bootstrap-select.js"></script>
+
+<!-- ================================================
+Data Tables
+================================================ -->
+<script src="../../plugins/datatables/datatables.min.js"></script>
+<!--sweet alert-->
+<script src="../../plugins/sweet-alert/sweet-alert.min.js"></script>
+
+<script>
+    var myTable;
+    $(document).ready(function() {
+
+        //调用父页面弹窗通知
+        //window.parent.swalInfo('TEST',666,'error')
+
+        //tab导航栏切换
+        $(".breadcrumb a").each(function (i,item) {
+            $(item).on("click",function () {
+                var isActive = $(item).attr("class");
+                if(isActive){
+                    return
+                }else{
+                    //移除所有已选中
+                    $(".breadcrumb a").each(function () {
+                        $(this).removeClass("active");
+                    });
+                    //选中当前项
+                    $(this).addClass("active");
+                    if(i==0){
+                        $('#tab2').fadeOut(100);
+                        $("#tab1").fadeIn(100);
+                        refresh();
+                    }else{
+                        $('#tab1').fadeOut(100);
+                        $("#tab2").fadeIn(100);
+                    }
+                }
+            });
+        });
+
+
+        //datatable setting
+        myTable =$('#myTable').DataTable({
+            /*scrollY:        '100vh',*/
+            autoWidth: true,
+            scrollCollapse: true,
+            "processing": true,
+            serverSide: true,
+            //bSort:false,//排序
+            "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0,1,2,4] }],//指定哪些列不排序
+            "order": [[ 3, "desc" ]],//默认排序
+            ajax: {
+                url: '/main/tvs/list',
+                type: 'POST'
+            },
+            columns: [
+                { data: 'name'},
+                { data: 'type',"render":function (data) {
+                        if(!data){
+                            data = "暂未填写";
+                        }
+                        return data;
+                    } },
+                { data: 'areaType',"render":function (data) {
+                        if(!data){
+                            data = "暂未填写";
+                        }
+                        return data;
+                    } },
+                { data: 'created',"render":function (data,type,row,meta) {
+                        var unixTimestamp = new Date(data) ;
+                        var commonTime = unixTimestamp.toLocaleString('chinese',{hour12:false});
+                        return commonTime;
+                    }},
+                { data: null,"render":function () {
+                        var html = "<a href='javascript:void(0);'  class='delete btn btn-default btn-xs'>查看</a>&nbsp;"
+                        html += "<a href='javascript:void(0);' class='up btn btn-info btn-xs'></i>编辑</a>&nbsp;"
+                        html += "<a href='javascript:void(0);' class='down btn btn-danger btn-xs'>删除</a>"
+                        return html;
+                    } }
+            ],
+            language: {
+                url: '../plugins/datatables/zh_CN.json'
+            },
+            "createdRow": function ( row, data, index ) {//回调函数用于格式化返回数据
+                /*if(!data.name){
+                    $('td', row).eq(2).html("暂未填写");
+                }*/
+            }
+        });
+
+        $('.dataTables_wrapper .dataTables_filter input').css("background","blue");
+
+        var rowData;
+        $('#myTable').on("click",".btn-default",function(e){//查看
+            rowData = myTable.row($(this).closest('tr')).data();
+            console.log(rowData);
+            $('#detail_name').html(rowData.name);
+            $('#detail_tid').html(rowData.tid);
+            var type = rowData.type;
+            $('#detail_type').html(type);
+            var areaType = rowData.type;
+            $('#detail_area').html(areaType);
+            $('#detail_url1').html(rowData.url1);
+            $('#detail_url2').html(rowData.url2);
+            $('#detail_url3').html(rowData.url3);
+            $('#detail_url4').html(rowData.url4);
+            $('#detail_url5').html(rowData.url5);
+            var created = rowData.created;
+            var unixTimestamp = new Date(created) ;
+            var commonTime = unixTimestamp.toLocaleString('chinese',{hour12:false});
+            $('#detail_created').html(commonTime);
+
+            var updated = rowData.updated;
+            if(updated){
+                var unixTimestamp = new Date(updated) ;
+                updated = unixTimestamp.toLocaleString('chinese',{hour12:false});
+            }else{
+                updated = "暂无更新";
+            }
+
+            $('#detail_updated').html(updated);
+            $('#detailModal').modal("show");
+        });
+        $('#myTable').on("click",".btn-info",function(e){//编辑
+            rowData = myTable.row($(this).closest('tr')).data();
+            console.log(rowData);
+            $('#edit_id').val(rowData.id);
+            $('#edit_name').val(rowData.name);
+            $('#edit_tid').val(rowData.tid);
+            var type = rowData.type;
+            $("#edit_typeSelect").selectpicker('val',type);//默认选中 value=“1” 的option
+            $("#edit_typeSelect").selectpicker('refresh');
+            var areaType = rowData.areaType;
+            $("#edit_areaSelect").selectpicker('val',areaType);//默认选中 value=“1” 的option
+            $("#edit_areaSelect").selectpicker('refresh');
+            $('#edit_imgSrc').val(rowData.imgSrc);
+            $('#edit_url1').val(rowData.url1);
+            $('#edit_url2').val(rowData.url2);
+            $('#edit_url3').val(rowData.url3);
+            $('#edit_url4').val(rowData.url4);
+            $('#edit_url5').val(rowData.url5);
+            $('#tip').html("");
+            $('#editModal').modal("show");
+        });
+        $('#myTable').on("click",".btn-danger",function(e){//删除
+            rowData = myTable.row($(this).closest('tr')).data();
+            console.log(rowData);
+            var id = rowData.id;
+
+            swal({
+                title: "确定删除吗?",
+                text: '删除将无法恢复该信息!',
+                type: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#6195FF',
+                cancelButtonColor: '#ff1200',
+                confirmButtonText: '确定',
+                cancelButtonText:'取消'
+            },function(){
+                del(id);
+            });
+
+        });
+
+
+    } );
+
+    function add(){
+        var name = $('#name').val().trim();
+        var type = $('#typeSelect').val().trim();
+        var areaType = $('#areaSelect').val().trim();
+        var imgSrc = $('#imgSrc').val().trim();
+        var url1 = $('#url1').val().trim();
+        var url2 = $('#url2').val().trim();
+        var url3 = $('#url3').val().trim();
+        var url4 = $('#url4').val().trim();
+        var url5 = $('#url5').val().trim();
+
+        $.ajax({
+            url : "/main/tvs/add",
+            type : "POST",
+            dataType : "json",
+            cache : false,
+            data : {
+                name:name,
+                type:type,
+                areaType:areaType,
+                imgsrc:imgSrc,
+                url1:url1,
+                url2:url2,
+                url3:url3,
+                url4:url4,
+                url5:url5
+            },
+            beforeSend:function(){
+                $('#loading').fadeIn(200);
+            },
+            success : function(r) {
+                var type = "error";
+                if (r.code == 1) {
+                    type = "success";
+                    reset();
+                }
+                swal(r.msg,' ',type);
+            },
+            complete:function () {
+                $('#loading').fadeOut(200);
+            }
+        })
+    }
+
+    function edit(){
+        var name = $('#edit_name').val().trim();
+        var type = $('#edit_typeSelect').val().trim();
+        var areaType = $('#edit_areaSelect').val().trim();
+        var imgSrc = $('#edit_imgSrc').val().trim();
+        var url1 = $('#edit_url1').val().trim();
+        var url2 = $('#edit_url2').val().trim();
+        var url3 = $('#edit_url3').val().trim();
+        var url4 = $('#edit_url4').val().trim();
+        var url5 = $('#edit_url5').val().trim();
+
+        $.ajax({
+            url : "/main/tvs/edit",
+            type : "POST",
+            dataType : "json",
+            cache : false,
+            data : {
+                id:$('#edit_id').val(),
+                name:name,
+                type:type,
+                areaType:areaType,
+                imgsrc:imgSrc,
+                url1:url1,
+                url2:url2,
+                url3:url3,
+                url4:url4,
+                url5:url5
+            },
+            beforeSend:function(){
+                $('#loading').fadeIn(200);
+            },
+            success : function(r) {
+                var type = "error";
+                if (r.code == 1) {
+                    type = "success";
+                    $('#editModal').modal("hide");
+                    //刷新表格
+                    refresh();
+                    swal(r.msg,' ',type);
+                }else{
+                    $('#tip').html(r.msg);
+                }
+            },
+            complete:function () {
+                $('#loading').fadeOut(200);
+            }
+        })
+    }
+
+    function del(id){
+
+        $.ajax({
+            url : "/main/tvs/delete",
+            type : "POST",
+            dataType : "json",
+            cache : false,
+            data : {
+                id:id
+            },
+            beforeSend:function(){
+                $('#loading').fadeIn(200);
+            },
+            success : function(r) {
+                if (r.code == 1) {
+                    swal("删除成功", " ", "success");
+                    refresh();
+                }else{
+                    swal("删除失败", "请稍后再试!", "error");
+                }
+            },
+            complete:function () {
+                $('#loading').fadeOut(200);
+            }
+        })
+    }
+
+    function reset() {
+        $(":input").each(function () {
+            $(this).val("");
+        });
+        $(".selectpicker").selectpicker('val',1);//下拉框选中 value=“1” 的option
+        $(".selectpicker").selectpicker('refresh');
+    }
+
+    function refresh() {
+        myTable.ajax.reload();
+    }
+
+    function swal(title,msg,type) {
+        window.parent.swalInfo(title,msg,type);
+    }
+
+</script>
+
+
+</body>
+</html>

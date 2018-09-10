@@ -3,7 +3,7 @@
 <mapper namespace="com.awesome.dao.CommentMapper" >
   <resultMap id="BaseResultMap" type="com.awesome.model.Comment" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="rid" property="rid" jdbcType="INTEGER" />
+    <result column="rid" property="rid" jdbcType="VARCHAR" />
     <result column="uid" property="uid" jdbcType="INTEGER" />
     <result column="ip" property="ip" jdbcType="VARCHAR" />
     <result column="nickName" property="nickName" jdbcType="VARCHAR" />
@@ -28,7 +28,7 @@
   <insert id="insert" parameterType="com.awesome.model.Comment" >
     insert into comment (id, rid, uid,ip,nickName,email, content,
       zanCount, created)
-    values (#{id,jdbcType=INTEGER}, #{rid,jdbcType=INTEGER},#{uid,jdbcType=INTEGER},#{ip,jdbcType=VARCHAR},#{nickName,jdbcType=VARCHAR},#{nickName,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
+    values (#{id,jdbcType=INTEGER}, #{rid,jdbcType=VARCHAR},#{uid,jdbcType=INTEGER},#{ip,jdbcType=VARCHAR},#{nickName,jdbcType=VARCHAR},#{nickName,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
       #{zancount,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.awesome.model.Comment" >
@@ -67,7 +67,7 @@
         #{id,jdbcType=INTEGER},
       </if>
       <if test="rid != null" >
-        #{rid,jdbcType=INTEGER},
+        #{rid,jdbcType=VARCHAR},
       </if>
       <if test="uid != null" >
         #{uid,jdbcType=INTEGER},
@@ -96,7 +96,7 @@
     update comment
     <set >
       <if test="rid != null" >
-        rid = #{rid,jdbcType=INTEGER},
+        rid = #{rid,jdbcType=VARCHAR},
       </if>
       <if test="uid != null" >
         uid = #{uid,jdbcType=INTEGER},
@@ -124,7 +124,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.awesome.model.Comment" >
     update comment
-    set rid = #{rid,jdbcType=INTEGER},
+    set rid = #{rid,jdbcType=VARCHAR},
       uid = #{uid,jdbcType=INTEGER},
       ip = #{ip,jdbcType=VARCHAR},
       nickName = #{nickName,jdbcType=VARCHAR},

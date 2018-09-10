@@ -9,6 +9,9 @@
         html{
             overflow-y:auto;
         }
+        .content{
+            padding-top:165px;
+        }
         /*下拉框宽度设置*/
         .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
             width: 140px;
@@ -524,7 +527,7 @@ Bootstrap Select
                     cancelButtonColor: '#ff1200',
                     confirmButtonText: '确定',
                     cancelButtonText:'取消'
-                }).then(function(){
+                },function(){
                     del(id);
                 });
 

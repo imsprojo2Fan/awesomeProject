@@ -5,7 +5,7 @@ import java.util.Date;
 public class Comment {
     private Integer id;
 
-    private Integer rid;
+    private String rid;
 
     private Integer uid;
 
@@ -29,11 +29,11 @@ public class Comment {
         this.id = id;
     }
 
-    public Integer getRid() {
+    public String getRid() {
         return rid;
     }
 
-    public void setRid(Integer rid) {
+    public void setRid(String rid) {
         this.rid = rid;
     }
 

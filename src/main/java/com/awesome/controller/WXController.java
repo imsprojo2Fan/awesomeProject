@@ -472,7 +472,7 @@ public class WXController {
 		}
 
 		Comment record = new Comment();
-		record.setRid(rJson.getInteger("rid"));
+		record.setRid(rJson.getString("rid"));
 		record.setNickName(rJson.getString("nickName"));
 		record.setEmail(rJson.getString("email"));
 		record.setContent(rJson.getString("content"));
@@ -481,7 +481,7 @@ public class WXController {
 		int res = commentService.insertSelective(record);
 		if(res>0){
 			Resource resource = new Resource();
-			resource.setId(record.getRid());
+			resource.setId(Integer.parseInt(record.getRid()));
 			resource.setComments(count+1);
 			service.updateByPrimaryKeySelective(resource);
 			r.setCode(1);

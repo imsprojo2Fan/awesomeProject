@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.awesome.dao.TvsMapper" >
+  <resultMap id="BaseResultMap" type="com.awesome.model.Tvs" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="tid" property="tid" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="area_type" property="areaType" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="imgSrc" property="imgsrc" jdbcType="VARCHAR" />
+    <result column="url1" property="url1" jdbcType="VARCHAR" />
+    <result column="url2" property="url2" jdbcType="VARCHAR" />
+    <result column="url3" property="url3" jdbcType="VARCHAR" />
+    <result column="url4" property="url4" jdbcType="VARCHAR" />
+    <result column="url5" property="url5" jdbcType="VARCHAR" />
+    <result column="views" property="views" jdbcType="INTEGER" />
+    <result column="views4online" property="views4online" jdbcType="INTEGER" />
+    <result column="updated" property="updated" jdbcType="TIMESTAMP" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, tid, type, area_type, area, name, imgSrc, url1, url2, url3, url4, url5, views, 
+    views4online, updated, created
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tvs
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tvs
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.awesome.model.Tvs" >
+    insert into tvs (id, tid, type, 
+      area_type, area, name, 
+      imgSrc, url1, url2, 
+      url3, url4, url5, views, 
+      views4online, updated, created
+      )
+    values (#{id,jdbcType=INTEGER}, #{tid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{areaType,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{imgsrc,jdbcType=VARCHAR}, #{url1,jdbcType=VARCHAR}, #{url2,jdbcType=VARCHAR}, 
+      #{url3,jdbcType=VARCHAR}, #{url4,jdbcType=VARCHAR}, #{url5,jdbcType=VARCHAR}, #{views,jdbcType=INTEGER}, 
+      #{views4online,jdbcType=INTEGER}, #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.awesome.model.Tvs" >
+    insert into tvs
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="tid != null" >
+        tid,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="areaType != null" >
+        area_type,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="imgsrc != null" >
+        imgSrc,
+      </if>
+      <if test="url1 != null" >
+        url1,
+      </if>
+      <if test="url2 != null" >
+        url2,
+      </if>
+      <if test="url3 != null" >
+        url3,
+      </if>
+      <if test="url4 != null" >
+        url4,
+      </if>
+      <if test="url5 != null" >
+        url5,
+      </if>
+      <if test="views != null" >
+        views,
+      </if>
+      <if test="views4online != null" >
+        views4online,
+      </if>
+      <if test="updated != null" >
+        updated,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tid != null" >
+        #{tid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="areaType != null" >
+        #{areaType,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="imgsrc != null" >
+        #{imgsrc,jdbcType=VARCHAR},
+      </if>
+      <if test="url1 != null" >
+        #{url1,jdbcType=VARCHAR},
+      </if>
+      <if test="url2 != null" >
+        #{url2,jdbcType=VARCHAR},
+      </if>
+      <if test="url3 != null" >
+        #{url3,jdbcType=VARCHAR},
+      </if>
+      <if test="url4 != null" >
+        #{url4,jdbcType=VARCHAR},
+      </if>
+      <if test="url5 != null" >
+        #{url5,jdbcType=VARCHAR},
+      </if>
+      <if test="views != null" >
+        #{views,jdbcType=INTEGER},
+      </if>
+      <if test="views4online != null" >
+        #{views4online,jdbcType=INTEGER},
+      </if>
+      <if test="updated != null" >
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.awesome.model.Tvs" >
+    update tvs
+    <set >
+      <if test="tid != null" >
+        tid = #{tid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="areaType != null" >
+        area_type = #{areaType,jdbcType=INTEGER},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="imgsrc != null" >
+        imgSrc = #{imgsrc,jdbcType=VARCHAR},
+      </if>
+      <if test="url1 != null" >
+        url1 = #{url1,jdbcType=VARCHAR},
+      </if>
+      <if test="url2 != null" >
+        url2 = #{url2,jdbcType=VARCHAR},
+      </if>
+      <if test="url3 != null" >
+        url3 = #{url3,jdbcType=VARCHAR},
+      </if>
+      <if test="url4 != null" >
+        url4 = #{url4,jdbcType=VARCHAR},
+      </if>
+      <if test="url5 != null" >
+        url5 = #{url5,jdbcType=VARCHAR},
+      </if>
+      <if test="views != null" >
+        views = #{views,jdbcType=INTEGER},
+      </if>
+      <if test="views4online != null" >
+        views4online = #{views4online,jdbcType=INTEGER},
+      </if>
+      <if test="updated != null" >
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.awesome.model.Tvs" >
+    update tvs
+    set tid = #{tid,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      area_type = #{areaType,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      imgSrc = #{imgsrc,jdbcType=VARCHAR},
+      url1 = #{url1,jdbcType=VARCHAR},
+      url2 = #{url2,jdbcType=VARCHAR},
+      url3 = #{url3,jdbcType=VARCHAR},
+      url4 = #{url4,jdbcType=VARCHAR},
+      url5 = #{url5,jdbcType=VARCHAR},
+      views = #{views,jdbcType=INTEGER},
+      views4online = #{views4online,jdbcType=INTEGER},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="listAllCount" parameterType="Map" resultType="java.lang.Integer">
+    select count(*) from tvs where 1=1
+  </select>
+
+  <select id="listByPage" parameterType="Map" resultType="Map">
+    select * from tvs where 1=1
+    <if test="sortCol !=null and sortCol!='' ">
+      Order by ${sortCol} ${sortType}
+    </if>
+    LIMIT ${pageNow},${pageSize}
+  </select>
+
+  <select id="searchByKey" parameterType="Map" resultType="Map">
+    select * from tvs where ${key} = #{value}
+  </select>
+</mapper>

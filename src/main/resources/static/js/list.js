@@ -65,6 +65,7 @@ $(function () {
         $('#pageWrap').hide();
         $('#footer').hide();
         $('#search').show();
+        $('#qr4code').show();
         //$('#back-to-top').show();
         if(GlobalKey){
             GlobalKey = unescape(document.cookie.split("search=")[1].split(";")[0]);

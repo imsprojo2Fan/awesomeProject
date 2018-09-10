@@ -559,8 +559,8 @@ function makeCode(rid) {
 
 function report() {
     swal({
-        title: '确定资源出错了是吗？',
-        text: '没准网络断开连接了呢 hhh',
+        title: '资源不可播？',
+        text: '扫描右下角二维码进分享群直接反馈',
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#6195FF',

@@ -2,7 +2,7 @@
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
-    <classPathEntry location="C:\Users\Pojo\IdeaProjects\MyBatis\generator\mysql-connector-java-5.1.44-bin.jar"/>
+    <classPathEntry location="C:\Users\IsProjo\IdeaProjects\MyBatis\generator\mysql-connector-java-5.1.39-bin.jar"/>
     <context id="context1">
         <!-- 是否生成注释 -->
         <commentGenerator>
@@ -23,7 +23,7 @@
                              targetProject="src/main/java" type="XMLMAPPER" />
 
         <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名-->
-        <table tableName="series" domainObjectName="Series" enableCountByExample="false" enableUpdateByExample="false"
+        <table tableName="tvs" domainObjectName="Tvs" enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
 
         </table>
