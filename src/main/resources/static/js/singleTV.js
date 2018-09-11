@@ -334,10 +334,27 @@ $('body,html').animate({
 }, 300);*/
 
 function setUrl(index) {
+
     //返回顶部
     $('body,html').animate({
         scrollTop: 0
     }, 300);
+
+    var dom = $('#myFrame').clone();
+    $('#iframeWrap').html("");
+    $('#iframeWrap').html(dom);
+    var myFrame = document.getElementById('myFrame');
+    myFrame.onload = myFrame.onreadystatechange = function () {
+        if (this.readyState && this.readyState != 'complete') {
+            //console.log("加载中。。。");
+        }
+        else {
+            //console.log("加载完成。。。");
+            $('#frameLoading').hide();
+        }
+    }
+
+    //$('#myFrame').attr("src","");
 
     var iframeUrl = "";
     //移除选中状态

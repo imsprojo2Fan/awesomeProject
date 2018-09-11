@@ -2,9 +2,11 @@ package com.awesome.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.nio.charset.Charset;
@@ -37,6 +39,14 @@ public class CustomMVCConfiguration extends WebMvcConfigurerAdapter {
 	public void configureContentNegotiation(
 			ContentNegotiationConfigurer configurer) {
 		configurer.favorPathExtension(false);
+	}
+
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addRedirectViewController("/ckplayer","/plugins/ckplayer/index.html");
+		registry.addRedirectViewController("/iframe","/plugins/ckplayer/iframe.html");
+		registry.addRedirectViewController("/flash","/plugins/ckplayer/flashplayer.html");
+		super.addViewControllers(registry);
 	}
 
 
