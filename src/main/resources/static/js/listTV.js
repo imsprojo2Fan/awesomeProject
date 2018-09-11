@@ -68,18 +68,18 @@ $(function () {
         $('#qr4code').show();
         //$('#back-to-top').show();
         if(GlobalKey){
-            GlobalKey = unescape(document.cookie.split("search=")[1].split(";")[0]);
-            deleteCookie("search","/");
+            GlobalKey = unescape(document.cookie.split("searchTV=")[1].split(";")[0]);
+            deleteCookie("searchTV","/");
         }
         listDom = document.querySelector('#listData');
         miniRefresh = new MiniRefresh({
             container: '#minirefresh',
             down: {
-                isLock:false,
+                isLock:true,
                 // 本主题独有的效果
                 secretGarden: {
                     // 是否开启秘密花园（即类似淘宝二楼效果）
-                    enable: true,
+                    enable: false,
                     // 下拉超过200后可以出现秘密花园效果，注意，必须大于down的offset
                     offset: 20,
                     // 过度动画
@@ -103,7 +103,7 @@ $(function () {
                                     if(i==0){
                                         RefreshId = obj.id;
                                     }
-                                    var imgSrc = ""+obj.imgSrc2;
+                                    var imgSrc = ""+obj.imgSrc;
                                     var error = "../image/error1.png";
                                     var imgId = "IMG-"+i;
                                     $(listDom.children[0]).before('<div class="col-sm-3" style="width: 95%;margin: 0 auto">' +
@@ -138,7 +138,7 @@ $(function () {
                 callback: function() {
                     preLoading();
                     GlobalPageNow++;
-                    $.post("/index/resource/list",{pageNow:GlobalPageNow,pageSize:10,key:GlobalKey},function (r) {
+                    $.post("/index/resource/list4tv",{pageNow:GlobalPageNow,pageSize:24,key:GlobalKey},function (r) {
                         //console.log(r);
                         var dataArr = r.data;
                         if(GlobalKey&&GlobalPageNow==1){
@@ -149,17 +149,17 @@ $(function () {
                             if(GlobalPageNow==1&&i==0){
                                 RefreshId = obj.id;
                             }
-                            var imgSrc = ""+obj.imgSrc2;
+                            var imgSrc = ""+obj.imgSrc;
                             var error = "../image/error1.png";
                             var imgId = "IMG-"+i;
                             $('#listData').append('<div class="col-sm-3" style="width: 95%;margin: 0 auto">\n' +
-                                '\t\t\t\t\t<div onclick="toDetail('+obj.type+','+obj.id+')" class="blog">\n' +
+                                '\t\t\t\t\t<div onclick="toTVDetail(\''+obj.tid+'\')" class="blog">\n' +
                                 '\t\t\t\t\t\t<div class="blog-img">\n' +
-                                '\t\t\t\t\t\t\t<img id="'+imgId+'" onerror=src="'+error+'" style="width: 85%;margin: 0 auto" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
+                                '\t\t\t\t\t\t\t<img id="'+imgId+'" onerror=src="'+error+'" style="width: 85%;min-height:120px;margin: 0 auto" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
                                 '\t\t\t\t\t\t</div>\n' +
                                 '\t\t\t\t\t\t<div class="blog-content">\n' +
                                 '\t\t\t\t\t\t\t<br/><h4>'+obj.name+'</h4>\n' +
-                                '\t\t\t\t\t\t\t<a href="javascript:void(0)">查看详情</a>\n' +
+                                '\t\t\t\t\t\t\t<a href="javascript:void(0)">前往观看</a>\n' +
                                 '\t\t\t\t\t\t</div>\n' +
                                 '\t\t\t\t\t</div>\n' +
                                 '\t\t\t\t</div>');
@@ -187,13 +187,13 @@ $(function () {
     }else{//pc端
         $('#minirefresh').hide();
         if(GlobalKey){
-            GlobalKey = unescape(document.cookie.split("search=")[1].split(";")[0]);
-            deleteCookie("search","/");
+            GlobalKey = unescape(document.cookie.split("searchTV=")[1].split(";")[0]);
+            deleteCookie("searchTV","/");
             //查询列表
-            list4search(1,16,GlobalKey);
+            list4search(1,24,GlobalKey);
         }else{
             //分页获取资源列表
-            listItem(1,16);
+            listItem(1,24);
         }
     }
 
@@ -203,23 +203,10 @@ function listItem(pageNow,pageSize) {
 
     preLoading();
     $("#preloader").fadeIn();
-    $.post("/index/resource/list",{pageNow:pageNow,pageSize:pageSize},function (r) {
+    $.post("/index/resource/list4tv",{pageNow:pageNow,pageSize:pageSize},function (r) {
         //console.log(r);
 
-        var tab = "";
-        var types = r.type;
-        var type = parseInt(types);
-
-        if(type===1){
-            tab = "电影列表";
-        }else if(type===2){
-            tab = "电视剧列表";
-        }else if(type===3){
-            tab = "综艺列表";
-        }else if(type===4){
-            tab = "动漫列表";
-        }
-        $('#tab2').html(tab);
+        $('#tab2').html("电视列表");
 
         $('#itemWrap').html("");
         var dataArr = r.data;
@@ -232,18 +219,18 @@ function listItem(pageNow,pageSize) {
             if(name.length>9){
                 name = name.substring(0,9)+"...";
             }
-            var imgSrc = ""+obj.imgSrc2;
+            var imgSrc = ""+obj.imgSrc;
             //var description = obj.description.substring(0,15)+"...";
             var imgId = "IMG-"+i;
             var error = "../image/error1.png";
             $('#itemWrap').append('<div class="col-sm-3">\n' +
-                '\t\t\t\t\t<div title="'+obj.name+'" onclick="toDetail('+obj.type+','+obj.id+')" class="blog">\n' +
+                '\t\t\t\t\t<div title="'+obj.name+'" onclick="toTVDetail(\''+obj.tid+'\')" class="blog">\n' +
                 '\t\t\t\t\t\t<div class="blog-img">\n' +
                 '\t\t\t\t\t\t\t<img id="'+imgId+'" onerror=src="'+error+'" class="img-responsive lazy" data-original="'+imgSrc+'"  src="'+imgSrc+'" alt="图片加载失败">\n' +
                 '\t\t\t\t\t\t</div>\n' +
                 '\t\t\t\t\t\t<div class="blog-content">\n' +
                 '\t\t\t\t\t\t\t<h5>'+name+'</h5>\n' +
-                '\t\t\t\t\t\t\t<a href="javascript:void(0)">查看详情</a>\n' +
+                '\t\t\t\t\t\t\t<a href="javascript:void(0)">前往观看</a>\n' +
                 '\t\t\t\t\t\t</div>\n' +
                 '\t\t\t\t\t</div>\n' +
                 '\t\t\t\t</div>');
@@ -283,7 +270,7 @@ function list4search(pageNow,pageSize,key) {
         miniRefresh.triggerUpLoading();//触发上拉效果
     }else{
         $("#preloader").fadeIn();
-        $.post("/index/resource/list4search",{pageNow:pageNow,pageSize:pageSize,key:key},function (r) {
+        $.post("/index/resource/list4TVSearch",{pageNow:pageNow,pageSize:pageSize,key:key},function (r) {
             //console.log(r);
 
             var tab = "查询列表";
@@ -296,18 +283,18 @@ function list4search(pageNow,pageSize,key) {
             }
             for(var i=0;i<dataArr.length;i++){
                 var obj = dataArr[i];
-                var imgSrc = ""+obj.imgSrc2;
+                var imgSrc = ""+obj.imgSrc;
                 //var description = obj.description.substring(0,15)+"...";
                 var error = "../image/error1.png";
                 var imgId = "IMG-"+i;
                 $('#itemWrap').append('<div class="col-sm-3">\n' +
-                    '\t\t\t\t\t<div onclick="toDetail('+obj.type+','+obj.id+')" class="blog">\n' +
+                    '\t\t\t\t\t<div onclick="toTVDetail(\''+obj.tid+'\')" class="blog">\n' +
                     '\t\t\t\t\t\t<div class="blog-img">\n' +
                     '\t\t\t\t\t\t\t<img id="'+imgId+'" onerror=src="'+error+'" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
                     '\t\t\t\t\t\t</div>\n' +
                     '\t\t\t\t\t\t<div class="blog-content">\n' +
                     '\t\t\t\t\t\t\t<h5>'+obj.name+'</h5>\n' +
-                    '\t\t\t\t\t\t\t<a href="javascript:void(0)">查看详情</a>\n' +
+                    '\t\t\t\t\t\t\t<a href="javascript:void(0)">前往观看</a>\n' +
                     '\t\t\t\t\t\t</div>\n' +
                     '\t\t\t\t\t</div>\n' +
                     '\t\t\t\t</div>')
@@ -316,6 +303,7 @@ function list4search(pageNow,pageSize,key) {
                 loadData(r.recordsTotal);
                 loadpage();
             }
+
             category();
             aside("views");
 
@@ -367,8 +355,7 @@ function category() {
                 var type = i+1;
                 $('#categoryWrap').append('<a onclick="toMore('+type+')" href="javascript:void(0)">'+title+'<span>('+obj+')</span></a>');
             }else{
-                var url = "/listTV";
-                $('#categoryWrap').append('<a  href="javascript:window.location.href='+url+'">电视直播<span>('+obj+')</span></a>');
+                $('#categoryWrap').append('<a  href="#">电视直播<span>('+obj+')</span></a>');
             }
         }
     });
@@ -421,17 +408,13 @@ function aside(col) {
 
 }
 
-function toDetail(type,itemId) {
-    $.post("/setSession",{type:type,itemId:itemId},function (r) {
-        if(r.code==1){
-            window.location.href = "/single";
-        }
-    });
+function toTVDetail(tId) {
+    window.location.href = "/singleTV?tid="+tId;
 }
 
 function searchResource() {
     swal({
-        title: '请输入关键字',//标题
+        title: '请输入频道名',//标题
         input: 'text',
         showCancelButton: true,
         cancelButtonText:'取消',
@@ -440,15 +423,9 @@ function searchResource() {
         preConfirm: function(val) {               //功能执行前确认操作，支持function
             return new Promise(function(resolve, reject) {
                 $('#search').val(val);
-                list4search(1,16,val);
+                list4search(1,24,val);
                 resolve();
-                /*setTimeout(function() {                 //添加一个时间函数，在俩秒后执行，这里可以用作异步操作数据
-                    if (email === 'taken@example.com') {  //这里的意思是：如果输入的值等于'taken@example.com',数据已存在，提示信息
-                        reject('用户已存在')                  //提示信息
-                    } else {
-                        resolve()                           //方法出口
-                    }
-                }, 2000)*/
+
             })
         },
         allowOutsideClick: true

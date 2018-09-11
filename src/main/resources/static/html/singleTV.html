@@ -51,12 +51,12 @@
 		}
 
 		.loading-wrap{
-			width:95%;
-			height:88vh;
+			width:44vw;
+			height:70vh;
 			background-color:#ffffff;
 			position:absolute;
-			left:23px;
-			top:15px;
+			left:16px;
+			top:17px;
 			display:none;
 			z-index:2;
 		}
@@ -67,7 +67,7 @@
 			position: absolute;
 			left: 50%;
 			top: 50%;
-			margin-left: -30px;
+			margin-left: -5px;
 			margin-top: -55px;
 		}
 
@@ -193,89 +193,9 @@
 				<!-- Main -->
 				<main id="main" class="col-md-9">
 					<div class="single">
-						<div id="info" style="border:1px solid #eee;">
-							<div class="blog-img">
-								<div>
-									<div id="play" title="播放" style="position: absolute;z-index: 11;left: 95px;top: 151px"><img onclick="switchWindow()" style="cursor: pointer" width="50%" src="../image/play.png"></div>
-									<img id="img"  style="width: 30%;float: left;padding-right: 15px" class="img-responsive lazy" data-original="../image/default.jpg" src="../image/default.jpg" onerror=src="../image/error.png" alt="图片加载失败">
-								</div>
-								<div >
-									<h2 id="name"></h2>
-								</div>
-
-								<div >
-									<h4 id="director"></h4>
-								</div>
-
-								<div >
-									<h4 id="actor"></h4>
-								</div>
-
-								<div >
-									<h4 id="publish"></h4>
-								</div>
-
-								<div >
-									<h4 id="length"></h4>
-								</div>
-
-								<div >
-									<h4 id="language"></h4>
-								</div>
-
-								<div class="transparent_class" style="height: 35px;line-height:35px;color:#fff;font-size: 2rem;background:#6195FF;text-align: center;width: 100%;">
-									<div id="logo" style="margin-left: 17%;float: left">看风了风</div>
-								</div>
-
-								<div style="font-size: 14px;border: 0px solid red;">
-									<p style="text-indent:2em;" id="description"></p>
-								</div>
-
-							</div>
-							<!-- tags -->
-							<div class="blog-tags" style="margin-top: 30px">
-								<div ><h5>分类：</h5><span id="tagWrap"></span></div>
-								<!--<a href="#"><i class="fa fa-tag"></i>Web</a>-->
-							</div>
-							<!-- tags -->
-
-							<!-- action -->
-							<div class="blog-tags" style="margin-top: -8px">
-								<div >
-									<h5>操作：</h5>
-                                    <span id="actionWrap">
-                                        <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="查看">
-                                            <i class="fa fa-eye"></i><span id="views"></span>
-                                        </a>
-										<a href="javascript:action('collect')" data-toggle="tooltip" data-placement="bottom" title="收藏">
-											<i class="fa fa-star"></i><span id="collects"></span>
-										</a>
-										<a href="javascript:action('like')" data-toggle="tooltip" data-placement="bottom" title="喜欢">
-											<i class="fa fa-heart"></i><span id="likes"></span>
-										</a>
-									</span>
-                                    <a href="javascript:share();" >
-                                        <i class="fa fa-share-square-o"></i>点我分享
-                                    </a>
-									<a href="javascript:report();" >
-										<i class="fa fa-bug"></i>不能看?点我
-									</a>
-								</div>
-
-							</div>
-							<!-- action -->
-
-
-						</div>
-
-						<div id="iframe" style="border:1px solid #eee;height:87vh;display: none;">
-
+						<div id="iframe" style="border:1px solid #eee;height:70vh;display: block;">
 							<div id="frameLoading" class="loading-wrap" style="display: block">
 								<div class="loader" >
-									<!--<div style="color: #6195FF" class="la-ball-clip-rotate-multiple la-2x">
-										<div></div>
-										<div></div>
-									</div>-->
 									<div style="color: #6195FF" class="la-pacman la-2x">
 										<div></div>
 										<div></div>
@@ -293,7 +213,7 @@
 									<div style="color: #6195FF" class="la-square-loader la-2x">
 										<div></div>
 									</div>
-									<div style="margin-left: -60px;text-align: center;" class="loaderTxt">手机端暂不可播放<br/>可前往电脑/百度网盘观看</div>
+									<div style="margin-left: -60px;text-align: center;" class="loaderTxt">无可用信号<br>可切换其他频道播放</div>
 								</div>
 							</div>
 
@@ -304,30 +224,66 @@
 						</div>
 
 						<div id="tipPlay" class="blog-tags" style="margin-top: 10px;margin-bottom:10px;display: none">如果长时间未播放,可以刷新页面试试喔.</div>
+						<!-- 分类 -->
+						<div class="blog-tags" style="margin-top: 30px">
+							<div ><h5>分类：</h5><span id="tagWrap"></span></div>
+							<!--<a href="#"><i class="fa fa-tag"></i>Web</a>-->
+						</div>
+						<!-- tags -->
 
-						<div id="seriesParent" class="blog-tags" style="padding: 10px;border: 1px solid #eee;margin-top: 10px;display: none">
+						<!-- action -->
+						<div id="lineWrapAll" class="blog-tags" style="margin-top: -8px">
+							<div >
+								<h5>线路：</h5>
+								<span id="lineWrap">
+									<a id="line1" href="javascript:setUrl(0)" style="margin-right: 1px;" data-toggle="tooltip" data-placement="bottom" title="线路一">
+										<i class="fa fa-chain"></i>线路一
+									</a>
+									<a id="line2" href="javascript:setUrl(1)" style="margin-right: 1px;" data-toggle="tooltip" data-placement="bottom" title="线路二">
+										<i class="fa fa-chain"></i>线路二
+									</a>
+									<a id="line3" href="javascript:setUrl(2)" style="margin-right: 1px;" data-toggle="tooltip" data-placement="bottom" title="线路三">
+										<i class="fa fa-chain"></i>线路三
+									</a>
+								</span>
+							</div>
+
+						</div>
+						<!-- action -->
+
+						<!-- action -->
+						<div id="actionWrapAll" class="blog-tags" style="margin-top: -8px">
+							<div >
+								<h5>操作：</h5>
+								<span id="actionWrap">
+									<a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="查看">
+										<i class="fa fa-eye"></i><span id="views"></span>
+									</a>
+									<a href="javascript:action('collect')" data-toggle="tooltip" data-placement="bottom" title="收藏">
+										<i class="fa fa-star"></i><span id="collects"></span>
+									</a>
+									<a href="javascript:action('like')" data-toggle="tooltip" data-placement="bottom" title="喜欢">
+										<i class="fa fa-heart"></i><span id="likes"></span>
+									</a>
+								</span>
+								<a href="javascript:share();" >
+									<i class="fa fa-share-square-o"></i>点我分享
+								</a>
+								<a href="javascript:report();" >
+									<i class="fa fa-bug"></i>不能看?点我
+								</a>
+							</div>
+
+						</div>
+						<!-- action -->
+					</div>
+					<div id="seriesParent" class="blog-tags" style="padding: 10px;border: 1px solid #eee;margin-top: 10px;display: none">
 							<div id="seriesWrap" >
 								<!--<a onclick="switchWindow();" href="javascript:void(0);">01</a>-->
 							</div>
-
 						</div>
 
-						<div id="urlWrap" class="blog-tags" style="padding: 10px;border: 1px solid #eee;display: none">
-							<div id="onlineWrap" >
-								<a id="backList" class="btn" style="display: none;margin-right: 0px" onclick="backList();" href="javascript:void(0);"><i class="fa fa-angle-double-left"></i>返回列表</a>
-								<a id="playBtn" class="btn" onclick="switchWindow();"  href="javascript:void(0);"><i class="fa fa-play-circle"></i>在线播放</a>
-								<a id="stopBtn" data-toggle="tooltip" data-placement="right" title="资源已下架" style="display: none" class="btn" disabled="true" href="javascript:void(0);"><i class="fa fa-frown-o"></i>资源已下架</a>
-							    <span id="title"></span>
-                            </div>
-							<div id="bdWrap" style="margin-top: 6px">
-								<a class="btn" data-toggle="tooltip" data-placement="right" title="" id="bdUrl" target="_blank" href="javascript:void(0);"><i class="fa fa-cloud-download"></i>百度网盘</a>
-								<a class="btn" onclick="toBDCloud()" title="" id="bdUrl2" target="_blank" href="javascript:void(0);" style="display: none"><i class="fa fa-cloud-download"></i>百度网盘</a>
-							</div>
-							<div id="downloadWrap" style="margin-top: 6px">
-								<!--<a id="download01" href="#"><i class="fa fa-cloud-download"></i>下载地址一</a>-->
-							</div>
-						</div>
-
+					<div class="single" style="border: 1px solid #eee">
 						<!-- comments -->
 						<div class="blog-comments">
 							<h3 class="title">评论数<span id="comments"></span></h3>
@@ -367,10 +323,11 @@
 							</form>
 						</div>
 						<!-- /reply form -->
+
 					</div>
+
 				</main>
 				<!-- /Main -->
-
 
 				<!-- Aside -->
 				<aside id="aside" class="col-md-3">
@@ -487,7 +444,7 @@
 	<script type="text/javascript" src="../js/gutil.js"></script>
     <script type="text/javascript" src="../js/qrcode.min.js"></script>
 
-	<script src="../js/single.js">
+	<script src="../js/singleTV.js">
 
 	</script>
 

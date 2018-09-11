@@ -1,10 +1,7 @@
 package com.awesome.controller;
 
 import com.awesome.config.JsonResult;
-import com.awesome.model.Comment;
-import com.awesome.model.Feedback;
-import com.awesome.model.Resource;
-import com.awesome.model.Wishes;
+import com.awesome.model.*;
 import com.awesome.service.*;
 import com.awesome.util.Md5Util;
 import com.awesome.util.SendMailUtil;
@@ -42,6 +39,9 @@ public class IndexMainController {
 	private SeriesService seriesService;
 
 	@Autowired
+	private TvsService tvsService;
+
+	@Autowired
 	private FeedbackService feedbackService;
 
 	@Autowired
@@ -64,6 +64,45 @@ public class IndexMainController {
 	public static int PAGE_SIZE;
 	JsonResult r = new JsonResult();
 
+
+	/**
+	 * 查询列表
+	 * @return
+	 */
+	@ApiOperation(value="分页查询", notes="获取列表")
+	@ResponseBody
+	@RequestMapping(value = "/resource/list4tv", method = RequestMethod.POST)
+	public Object list4tv(HttpServletRequest request){
+
+		Map qMap = new HashMap();
+		Map backMap = new HashMap<>();
+		List<Map<String,Object>> rList;
+
+		String start = request.getParameter("pageNow");
+		String length = request.getParameter("pageSize");
+		String searchKey = request.getParameter("key");
+		String detailType = request.getParameter("detailType");
+		if(!StringUtils.isEmpty(start)){
+			PAGE_NOW = Integer.parseInt(start);
+		}
+		if(!StringUtils.isEmpty(length)){
+			PAGE_SIZE = Integer.parseInt(length);
+		}
+		qMap.put("pageNow",(PAGE_NOW-1)*PAGE_SIZE);
+		qMap.put("pageSize",PAGE_SIZE);
+		qMap.put("searchKey",searchKey);
+		qMap.put("detailType",detailType);
+		qMap.put("sortCol","created");
+		qMap.put("sortType","desc");
+
+		int count = tvsService.listAllCount(qMap);
+		rList = tvsService.listByPage(qMap);
+		backMap.put("recordsTotal",count);
+		backMap.put("data",rList);
+		backMap.put("msg","成功查询数据");
+
+		return backMap;
+	}
 
 	/**
 	 * 查询列表
@@ -183,6 +222,39 @@ public class IndexMainController {
 	 */
 	@ApiOperation(value="搜索查询列表", notes="获取列表")
 	@ResponseBody
+	@RequestMapping(value = "/resource/list4TVSearch", method = RequestMethod.POST)
+	public Object list4TVSearch (HttpServletRequest request){
+
+		init();
+		String start = request.getParameter("pageNow");
+		String length = request.getParameter("pageSize");
+		String searchKey = request.getParameter("key");
+		if(!StringUtils.isEmpty(start)){
+			PAGE_NOW = Integer.parseInt(start);
+		}
+		if(!StringUtils.isEmpty(length)){
+			PAGE_SIZE = Integer.parseInt(length);
+		}
+
+		qMap.put("pageNow",(PAGE_NOW-1)*PAGE_SIZE);
+		qMap.put("pageSize",PAGE_SIZE);
+		qMap.put("searchKey",searchKey);
+
+		int count = tvsService.listAllCount(qMap);
+		rList = tvsService.listByPage(qMap);
+		backMap.put("recordsTotal",count);
+		backMap.put("data",rList);
+		backMap.put("msg","成功查询数据");
+
+		return backMap;
+	}
+
+	/**
+	 * 搜索查询列表
+	 * @return
+	 */
+	@ApiOperation(value="搜索查询列表", notes="获取列表")
+	@ResponseBody
 	@RequestMapping(value = "/resource/list4search", method = RequestMethod.POST)
 	public Object list4search (HttpServletRequest request){
 
@@ -232,6 +304,10 @@ public class IndexMainController {
 			List tList = service.searchByKey(map);
 			list.add(tList.size());
 		}
+
+		//获取电视频道数
+		int count = tvsService.listAllCount(null);
+		list.add(count);
 		return list;
 	}
 
@@ -264,6 +340,36 @@ public class IndexMainController {
 		map.put("pageSize",7);
 		List rList = service.searchByOrder(map);
 		return rList;
+	}
+
+	/**
+	 * 查询剧集详情
+	 * @return
+	 */
+	@ApiOperation(value="查询", notes="获取列表")
+	@ResponseBody
+	@RequestMapping(value = "/resource/list4tvItem", method = RequestMethod.POST)
+	public Object list4tvItem(String tid){
+
+		init();
+
+		Map map = new HashMap();
+
+		map.put("key","tid");
+		map.put("value",tid);
+		rList = tvsService.searchByKey(map);
+		if(rList.size()>0){
+			Map rMap = rList.get(0);
+			int lid = (int) rMap.get("id");
+			int count = (int) rMap.get("views");
+			Tvs tvs = new Tvs();
+			tvs.setId(lid);
+			tvs.setViews(count+1);
+			tvsService.updateByPrimaryKeySelective(tvs);
+		}
+
+		backMap.put("data",rList);
+		return backMap;
 	}
 
 	/**

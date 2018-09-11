@@ -50,6 +50,10 @@ public class TvsController {
 		r.setMsg("fail");
 		r.setData(null);
 		record.setTid(Md5Util.getMD5WithSalt(System.currentTimeMillis()+""));
+		Random random = new Random();
+		record.setViews(random.nextInt(3000)%(3000-1000+1) + 1000);
+		record.setCollects(random.nextInt(3000)%(3000-1000+1) + 1000);
+		record.setLikes(random.nextInt(3000)%(3000-1000+1) + 1000);
 		record.setCreated(new Date());
 		int res = service.insertSelective(record);
 		if(res>0){

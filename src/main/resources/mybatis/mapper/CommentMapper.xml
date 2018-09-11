@@ -136,12 +136,12 @@
   </update>
 
   <select id="listAllCount" parameterType="Map" resultType="java.lang.Integer">
-    select count(*) from comment where 1=1 and rid=${rid}
+    select count(*) from comment where 1=1 and rid= '${rid}'
   </select>
 
   <select id="listByPage" parameterType="Map" resultType="Map">
     select * from comment where 1=1
-    and rid=${rid}
+    and rid= '${rid}'
     <if test="sortCol !=null and sortCol!='' ">
       Order by ${sortCol} ${sortType}
     </if>
@@ -149,6 +149,6 @@
   </select>
 
   <select id="searchByKey" parameterType="Map" resultType="Map">
-    select * from comment where ${key} = #{value}
+    select * from comment where ${key} = ${value}
   </select>
 </mapper>

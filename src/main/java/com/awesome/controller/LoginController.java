@@ -67,11 +67,21 @@ public class LoginController {
 	}
 
 	@ApiIgnore//使用该注解忽略这个API
+	@RequestMapping(value = "/listTV")
+	public String listTV(){
+		return "/html/listTV.html";
+	}
+	@ApiIgnore//使用该注解忽略这个API
+	@RequestMapping(value = "/singleTV")
+	public String singleTV() {
+		return "/html/singleTV.html";
+	}
+
+	@ApiIgnore//使用该注解忽略这个API
 	@RequestMapping(value = "/list")
 	public String list(){
 		return "/html/list.html";
 	}
-
 	@ApiIgnore//使用该注解忽略这个API
 	@RequestMapping(value = "/single")
 	public String single() {

@@ -8,7 +8,7 @@ window.onload = function(){
 
 $(document).ready(function(){
 
-    var p=0,t=0,n1=0,n2=0,n3=0;
+    var p=0,t=0,n1=0,n2=0,n3=0,n4=0;
 
     $(window).scroll(function(e){
         p = $(this).scrollTop();
@@ -21,13 +21,16 @@ $(document).ready(function(){
         //下滚至此位置获取动漫列表
         var mod03 = Math.floor($('#Variety').offset().top);
 
+        //下滚至此位置获取动漫列表
+        var mod04 = Math.floor($('#LiveTV').offset().top);
+
         if(t<=p){//下滚
 
             //console.log("下滚");
             var scroll = Math.floor($(window).scrollTop());
             //console.log(scroll);
             if(scroll===0){
-                n1=0;n2=0;n3=0;
+                n1=0;n2=0;n3=0;n4=0;
             }
             if(scroll>mod01){
 
@@ -50,14 +53,12 @@ $(document).ready(function(){
                                 }
                                 var imgSrc = ""+obj.imgSrc2;
                                 var error = "../image/error1.png";
-                                $('#seriesWrap').append('<div title="'+obj.name+'" onclick="toDetail('+obj.type+','+obj.id+')" class="col-sm-3 work">\n' +
-                                    '\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
-                                    '\t\t\t\t\t<div class="overlay"></div>\n' +
-                                    '\t\t\t\t\t<div class="work-content">\n' +
+                                $('#seriesWrap').append('<div title="'+obj.name+'" class="col-sm-3">\n' +
+                                    '\t\t\t\t\t<div onclick="toDetail('+obj.type+','+obj.id+')" class="about">\n' +
+                                    '\t\t\t\t\t\t<!--<i class="fa fa-cogs"></i>-->\n' +
+                                    '\t\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
                                     '\t\t\t\t\t\t<h3>'+name+'</h3>\n' +
-                                    '\t\t\t\t\t\t<div class="work-link">\n' +
-                                    '\t\t\t\t\t\t\t<a href="javascript:void(0)" title="查看详情"><i class="fa fa-external-link"></i></a>\n' +
-                                    '\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t\t\t<a href="javascript:void(0)">查看详情</a>\n' +
                                     '\t\t\t\t\t</div>\n' +
                                     '\t\t\t\t</div>');
                             }
@@ -85,16 +86,18 @@ $(document).ready(function(){
                         }else{
                             for(var i=0;i<dataArr.length;i++){
                                 var obj = dataArr[i];
+                                var name = obj.name;
+                                if(name.length>8){
+                                    name = name.substring(0,8)+"...";
+                                }
                                 var imgSrc = ""+obj.imgSrc2;
                                 var error = "../image/error1.png";
-                                $('#varietyWrap').append('<div onclick="toDetail('+obj.type+','+obj.id+')" class="col-sm-3">\n' +
-                                    '\t\t\t\t\t<div class="team">\n' +
-                                    '\t\t\t\t\t\t<div class="team-img">\n' +
-                                    '\t\t\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
-                                    '\t\t\t\t\t\t</div>\n' +
-                                    '\t\t\t\t\t\t<div class="team-content">\n' +
-                                    '\t\t\t\t\t\t\t<h3>'+obj.name+'</h3>\n' +
-                                    '\t\t\t\t\t\t</div>\n' +
+                                $('#varietyWrap').append('<div title="'+obj.name+'" class="col-sm-3">\n' +
+                                    '\t\t\t\t\t<div onclick="toDetail('+obj.type+','+obj.id+')" class="about">\n' +
+                                    '\t\t\t\t\t\t<!--<i class="fa fa-cogs"></i>-->\n' +
+                                    '\t\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
+                                    '\t\t\t\t\t\t<h3>'+name+'</h3>\n' +
+                                    '\t\t\t\t\t\t<a href="javascript:void(0)">查看详情</a>\n' +
                                     '\t\t\t\t\t</div>\n' +
                                     '\t\t\t\t</div>');
                             }
@@ -122,25 +125,62 @@ $(document).ready(function(){
                         }else{
                             for(var i=0;i<dataArr.length;i++){
                                 var obj = dataArr[i];
+                                var name = obj.name;
+                                if(name.length>8){
+                                    name = name.substring(0,8)+"...";
+                                }
                                 var imgSrc = ""+obj.imgSrc2;
                                 var error = "../image/error1.png";
-                                $('#animateWrap').append('<div onclick="toDetail('+obj.type+','+obj.id+')" class="col-sm-3">\n' +
-                                    '\t\t\t\t\t<div class="pricing">\n' +
-                                    '\t\t\t\t\t\t<div class="price-head">\n' +
-                                    '\t\t\t\t\t\t\t<img style="width: 75%;margin: 12px auto;" onerror=src="'+error+'" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
-                                    '\t\t\t\t\t\t</div>\n' +
-                                    '\t\t\t\t\t\t<ul class="price-content">\n' +
-                                    '\t\t\t\t\t\t\t<li>\n' +
-                                    '\t\t\t\t\t\t\t\t<h3>'+obj.name+'</h3>\n' +
-                                    '\t\t\t\t\t\t\t</li>\n' +
-                                    '\t\t\t\t\t\t</ul>\n' +
-                                    '\t\t\t\t\t\t<div class="price-btn">\n' +
-                                    '\t\t\t\t\t\t\t<button style="border: 1px solid #6195FF" class="outline-btn ">查看详情</button>\n' +
-                                    '\t\t\t\t\t\t</div>\n' +
+                                $('#animateWrap').append('<div title="'+obj.name+'" class="col-sm-3">\n' +
+                                    '\t\t\t\t\t<div onclick="toDetail('+obj.type+','+obj.id+')" class="about">\n' +
+                                    '\t\t\t\t\t\t<!--<i class="fa fa-cogs"></i>-->\n' +
+                                    '\t\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
+                                    '\t\t\t\t\t\t<h3>'+name+'</h3>\n' +
+                                    '\t\t\t\t\t\t<a href="javascript:void(0)">查看详情</a>\n' +
                                     '\t\t\t\t\t</div>\n' +
                                     '\t\t\t\t</div>');
                             }
                             $('#animate2more').show();
+                            $("img.lazy").lazyload({
+                                effect : "fadeIn",
+                                placeholder : "../image/loading.gif"
+                            });
+                        }
+
+                    });
+                }
+            }
+
+            if(scroll>mod04){
+                n4++;
+                if(n4===1&&$('#tv2more').is(":hidden")){//获取电视列表
+                    console.log("---获取电视列表");
+                    $.post("/index/resource/list4tv",{pageNow:1,pageSize:12},function (r) {
+                        //console.log(r);
+                        $('#tvWrap').html("");
+                        var dataArr = r.data;
+                        if(dataArr.length==0){
+                            $('#tvWrap').html("<p>暂无资源</p>");
+
+                        }else{
+                            for(var i=0;i<dataArr.length;i++){
+                                var obj = dataArr[i];
+                                var name = obj.name;
+                                if(name.length>8){
+                                    name = name.substring(0,8)+"...";
+                                }
+                                var imgSrc = ""+obj.imgSrc;
+                                var error = "../image/error1.png";
+                                $('#tvWrap').append('<div title="'+obj.name+'" class="col-sm-3">\n' +
+                                    '\t\t\t\t\t<div onclick="toTVDetail(\''+obj.tid+'\')" class="about">\n' +
+                                    '\t\t\t\t\t\t<!--<i class="fa fa-cogs"></i>-->\n' +
+                                    '\t\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive lazy" style="min-height: 120px;" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
+                                    '\t\t\t\t\t\t<h3>'+name+'</h3>\n' +
+                                    '\t\t\t\t\t\t<a href="javascript:void(0)">前往观看</a>\n' +
+                                    '\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t</div>');
+                            }
+                            $('#tv2more').show();
                             $("img.lazy").lazyload({
                                 effect : "fadeIn",
                                 placeholder : "../image/loading.gif"
@@ -226,12 +266,20 @@ function toMore(type) {
     });
 }
 
+function toMoreTV() {
+    window.location.href = "/listTV";
+}
+
 function toDetail(type,itemId) {
     $.post("/setSession",{type:type,itemId:itemId},function (r) {
         if(r.code==1){
             window.location.href = "/single";
         }
     });
+}
+
+function toTVDetail(tid) {
+    window.location.href = "/singleTV?tid="+tid;
 }
 
 function sub() {

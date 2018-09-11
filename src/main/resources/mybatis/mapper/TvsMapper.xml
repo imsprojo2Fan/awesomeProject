@@ -8,6 +8,7 @@
     <result column="area_type" property="areaType" jdbcType="VARCHAR" />
     <result column="area" property="area" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="is_on" property="is_on" jdbcType="INTEGER" />
     <result column="imgSrc" property="imgsrc" jdbcType="VARCHAR" />
     <result column="url1" property="url1" jdbcType="VARCHAR" />
     <result column="url2" property="url2" jdbcType="VARCHAR" />
@@ -16,12 +17,14 @@
     <result column="url5" property="url5" jdbcType="VARCHAR" />
     <result column="views" property="views" jdbcType="INTEGER" />
     <result column="views4online" property="views4online" jdbcType="INTEGER" />
+    <result column="likes" property="likes" jdbcType="INTEGER" />
+    <result column="collects" property="collects" jdbcType="INTEGER" />
     <result column="updated" property="updated" jdbcType="TIMESTAMP" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, tid, type, area_type, area, name, imgSrc, url1, url2, url3, url4, url5, views, 
-    views4online, updated, created
+    id, tid, type, area_type, area, name,is_on, imgSrc, url1, url2, url3, url4, url5, views,
+    views4online,likes,collects, updated, created
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -35,13 +38,13 @@
   </delete>
   <insert id="insert" parameterType="com.awesome.model.Tvs" >
     insert into tvs (id, tid, type, 
-      area_type, area, name, 
+      area_type, area, name, is_on,
       imgSrc, url1, url2, 
       url3, url4, url5, views, 
       views4online, updated, created
       )
     values (#{id,jdbcType=INTEGER}, #{tid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
-      #{areaType,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{areaType,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},#{is_on,jdbcType=INTEGER},
       #{imgsrc,jdbcType=VARCHAR}, #{url1,jdbcType=VARCHAR}, #{url2,jdbcType=VARCHAR}, 
       #{url3,jdbcType=VARCHAR}, #{url4,jdbcType=VARCHAR}, #{url5,jdbcType=VARCHAR}, #{views,jdbcType=INTEGER}, 
       #{views4online,jdbcType=INTEGER}, #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}
@@ -68,6 +71,9 @@
       <if test="name != null" >
         name,
       </if>
+      <if test="is_on != null" >
+        is_on,
+      </if>
       <if test="imgsrc != null" >
         imgSrc,
       </if>
@@ -91,6 +97,12 @@
       </if>
       <if test="views4online != null" >
         views4online,
+      </if>
+      <if test="likes != null" >
+        likes,
+      </if>
+      <if test="collects != null" >
+        collects,
       </if>
       <if test="updated != null" >
         updated,
@@ -118,6 +130,9 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="is_on != null" >
+        #{is_on,jdbcType=INTEGER},
+      </if>
       <if test="imgsrc != null" >
         #{imgsrc,jdbcType=VARCHAR},
       </if>
@@ -141,6 +156,12 @@
       </if>
       <if test="views4online != null" >
         #{views4online,jdbcType=INTEGER},
+      </if>
+      <if test="likes != null" >
+        #{likes,jdbcType=INTEGER},
+      </if>
+      <if test="collects != null" >
+        #{collects,jdbcType=INTEGER},
       </if>
       <if test="updated != null" >
         #{updated,jdbcType=TIMESTAMP},
@@ -167,6 +188,9 @@
       </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="is_on != null" >
+        is_on = #{is_on,jdbcType=INTEGER},
       </if>
       <if test="imgsrc != null" >
         imgSrc = #{imgsrc,jdbcType=VARCHAR},
@@ -208,6 +232,7 @@
       area_type = #{areaType,jdbcType=VARCHAR},
       area = #{area,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
+      is_on = #{is_on,jdbcType=INTEGER},
       imgSrc = #{imgsrc,jdbcType=VARCHAR},
       url1 = #{url1,jdbcType=VARCHAR},
       url2 = #{url2,jdbcType=VARCHAR},
@@ -223,10 +248,16 @@
 
   <select id="listAllCount" parameterType="Map" resultType="java.lang.Integer">
     select count(*) from tvs where 1=1
+    <if test="searchKey !=null and searchKey!=''">
+      and (name like '%${searchKey}%')
+    </if>
   </select>
 
   <select id="listByPage" parameterType="Map" resultType="Map">
     select * from tvs where 1=1
+    <if test="searchKey !=null and searchKey!=''">
+      and (name like '%${searchKey}%')
+    </if>
     <if test="sortCol !=null and sortCol!='' ">
       Order by ${sortCol} ${sortType}
     </if>

@@ -377,11 +377,16 @@ function category() {
                 title = "电视剧";
             }else if(i===2){
                 title = "综艺";
-            }else{
+            }else if(i===3){
                 title = "动漫";
             }
-            var type = i+1;
-            $('#categoryWrap').append('<a onclick="toMore('+type+')" href="javascript:void(0)">'+title+'<span>('+obj+')</span></a>');
+            if(i<4){
+                var type = i+1;
+                $('#categoryWrap').append('<a onclick="toMore('+type+')" href="javascript:void(0)">'+title+'<span>('+obj+')</span></a>');
+            }else{
+                var url = "/listTV";
+                $('#categoryWrap').append('<a  href="javascript:window.location.href='+url+'">电视直播<span>('+obj+')</span></a>');
+            }
         }
     });
 }

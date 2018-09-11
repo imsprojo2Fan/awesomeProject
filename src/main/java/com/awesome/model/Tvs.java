@@ -15,6 +15,8 @@ public class Tvs {
 
     private String name;
 
+    private Integer is_on;
+
     private String imgsrc;
 
     private String url1;
@@ -30,6 +32,10 @@ public class Tvs {
     private Integer views;
 
     private Integer views4online;
+
+    private Integer likes;
+
+    private Integer collects;
 
     private Date updated;
 
@@ -81,6 +87,14 @@ public class Tvs {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getIs_on() {
+        return is_on;
+    }
+
+    public void setIs_on(Integer is_on) {
+        this.is_on = is_on;
     }
 
     public String getImgsrc() {
@@ -145,6 +159,22 @@ public class Tvs {
 
     public void setViews4online(Integer views4online) {
         this.views4online = views4online;
+    }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
+    }
+
+    public Integer getCollects() {
+        return collects;
+    }
+
+    public void setCollects(Integer collects) {
+        this.collects = collects;
     }
 
     public Date getUpdated() {
