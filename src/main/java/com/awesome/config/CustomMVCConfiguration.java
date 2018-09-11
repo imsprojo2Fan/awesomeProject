@@ -46,6 +46,7 @@ public class CustomMVCConfiguration extends WebMvcConfigurerAdapter {
 		registry.addRedirectViewController("/ckplayer","/plugins/ckplayer/index.html");
 		registry.addRedirectViewController("/iframe","/plugins/ckplayer/iframe.html");
 		registry.addRedirectViewController("/flash","/plugins/ckplayer/flashplayer.html");
+
 		super.addViewControllers(registry);
 	}
 

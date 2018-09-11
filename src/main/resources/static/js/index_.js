@@ -22,7 +22,7 @@ $(document).ready(function(){
         var mod03 = Math.floor($('#Variety').offset().top);
 
         //下滚至此位置获取动漫列表
-        var mod04 = Math.floor($('#LiveTV').offset().top);
+        var mod04 = Math.floor($('#Animate').offset().top);
 
         if(t<=p){//下滚
 
