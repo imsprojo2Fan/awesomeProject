@@ -51,17 +51,26 @@ $(function () {
     });
 
     //获取url参数
-    var tid = getQueryString("tid");
-    getItem(tid);
+    var eid = getQueryString("eid");
+    getItem(eid);
 
+    if(!isPhone()){
+        setTimeout(function () {
+            //右侧导航
+            category();
+            aside("views");
+            //获取评论列表
+            list4comment(eid,1,1000);
+        },1000);
+    }
 
 });
 
-function getItem(tid) {
+function getItem(eid) {
 
     $("#preloader").fadeIn(200);
 
-    $.post("/index/resource/list4tvItem",{tid:tid},function (r) {
+    $.post("/index/resource/list4tvItem",{eid:eid},function (r) {
         //debugger
         var url = "'/listTV'";
         $('#tab2').html('<a  href="javascript:window.location.href='+url+'">电视列表</a>');
@@ -76,13 +85,8 @@ function getItem(tid) {
         $('#views').html(obj.views);
         $('#likes').html(obj.likes);
         $('#collects').html(obj.collects);
-        //右侧导航
-        category();
-        aside("views");
-        //获取评论列表
-        list4comment(obj.tid,1,1000);
         //生成分享二维码
-        makeCode(obj.tid);
+        makeCode(obj.eid);
         $("#preloader").fadeOut(200);
 
         if(obj.is_on==0){
@@ -93,21 +97,147 @@ function getItem(tid) {
             return
         }
 
-        //设置iframe
-        // GlobalVideoSrc = phoneSrc+"?rel=0&amp;autoplay=1";
-        var iframeUrl = obj.url1;//默认播放url1
-        if(iframeUrl){
-            $('#frameLoading').show();
-            $('#myFrame').attr("src",iframeUrl);
-            $('#tipPlay').show();
-            $('#line1').css("background-color","#6195FF");
-            $('#line1').css("color","#ffffff");
-        }else{//移动端地址为空时显示资源不可播放
-            $('#frameLoading').hide();
-            $('#tipLoading').show();
+        //渲染ui
+        $('#lineWrap').html("");
+        if(isPhone()){
+            for(var i=0;i<3;i++){
+                var func;
+                var title;
+                var flag = false;
+                var style = "margin-right: 4px;";
+                if(i==0){
+                    func = "setUrl(0)";
+                    title="线路一";
+                    if(!GlobalItem.url4||GlobalItem.url4=="暂无资源"){
+                        flag = true;
+                    }
+                }else if(i==1){
+                    func = "setUrl(1)";
+                    title="线路二";
+                    if(!GlobalItem.url5||GlobalItem.url5=="暂无资源"){
+                        flag = true;
+                    }
+                }else if(i==2){
+                    func = "setUrl(2)";
+                    title="线路三";
+                    if(!GlobalItem.url6||GlobalItem.url6=="暂无资源"){
+                        flag = true;
+                    }
+                }
+                $('#lineWrap').append('<a class="btn" id="line'+i+'" href="javascript:'+func+'" style="'+style+'" data-toggle="tooltip" data-placement="bottom" title="'+title+'">\n' +
+                    '\t\t\t\t\t\t\t\t\t\t<i class="fa fa-chain"></i>'+title+'' +
+                    '\t\t\t\t\t\t\t\t\t</a>');
+                if(flag){
+                    $('#line'+i).attr("disabled",flag);
+                    $('#line'+i).attr("href","javascript:void(0);");
+                    $('#line'+i).attr('title',"暂不可看").tooltip('fixTitle');
+                }
+            }
+        }else{
+            for(var j=0;j<6;j++){
+                var func;
+                var title;
+                var flag = false;
+                var style = "margin-right: 4px;";
+
+                if(j==0){
+                    func = "setUrl(0)";
+                    title="线路一";
+                    if(!GlobalItem.url1||GlobalItem.url1=="暂无资源"){
+                        flag = true;
+                    }
+                }else if(j==1){
+                    func = "setUrl(1)";
+                    title="线路二";
+                    if(!GlobalItem.url2||GlobalItem.url2=="暂无资源"){
+                        flag = true;
+                    }
+                }else if(j==2){
+                    func = "setUrl(2)";
+                    title="线路三";
+                    if(!GlobalItem.url3||GlobalItem.url3=="暂无资源"){
+                        flag = true;
+                    }
+                }else if(j==3){
+                    func = "setUrl(3)";
+                    title="线路四";
+                    if(!GlobalItem.url4||GlobalItem.url4=="暂无资源"){
+                        flag = true;
+                    }
+                }else if(j==4){
+                    func = "setUrl(4)";
+                    title="线路五";
+                    if(!GlobalItem.url5||GlobalItem.url5=="暂无资源"){
+                        flag = true;
+                    }
+                }else if(j==5){
+                    func = "setUrl(5)";
+                    title="线路六";
+                    if(!GlobalItem.url6||GlobalItem.url6=="暂无资源"){
+                        flag = true;
+                    }
+                }
+
+                $('#lineWrap').append('<a class="btn" id="line'+j+'" href="javascript:'+func+'" style="'+style+'" data-toggle="tooltip" data-placement="bottom" title="'+title+'">\n' +
+                    '\t\t\t\t\t\t\t\t\t\t<i class="fa fa-chain"></i>'+title+'' +
+                    '\t\t\t\t\t\t\t\t\t</a>');
+                if(flag){
+                    $('#line'+j).attr("disabled",flag);
+                    $('#line'+j).attr("href","javascript:void(0);");
+                    $('#line'+j).attr('title',"暂不可看").tooltip('fixTitle');
+                }
+            }
+        }
+
+        //默认播放
+        var iframeUrl = "";
+        if(isPhone()){//移动端
+            //设置iframe
+            // GlobalVideoSrc = phoneSrc+"?rel=0&amp;autoplay=1";
+            iframeUrl = GlobalItem.url4;//默认播放url1
+            if(iframeUrl){
+                iframeUrl = "/iframe?url="+iframeUrl+"?rel=0&amp;autoplay=1";
+                $('#frameLoading').show();
+                $('#myFrame').attr("src",iframeUrl);
+                $('#tipPlay').show();
+                $('#line0').css("background-color","#6195FF");
+                $('#line0').css("color","#ffffff");
+                //添加观看历史
+                history();
+            }else{//移动端地址为空时显示资源不可播放
+                $('#frameLoading').hide();
+                $('#tipLoading').show();
+            }
+        }else{
+            //设置iframe
+            // GlobalVideoSrc = phoneSrc+"?rel=0&amp;autoplay=1";
+            iframeUrl = GlobalItem.url1;//默认播放url1
+            if(iframeUrl){
+                if(iframeUrl.indexOf(".flv")>0||iframeUrl.indexOf(".m3u8")>0){
+                    iframeUrl = iframeUrl.split("url=")[1];
+                    iframeUrl = "/iframe?url="+iframeUrl;
+                }
+                $('#frameLoading').show();
+                $('#myFrame').attr("src",iframeUrl);
+                $('#tipPlay').show();
+                $('#line0').css("background-color","#6195FF");
+                $('#line0').css("color","#ffffff");
+                //添加观看历史
+                history();
+            }else{//移动端地址为空时显示资源不可播放
+                $('#frameLoading').hide();
+                $('#tipLoading').show();
+            }
         }
 
     });
+
+    $("#preloader").fadeOut(200);
+
+    //渲染观看历史
+    renderHistory();
+
+
 
 }
 
@@ -243,8 +373,8 @@ function share() {
 
 }
 
-function makeCode(tid) {
-    var url = "http://awesome.zooori.cn/singleTV?tid="+tid;
+function makeCode(eid) {
+    var url = "http://awesome.zooori.cn/singleTV?eid="+eid;
     var qrcode = new QRCode("qrcode", {
         text: url,
         width: 128,
@@ -306,7 +436,7 @@ function comment() {
         swal("难道不想写些什么吗","~ (^_^)∠※","warning");
         return;
     }
-    $.post("/index/comment/add",{rid:GlobalItem.tid,nickName:nickName,email:email,content:content,count:$('#comments').html()},function (r) {
+    $.post("/index/comment/add",{rid:GlobalItem.eid,nickName:nickName,email:email,content:content,count:$('#comments').html()},function (r) {
         if(r.code==1){
             //获取评论列表
             list4comment(GlobalId,1,1000);
@@ -354,32 +484,101 @@ function setUrl(index) {
         }
     }
 
-    //$('#myFrame').attr("src","");
 
     var iframeUrl = "";
     //移除选中状态
     $('#lineWrap').html("");
-    for(var i=0;i<3;i++){
-        var func;
-        var title;
-        var style = "margin-right: 4px;";
-        if(i==index){
-            style = style+"background-color:#6195FF;color:#ffffff;";
+    //渲染ui
+    if(isPhone()){
+        for(var i=0;i<3;i++){
+            var func;
+            var title;
+            var flag = false;
+            var style = "margin-right: 4px;";
+            if(i==0){
+                func = "setUrl(0)";
+                title="线路一";
+                if(!GlobalItem.url4||GlobalItem.url4=="暂无资源"){
+                    flag = true;
+                }
+            }else if(i==1){
+                func = "setUrl(1)";
+                title="线路二";
+                if(!GlobalItem.url5||GlobalItem.url5=="暂无资源"){
+                    flag = true;
+                }
+            }else if(i==2){
+                func = "setUrl(2)";
+                title="线路三";
+                if(!GlobalItem.url6||GlobalItem.url6=="暂无资源"){
+                    flag = true;
+                }
+            }
+            $('#lineWrap').append('<a class="btn" id="line'+i+'" href="javascript:'+func+'" style="'+style+'" data-toggle="tooltip" data-placement="bottom" title="'+title+'">\n' +
+                '\t\t\t\t\t\t\t\t\t\t<i class="fa fa-chain"></i>'+title+'' +
+                '\t\t\t\t\t\t\t\t\t</a>');
+            if(flag){
+                $('#line'+i).attr("disabled",flag);
+                $('#line'+i).attr("href","javascript:void(0);");
+                $('#line'+i).attr('title',"暂不可看").tooltip('fixTitle');
+            }
         }
-        if(i==0){
-            func = "setUrl(0)";
-            title="线路一";
-        }else if(i==1){
-            func = "setUrl(1)";
-            title="线路二";
-        }else{
-            func = "setUrl(2)";
-            title="线路三";
-        }
+    }else{
+        for(var j=0;j<6;j++){
+            var func;
+            var title;
+            var flag = false;
+            var style = "margin-right: 4px;";
 
-        $('#lineWrap').append('<a id="line'+i+'" href="javascript:'+func+'" style="'+style+'" data-toggle="tooltip" data-placement="bottom" title="'+title+'">\n' +
-            '\t\t\t\t\t\t\t\t\t\t<i class="fa fa-chain"></i>'+title+'' +
-            '\t\t\t\t\t\t\t\t\t</a>');
+            if(j==0){
+                func = "setUrl(0)";
+                title="线路一";
+                if(!GlobalItem.url1||GlobalItem.url1=="暂无资源"){
+                    flag = true;
+                }
+            }else if(j==1){
+                func = "setUrl(1)";
+                title="线路二";
+                if(!GlobalItem.url2||GlobalItem.url2=="暂无资源"){
+                    flag = true;
+                }
+            }else if(j==2){
+                func = "setUrl(2)";
+                title="线路三";
+                if(!GlobalItem.url3||GlobalItem.url3=="暂无资源"){
+                    flag = true;
+                }
+            }else if(j==3){
+                func = "setUrl(3)";
+                title="线路四";
+                if(!GlobalItem.url4||GlobalItem.url4=="暂无资源"){
+                    flag = true;
+                }
+            }else if(j==4){
+                func = "setUrl(4)";
+                title="线路五";
+                if(!GlobalItem.url5||GlobalItem.url5=="暂无资源"){
+                    flag = true;
+                }
+            }else if(j==5){
+                func = "setUrl(5)";
+                title="线路六";
+                if(!GlobalItem.url6||GlobalItem.url6=="暂无资源"){
+                    flag = true;
+                }
+            }
+            if(j==index){
+                style = "margin-right:4px;background:#6195FF;color:#fff;";
+            }
+            $('#lineWrap').append('<a class="btn" id="line'+j+'" href="javascript:'+func+'" style="'+style+'" data-toggle="tooltip" data-placement="bottom" title="'+title+'">\n' +
+                '\t\t\t\t\t\t\t\t\t\t<i class="fa fa-chain"></i>'+title+'' +
+                '\t\t\t\t\t\t\t\t\t</a>');
+            if(flag){
+                $('#line'+j).attr("disabled",flag);
+                $('#line'+j).attr("href","javascript:void(0);");
+                $('#line'+j).attr('title',"暂不可看").tooltip('fixTitle');
+            }
+        }
     }
 
     if(index==0){
@@ -390,14 +589,42 @@ function setUrl(index) {
         iframeUrl = GlobalItem.url2;
     }else if(index==2){
         iframeUrl = GlobalItem.url3;
+    }else if(index==3){
+        iframeUrl = GlobalItem.url4;
+    }else if(index==4){
+        iframeUrl = GlobalItem.url5;
+    }else if(index==5){
+        iframeUrl = GlobalItem.url6;
     }
-    if(iframeUrl){
-        $('#tipLoading').hide();
-        $('#frameLoading').show();
-        $('#myFrame').attr("src",iframeUrl);
-    }else{//显示资源不可播放
-        $('#frameLoading').hide();
-        $('#tipLoading').show();
+    if(isPhone()){//移动端
+        if(iframeUrl){
+            iframeUrl = "/iframe?url="+iframeUrl;
+            iframeUrl = iframeUrl+"?rel=0&amp;autoplay=1";
+            $('#frameLoading').show();
+            $('#myFrame').attr("src",iframeUrl);
+            $('#tipPlay').show();
+            //添加观看历史
+            history();
+        }else{//移动端地址为空时显示资源不可播放
+            $('#frameLoading').hide();
+            $('#tipLoading').show();
+        }
+    }else{
+        if(iframeUrl){
+            if(iframeUrl.indexOf(".flv")>0||iframeUrl.indexOf(".m3u8")>0){
+                //iframeUrl = iframeUrl.split("url=")[1];
+                iframeUrl = "/iframe?url="+iframeUrl;
+            }
+            iframeUrl = iframeUrl+"";
+            $('#frameLoading').show();
+            $('#myFrame').attr("src",iframeUrl);
+            $('#tipPlay').show();
+            //添加观看历史
+            history();
+        }else{//移动端地址为空时显示资源不可播放
+            $('#frameLoading').hide();
+            $('#tipLoading').show();
+        }
     }
 }
 
@@ -500,5 +727,107 @@ function getQueryString(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = window.location.search.substr(1).match(reg);
     if (r != null) return unescape(r[2]); return null;
+}
+
+function history(){
+    if(!window.localStorage){
+        //alert("浏览器支持localstorage");
+    }else{
+        if(!GlobalItem){
+            return;
+        }
+        var storage = window.localStorage;
+        var arr = localStorage.getItem("history");
+        if(!arr){
+            arr = [];
+        }else{
+            arr = JSON.parse(arr);
+            if(arr.length>20){
+                arr = [];
+            }
+            //移除已存在的记录
+            for(var i=0;i<arr.length;i++){
+                var obj = arr[i];
+                if(obj.name==GlobalItem.name){
+                    arr.splice(i,1);
+                }
+            }
+        }
+        GlobalItem.viewTime = format();
+        //var d = JSON.stringify(GlobalItem);
+        arr.push(GlobalItem);
+        storage.setItem("history",JSON.stringify(arr));
+
+        var name = GlobalItem.name;
+        GlobalItem.viewTime = format();
+        var d = JSON.stringify(GlobalItem);
+        storage.setItem(name,d);
+    }
+    renderHistory();
+}
+
+function format(){
+    var date = new Date();
+    var year = date.getFullYear(),
+        month = date.getMonth() + 1,//月份是从0开始的
+        day = date.getDate(),
+        hour = date.getHours(),
+        min = date.getMinutes(),
+        sec = date.getSeconds();
+    var newTime = year + '-' +
+        (month < 10 ? '0' + month : month) + '-' +
+        (day < 10 ? '0' + day : day) + ' ' +
+        (hour < 10 ? '0' + hour : hour) + ':' +
+        (min < 10 ? '0' + min : min) + ':' +
+        (sec < 10 ? '0' + sec : sec);
+    newTime = (month < 10 ? '0' + month : month) + '-' +
+        (day < 10 ? '0' + day : day) + ' ' +
+        (hour < 10 ? '0' + hour : hour) + ':' +
+        (min < 10 ? '0' + min : min) + ':' +
+        (sec < 10 ? '0' + sec : sec);
+
+    return newTime;
+}
+
+function renderHistory() {
+    if(!window.localStorage){
+        //alert("浏览器支持localstorage");
+    }else{
+        $('#historyWrap').html("");
+        var history = localStorage.getItem("history");
+        if(history){
+            var dataArr = JSON.parse(history);
+            dataArr.reverse();
+            for(var i=0;i<dataArr.length;i++){
+                var obj = dataArr[i];
+                //var jsonObj = JSON.parse(obj);
+                var name = obj.name;
+                if(name.length>7){
+                    name = name.substring(0,7)+"...";
+                }
+                var title = name;
+                if(obj.sequence>1){
+                    title = name+"-"+obj.sequence;
+                }
+                $('#historyWrap').append('<li style="padding: 0px 0px">\n' +
+                    '\t\t\t\t\t\t\t\t<a style="padding: 10px 10px;font-size: 12px;" href="javascript:toHistory(\''+obj.eid+','+obj.type+'\')">\n' +
+                    '\t\t\t\t\t\t\t\t\t'+title+'\n' +
+                    '\t\t\t\t\t\t\t\t\t<span style="font-size: 10px;">[ '+obj.viewTime+' ]</span>\n' +
+                    '\t\t\t\t\t\t\t\t</a>\n' +
+                    '\t\t\t\t\t\t\t</li>')
+            }
+        }
+    }
+}
+
+function toHistory(eid) {
+    var arr = eid.split(",");
+    eid = arr[0];
+    var type = arr[1];
+    if(parseInt(type)){
+        window.location.href = "/index/resource/share?v="+eid;
+    }else{
+        window.location.href = "/singleTV?eid="+eid;
+    }
 }
 

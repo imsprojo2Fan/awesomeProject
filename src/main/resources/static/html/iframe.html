@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>看风了风</title>
+		<link rel="shortcut icon" href="../image/icon.png">
+		
+		<style type="text/css">
+			body{
+				margin:0;padding:0px;font-family:"Microsoft YaHei",YaHei,"微软雅黑",SimHei,"黑体";font-size:14px;
+				overflow: hidden;
+			}
+		</style>
+		<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.slim.js"></script>
+		<script>
+            $(function () {
+                var mHeight = window.screen.availHeight;
+                var video = document.getElementById("video");
+                video.style.height = mHeight;
+            })
+
+		</script>
+	</head>
+
+	<body>
+		<script type="text/javascript" src="../js/ckplayer/ckplayer/ckplayer.js"></script>
+		<div id="video" style="width: 100%;"></div>
+		<script type="text/javascript">
+
+			$(function () {
+                var url = getQueryString("url");
+                var videoObject = {
+                    container: '#video', //容器的ID或className
+                    variable: 'player',//播放函数名称
+                    autoplay: true, //是否自动播放，默认true=自动播放，false=默认暂停状态
+                    poster:'material/poster.jpg',//封面图片
+                    loaded:'loadedHandler', //当播放器加载后执行的函数
+                    //flashplayer:true,
+                    html5m3u8:false,//是否使用hls，默认不选择，如果此属性设置成true，则不能设置flashplayer:true,
+                    //video: "http://live.hcs.cmvideo.cn:8088/wd-hunanhd-350/index.m3u8?msisdn=62ba2db50402dedaf83978e1bc03a5d2&mdspid=&spid=699017&netType=0&sid=2201064496&pid=2028597139&timestamp=20180916103808&Channel_ID=1004_10010001005&ProgramID=621826681&ParentNodeID=-99&assertID=2201064496&SecurityKey=20180916103808&promotionId=&mvid=&mcid=&mpid=&encrypt=98e28ea13261693f879fb838b0f8acba"//视频地址列表形式
+					video:url
+                };
+                var player = new ckplayer(videoObject);
+                $('#video').css("height",$(document).height());
+            })
+
+
+			function loadedHandler() {
+			    //alert(666)
+				$('#video').css("height",$(document).height());
+            }
+
+            function getQueryString(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) return unescape(r[2]); return null;
+            }
+		</script>
+
+		<div id="aa"></div>
+	</body>
+
+</html>

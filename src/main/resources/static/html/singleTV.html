@@ -161,6 +161,17 @@
 					<li><a href="javascript:toMore(2)">电视剧</a></li>
 					<li><a href="javascript:toMore(3)">综艺</a></li>
 					<li><a href="javascript:toMore(4)">动漫</a></li>
+					<li><a href="javascript:window.location.href='/listTV'">电视直播</a></li>
+					<li class="has-dropdown"><a href="javascript:void(0)">观看历史</a>
+						<ul class="dropdown" style="padding-top: 10px" id="historyWrap">
+							<!--<li style="padding: 0px 0px">
+								<a href="blog-single.html">
+									后来的我们
+									<span style="font-size: 10px;">2018/9/15 09:47:15</span>
+								</a>
+							</li>-->
+						</ul>
+					</li>
 					<li><a href="javascript:request()">留言求片</a></li>
 					<li><a href="/login" target="_blank">注册登录</a></li>
 				</ul>
@@ -222,7 +233,7 @@
 							</div>
 
 							<div id="iframeWrap" style="width: 100%;height: 100%">
-								<iframe onreadystatechange="ready()" allowFullScreen="true" id="myFrame" name="myFrame" width="100%" height="100%" src="" frameborder="0" data-id="" seamless></iframe>
+								<iframe onreadystatechange="ready()" allowFullScreen="true" id="myFrame" name="myFrame" width="100%" height="100%" scrolling="no" src="" frameborder="0" data-id="" seamless></iframe>
 							</div>
 
 						</div>
@@ -240,15 +251,9 @@
 							<div >
 								<h5>线路：</h5>
 								<span id="lineWrap">
-									<a id="line1" href="javascript:setUrl(0)" style="margin-right: 1px;" data-toggle="tooltip" data-placement="bottom" title="线路一">
+									<!--<a id="line1" href="javascript:setUrl(0)" style="margin-right: 1px;" data-toggle="tooltip" data-placement="bottom" title="线路一">
 										<i class="fa fa-chain"></i>线路一
-									</a>
-									<a id="line2" href="javascript:setUrl(1)" style="margin-right: 1px;" data-toggle="tooltip" data-placement="bottom" title="线路二">
-										<i class="fa fa-chain"></i>线路二
-									</a>
-									<a id="line3" href="javascript:setUrl(2)" style="margin-right: 1px;" data-toggle="tooltip" data-placement="bottom" title="线路三">
-										<i class="fa fa-chain"></i>线路三
-									</a>
+									</a>-->
 								</span>
 							</div>
 

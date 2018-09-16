@@ -204,6 +204,7 @@ public class IndexMainController {
 
 		if(rList.size()>0){
 			session.setAttribute("itemId",rList.get(0).get("id").toString());
+			session.setAttribute("type",rList.get(0).get("type"));
 			//跳转single.html
 			response.sendRedirect("/single");
 			return null;
@@ -318,13 +319,13 @@ public class IndexMainController {
 	@ApiOperation(value="查询", notes="获取列表")
 	@ResponseBody
 	@RequestMapping(value = "/resource/list4order", method = RequestMethod.POST)
-	public Object searchByOrder(HttpServletRequest request,HttpSession session){
+	public Object searchByOrder(HttpServletRequest request,HttpSession session,HttpServletResponse response){
 
 		init();
 		Map map = new HashMap();
 		String type = (String) session.getAttribute("type");
 		if(StringUtils.isEmpty(type)){
-			type = "1";
+			type="1";
 		}
 
 		String col = request.getParameter("col");
@@ -349,14 +350,14 @@ public class IndexMainController {
 	@ApiOperation(value="查询", notes="获取列表")
 	@ResponseBody
 	@RequestMapping(value = "/resource/list4tvItem", method = RequestMethod.POST)
-	public Object list4tvItem(String tid){
+	public Object list4tvItem(String eid){
 
 		init();
 
 		Map map = new HashMap();
 
-		map.put("key","tid");
-		map.put("value",tid);
+		map.put("key","eid");
+		map.put("value",eid);
 		rList = tvsService.searchByKey(map);
 		if(rList.size()>0){
 			Map rMap = rList.get(0);
@@ -379,7 +380,7 @@ public class IndexMainController {
 	@ApiOperation(value="查询", notes="获取列表")
 	@ResponseBody
 	@RequestMapping(value = "/resource/list4item", method = RequestMethod.POST)
-	public Object list4item(HttpSession session,String id){
+	public Object list4item(HttpSession session,String id,HttpServletResponse response){
 
 		init();
 
@@ -387,7 +388,12 @@ public class IndexMainController {
 
 		String type = (String) session.getAttribute("type");
 		if(StringUtils.isEmpty(type)){
-			type = "1";
+			try {
+				response.sendRedirect("/");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return null;
 		}
 		String itemId = "";
 		if(!StringUtils.isEmpty(id)){
@@ -396,7 +402,12 @@ public class IndexMainController {
 		}else{
 			itemId = (String) session.getAttribute("itemId");
 			if(StringUtils.isEmpty(itemId)){
-				itemId = "3";
+				try {
+					response.sendRedirect("/");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return null;
 			}
 		}
 

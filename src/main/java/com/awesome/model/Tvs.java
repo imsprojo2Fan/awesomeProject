@@ -5,7 +5,7 @@ import java.util.Date;
 public class Tvs {
     private Integer id;
 
-    private String tid;
+    private String eid;
 
     private String type;
 
@@ -29,6 +29,8 @@ public class Tvs {
 
     private String url5;
 
+    private String url6;
+
     private Integer views;
 
     private Integer views4online;
@@ -49,12 +51,12 @@ public class Tvs {
         this.id = id;
     }
 
-    public String getTid() {
-        return tid;
+    public String getEid() {
+        return eid;
     }
 
-    public void setTid(String tid) {
-        this.tid = tid;
+    public void setTid(String eid) {
+        this.eid = eid;
     }
 
     public String getType() {
@@ -143,6 +145,14 @@ public class Tvs {
 
     public void setUrl5(String url5) {
         this.url5 = url5;
+    }
+
+    public String getUrl6() {
+        return url6;
+    }
+
+    public void setUrl6(String url6) {
+        this.url6 = url6;
     }
 
     public Integer getViews() {

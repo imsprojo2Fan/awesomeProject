@@ -105,6 +105,12 @@ public class LoginController {
 		return "/html/signup.html";
 	}
 
+	@ApiIgnore//使用该注解忽略这个API
+	@RequestMapping(value = "/iframe")
+	public String tvIframe(String url){
+		return "/html/iframe.html?url="+url;
+	}
+
 
 	@ApiIgnore//使用该注解忽略这个API
 	@RequestMapping(value = "/setSession")

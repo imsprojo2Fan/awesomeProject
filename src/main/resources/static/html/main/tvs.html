@@ -193,6 +193,14 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label for="url6" class="col-sm-2 control-label form-label">播放线路6</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"  style="ime-mode:disabled" id="url6"  placeholder="播放线路6">
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
                                     <div class="col-sm-offset-6">
                                         <a href="javascript:add()" class="btn btn-default">提交</a>&nbsp;&nbsp;
                                         <a id="reset" href="javascript:reset()" class="btn btn-danger">重置</a>
@@ -234,7 +242,7 @@
                         <p class="form-control-static" >频道名称：<span id="detail_name"></span></p>
                     </div>
                     <div class="col-sm-offset-1">
-                        <p class="form-control-static" >唯一识别：<span id="detail_tid"></span></p>
+                        <p class="form-control-static" >唯一识别：<span id="detail_eid"></span></p>
                     </div>
                     <div class="col-sm-offset-1">
                         <p class="form-control-static" >所属类型：<span id="detail_type"></span></p>
@@ -256,6 +264,9 @@
                     </div>
                     <div class="col-sm-offset-1">
                         <p class="form-control-static" >播放线路5：<span id="detail_url5"></span></p>
+                    </div>
+                    <div class="col-sm-offset-1">
+                        <p class="form-control-static" >播放线路6：<span id="detail_url6"></span></p>
                     </div>
                     <div class="col-sm-offset-1">
                         <p class="form-control-static" >创建时间：<span id="detail_created"></span></p>
@@ -301,7 +312,7 @@
                             <label for="edit_name" class="col-sm-2 control-label form-label">唯一识别</label>
                             <div class="col-sm-10">
                                 <input type="hidden" id="edit_id">
-                                <input type="text" disabled class="form-control" maxlength="20" style="ime-mode:disabled" id="edit_tid" onKeyUp="value=value.replace(/[^/a-zA-Z0-9]/g,'')" placeholder="频道名称">
+                                <input type="text" disabled class="form-control" maxlength="20" style="ime-mode:disabled" id="edit_eid" onKeyUp="value=value.replace(/[^/a-zA-Z0-9]/g,'')" placeholder="频道名称">
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -387,6 +398,14 @@
                             <label for="edit_url5" class="col-sm-2 control-label form-label">播放线路5</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control"  style="ime-mode:disabled" id="edit_url5"  placeholder="播放线路5">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit_url6" class="col-sm-2 control-label form-label">播放线路6</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  style="ime-mode:disabled" id="edit_url6"  placeholder="播放线路6">
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -520,7 +539,7 @@ Data Tables
             rowData = myTable.row($(this).closest('tr')).data();
             console.log(rowData);
             $('#detail_name').html(rowData.name);
-            $('#detail_tid').html(rowData.tid);
+            $('#detail_eid').html(rowData.eid);
             var type = rowData.type;
             $('#detail_type').html(type);
             var areaType = rowData.type;
@@ -530,6 +549,7 @@ Data Tables
             $('#detail_url3').html(rowData.url3);
             $('#detail_url4').html(rowData.url4);
             $('#detail_url5').html(rowData.url5);
+            $('#detail_url6').html(rowData.url6);
             var created = rowData.created;
             var unixTimestamp = new Date(created) ;
             var commonTime = unixTimestamp.toLocaleString('chinese',{hour12:false});
@@ -551,7 +571,7 @@ Data Tables
             console.log(rowData);
             $('#edit_id').val(rowData.id);
             $('#edit_name').val(rowData.name);
-            $('#edit_tid').val(rowData.tid);
+            $('#edit_eid').val(rowData.eid);
             var type = rowData.type;
             $("#edit_typeSelect").selectpicker('val',type);//默认选中 value=“1” 的option
             $("#edit_typeSelect").selectpicker('refresh');
@@ -564,6 +584,7 @@ Data Tables
             $('#edit_url3').val(rowData.url3);
             $('#edit_url4').val(rowData.url4);
             $('#edit_url5').val(rowData.url5);
+            $('#edit_url6').val(rowData.url6);
             $('#tip').html("");
             $('#editModal').modal("show");
         });
@@ -600,6 +621,7 @@ Data Tables
         var url3 = $('#url3').val().trim();
         var url4 = $('#url4').val().trim();
         var url5 = $('#url5').val().trim();
+        var url6 = $('#url6').val().trim();
 
         $.ajax({
             url : "/main/tvs/add",
@@ -615,7 +637,8 @@ Data Tables
                 url2:url2,
                 url3:url3,
                 url4:url4,
-                url5:url5
+                url5:url5,
+                url6:url6
             },
             beforeSend:function(){
                 $('#loading').fadeIn(200);
@@ -644,6 +667,7 @@ Data Tables
         var url3 = $('#edit_url3').val().trim();
         var url4 = $('#edit_url4').val().trim();
         var url5 = $('#edit_url5').val().trim();
+        var url6 = $('#edit_url6').val().trim();
 
         $.ajax({
             url : "/main/tvs/edit",
@@ -660,7 +684,8 @@ Data Tables
                 url2:url2,
                 url3:url3,
                 url4:url4,
-                url5:url5
+                url5:url5,
+                url6:url6
             },
             beforeSend:function(){
                 $('#loading').fadeIn(200);

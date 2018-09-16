@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>ckplayer</title>
+		<script type="text/javascript" src="ckplayer/ckplayer.js"></script>
+		<style type="text/css">body{margin:0;padding:0px;font-family:"Microsoft YaHei",YaHei,"微软雅黑",SimHei,"黑体";font-size:14px}</style>
+
+	</head>
+
+	<body>
+		<div id="video" style="width: 600px; height: 400px;"></div>
+		<script type="text/javascript">
+			var videoObject = {
+				container: '#video', //容器的ID或className
+				variable: 'player',//播放函数名称
+				flashplayer:true,
+                autoplay:true,
+				poster:'material/poster.jpg',//封面图片
+				video: [//视频地址列表形式
+					['http://202.107.186.134:5001/nn_live.flv?id=hunantvm', 'video/flv', '中文标清', 0]
+				]
+			};
+			var player = new ckplayer(videoObject);
+		</script>
+	</body>
+
+</html>

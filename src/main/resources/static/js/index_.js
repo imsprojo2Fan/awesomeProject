@@ -63,10 +63,10 @@ $(document).ready(function(){
                                     '\t\t\t\t</div>');
                             }
                             $('#series2more').show();
-                            $("img.lazy").lazyload({
+                            /*$("img.lazy").lazyload({
                                 effect : "fadeIn",
                                 placeholder : "../image/loading.gif"
-                            });
+                            });*/
                         }
 
                     });
@@ -102,10 +102,10 @@ $(document).ready(function(){
                                     '\t\t\t\t</div>');
                             }
                             $('#variety2more').show();
-                            $("img.lazy").lazyload({
+                            /*$("img.lazy").lazyload({
                                 effect : "fadeIn",
                                 placeholder : "../image/loading.gif"
-                            });
+                            });*/
                         }
 
                     });
@@ -141,10 +141,10 @@ $(document).ready(function(){
                                     '\t\t\t\t</div>');
                             }
                             $('#animate2more').show();
-                            $("img.lazy").lazyload({
+                            /*$("img.lazy").lazyload({
                                 effect : "fadeIn",
                                 placeholder : "../image/loading.gif"
-                            });
+                            });*/
                         }
 
                     });
@@ -172,7 +172,7 @@ $(document).ready(function(){
                                 var imgSrc = ""+obj.imgSrc;
                                 var error = "../image/error1.png";
                                 $('#tvWrap').append('<div title="'+obj.name+'" class="col-sm-3">\n' +
-                                    '\t\t\t\t\t<div onclick="toTVDetail(\''+obj.tid+'\')" class="about">\n' +
+                                    '\t\t\t\t\t<div onclick="toTVDetail(\''+obj.eid+'\')" class="about">\n' +
                                     '\t\t\t\t\t\t<!--<i class="fa fa-cogs"></i>-->\n' +
                                     '\t\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive lazy" style="min-height: 120px;" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
                                     '\t\t\t\t\t\t<h3>'+name+'</h3>\n' +
@@ -181,10 +181,10 @@ $(document).ready(function(){
                                     '\t\t\t\t</div>');
                             }
                             $('#tv2more').show();
-                            $("img.lazy").lazyload({
+                            /*$("img.lazy").lazyload({
                                 effect : "fadeIn",
                                 placeholder : "../image/loading.gif"
-                            });
+                            });*/
                         }
 
                     });
@@ -254,7 +254,8 @@ $(function () {
         }
     },10);
 
-
+    //渲染观看历史
+    renderHistory();
 
 });
 
@@ -278,8 +279,8 @@ function toDetail(type,itemId) {
     });
 }
 
-function toTVDetail(tid) {
-    window.location.href = "/singleTV?tid="+tid;
+function toTVDetail(eid) {
+    window.location.href = "/singleTV?eid="+eid;
 }
 
 function sub() {
@@ -318,4 +319,46 @@ function sub() {
             swal("火星人来袭","服务貌似不在线了..","error");
         }
     });
+}
+
+function renderHistory() {
+    if(!window.localStorage){
+        //alert("浏览器支持localstorage");
+    }else{
+        $('#historyWrap').html("");
+        var history = localStorage.getItem("history");
+        if(history){
+            var dataArr = JSON.parse(history);
+            dataArr.reverse();
+            for(var i=0;i<dataArr.length;i++){
+                var obj = dataArr[i];
+                //var jsonObj = JSON.parse(obj);
+                var name = obj.name;
+                if(name.length>7){
+                    name = name.substring(0,7)+"...";
+                }
+                var title = name;
+                if(obj.sequence>1){
+                    title = name+"-"+obj.sequence;
+                }
+                $('#historyWrap').append('<li style="padding: 0px 0px">\n' +
+                    '\t\t\t\t\t\t\t\t<a style="padding: 10px 10px;font-size: 12px;" href="javascript:toHistory(\''+obj.eid+','+obj.type+'\')">\n' +
+                    '\t\t\t\t\t\t\t\t\t'+title+'\n' +
+                    '\t\t\t\t\t\t\t\t\t<span style="font-size: 10px;">[ '+obj.viewTime+' ]</span>\n' +
+                    '\t\t\t\t\t\t\t\t</a>\n' +
+                    '\t\t\t\t\t\t\t</li>')
+            }
+        }
+    }
+}
+
+function toHistory(eid) {
+    var arr = eid.split(",");
+    eid = arr[0];
+    var type = arr[1];
+    if(parseInt(type)){
+        window.location.href = "/index/resource/share?v="+eid;
+    }else{
+        window.location.href = "/singleTV?eid="+eid;
+    }
 }

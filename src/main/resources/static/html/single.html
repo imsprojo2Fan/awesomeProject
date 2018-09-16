@@ -162,7 +162,18 @@
 					<li><a href="javascript:toMore(2)">电视剧</a></li>
 					<li><a href="javascript:toMore(3)">综艺</a></li>
 					<li><a href="javascript:toMore(4)">动漫</a></li>
+					<li><a href="javascript:window.location.href='/listTV'">电视直播</a></li>
 					<li><a href="javascript:request()">留言求片</a></li>
+					<li class="has-dropdown"><a href="javascript:void(0)">观看历史</a>
+						<ul class="dropdown" style="padding-top: 10px" id="historyWrap">
+							<!--<li style="padding: 0px 0px">
+								<a href="blog-single.html">
+									后来的我们
+									<span style="font-size: 10px;">2018/9/15 09:47:15</span>
+								</a>
+							</li>-->
+						</ul>
+					</li>
 					<li><a href="/login" target="_blank">注册登录</a></li>
 				</ul>
 				<!-- /Main navigation -->
@@ -244,33 +255,6 @@
 							</div>
 							<!-- tags -->
 
-							<!-- action -->
-							<div class="blog-tags" style="margin-top: -8px">
-								<div >
-									<h5>操作：</h5>
-                                    <span id="actionWrap">
-                                        <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="查看">
-                                            <i class="fa fa-eye"></i><span id="views"></span>
-                                        </a>
-										<a href="javascript:action('collect')" data-toggle="tooltip" data-placement="bottom" title="收藏">
-											<i class="fa fa-star"></i><span id="collects"></span>
-										</a>
-										<a href="javascript:action('like')" data-toggle="tooltip" data-placement="bottom" title="喜欢">
-											<i class="fa fa-heart"></i><span id="likes"></span>
-										</a>
-									</span>
-                                    <a href="javascript:share();" >
-                                        <i class="fa fa-share-square-o"></i>点我分享
-                                    </a>
-									<a href="javascript:report();" >
-										<i class="fa fa-bug"></i>不能看?点我
-									</a>
-								</div>
-
-							</div>
-							<!-- action -->
-
-
 						</div>
 
 						<div id="iframe" style="border:1px solid #eee;height:87vh;display: none;">
@@ -308,7 +292,33 @@
 
 						</div>
 
-						<div id="tipPlay" class="blog-tags" style="margin-top: 10px;margin-bottom:10px;display: none">如果长时间未播放,可以刷新页面试试喔.</div>
+						<div id="tipPlay" class="blog-tags" style="margin-top: 10px;margin-bottom:10px;display: none">如果长时间未播放,可以刷新页面试试喔.或者反馈给我们</div>
+
+						<!-- action -->
+						<div class="blog-tags" style="margin-top: 10px;border: 1px solid #eee;padding:8px 0px;">
+							<div >
+								<h5>操作：</h5>
+								<span id="actionWrap">
+                                        <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="查看">
+                                            <i class="fa fa-eye"></i><span id="views"></span>
+                                        </a>
+										<a href="javascript:action('collect')" data-toggle="tooltip" data-placement="bottom" title="收藏">
+											<i class="fa fa-star"></i><span id="collects"></span>
+										</a>
+										<a href="javascript:action('like')" data-toggle="tooltip" data-placement="bottom" title="喜欢">
+											<i class="fa fa-heart"></i><span id="likes"></span>
+										</a>
+									</span>
+								<a href="javascript:share();" >
+									<i class="fa fa-share-square-o"></i>点我分享
+								</a>
+								<a href="javascript:report();" >
+									<i class="fa fa-bug"></i>不能看?点我
+								</a>
+							</div>
+
+						</div>
+						<!-- action -->
 
 						<div id="seriesParent" class="blog-tags" style="padding: 10px;border: 1px solid #eee;margin-top: 10px;display: none">
 							<div id="seriesWrap" >

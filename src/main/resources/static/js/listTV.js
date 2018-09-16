@@ -153,7 +153,7 @@ $(function () {
                             var error = "../image/error1.png";
                             var imgId = "IMG-"+i;
                             $('#listData').append('<div class="col-sm-3" style="width: 95%;margin: 0 auto">\n' +
-                                '\t\t\t\t\t<div onclick="toTVDetail(\''+obj.tid+'\')" class="blog">\n' +
+                                '\t\t\t\t\t<div onclick="toTVDetail(\''+obj.eid+'\')" class="blog">\n' +
                                 '\t\t\t\t\t\t<div class="blog-img">\n' +
                                 '\t\t\t\t\t\t\t<img id="'+imgId+'" onerror=src="'+error+'" style="width: 85%;min-height:120px;margin: 0 auto" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
                                 '\t\t\t\t\t\t</div>\n' +
@@ -197,6 +197,9 @@ $(function () {
         }
     }
 
+    //渲染观看历史
+    renderHistory();
+
 });
 
 function listItem(pageNow,pageSize) {
@@ -224,7 +227,7 @@ function listItem(pageNow,pageSize) {
             var imgId = "IMG-"+i;
             var error = "../image/error1.png";
             $('#itemWrap').append('<div class="col-sm-3">\n' +
-                '\t\t\t\t\t<div title="'+obj.name+'" onclick="toTVDetail(\''+obj.tid+'\')" class="blog">\n' +
+                '\t\t\t\t\t<div title="'+obj.name+'" onclick="toTVDetail(\''+obj.eid+'\')" class="blog">\n' +
                 '\t\t\t\t\t\t<div class="blog-img">\n' +
                 '\t\t\t\t\t\t\t<img id="'+imgId+'" onerror=src="'+error+'" class="img-responsive lazy" data-original="'+imgSrc+'"  src="'+imgSrc+'" alt="图片加载失败">\n' +
                 '\t\t\t\t\t\t</div>\n' +
@@ -288,7 +291,7 @@ function list4search(pageNow,pageSize,key) {
                 var error = "../image/error1.png";
                 var imgId = "IMG-"+i;
                 $('#itemWrap').append('<div class="col-sm-3">\n' +
-                    '\t\t\t\t\t<div onclick="toTVDetail(\''+obj.tid+'\')" class="blog">\n' +
+                    '\t\t\t\t\t<div onclick="toTVDetail(\''+obj.eid+'\')" class="blog">\n' +
                     '\t\t\t\t\t\t<div class="blog-img">\n' +
                     '\t\t\t\t\t\t\t<img id="'+imgId+'" onerror=src="'+error+'" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
                     '\t\t\t\t\t\t</div>\n' +
@@ -408,8 +411,8 @@ function aside(col) {
 
 }
 
-function toTVDetail(tId) {
-    window.location.href = "/singleTV?tid="+tId;
+function toTVDetail(eid) {
+    window.location.href = "/singleTV?eid="+eid;
 }
 
 function searchResource() {
@@ -453,5 +456,47 @@ function preLoading() {
             window.clearInterval(interval);
         }
     },10);
+}
+
+function renderHistory() {
+    if(!window.localStorage){
+        //alert("浏览器支持localstorage");
+    }else{
+        $('#historyWrap').html("");
+        var history = localStorage.getItem("history");
+        if(history){
+            var dataArr = JSON.parse(history);
+            dataArr.reverse();
+            for(var i=0;i<dataArr.length;i++){
+                var obj = dataArr[i];
+                //var jsonObj = JSON.parse(obj);
+                var name = obj.name;
+                if(name.length>7){
+                    name = name.substring(0,7)+"...";
+                }
+                var title = name;
+                if(obj.sequence>1){
+                    title = name+"-"+obj.sequence;
+                }
+                $('#historyWrap').append('<li style="padding: 0px 0px">\n' +
+                    '\t\t\t\t\t\t\t\t<a style="padding: 10px 10px;font-size: 12px;" href="javascript:toHistory(\''+obj.eid+','+obj.type+'\')">\n' +
+                    '\t\t\t\t\t\t\t\t\t'+title+'\n' +
+                    '\t\t\t\t\t\t\t\t\t<span style="font-size: 10px;">[ '+obj.viewTime+' ]</span>\n' +
+                    '\t\t\t\t\t\t\t\t</a>\n' +
+                    '\t\t\t\t\t\t\t</li>')
+            }
+        }
+    }
+}
+
+function toHistory(eid) {
+    var arr = eid.split(",");
+    eid = arr[0];
+    var type = arr[1];
+    if(parseInt(type)){
+        window.location.href = "/index/resource/share?v="+eid;
+    }else{
+        window.location.href = "/singleTV?eid="+eid;
+    }
 }
 

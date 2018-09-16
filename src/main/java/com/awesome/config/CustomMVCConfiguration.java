@@ -44,7 +44,7 @@ public class CustomMVCConfiguration extends WebMvcConfigurerAdapter {
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addRedirectViewController("/ckplayer","/plugins/ckplayer/index.html");
-		registry.addRedirectViewController("/iframe","/plugins/ckplayer/iframe.html");
+		registry.addRedirectViewController("/iframe4TV","/html/iframe.html");
 		registry.addRedirectViewController("/flash","/plugins/ckplayer/flashplayer.html");
 
 		super.addViewControllers(registry);

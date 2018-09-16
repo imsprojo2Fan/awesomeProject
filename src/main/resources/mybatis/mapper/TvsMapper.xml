@@ -3,7 +3,7 @@
 <mapper namespace="com.awesome.dao.TvsMapper" >
   <resultMap id="BaseResultMap" type="com.awesome.model.Tvs" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="tid" property="tid" jdbcType="VARCHAR" />
+    <result column="eid" property="eid" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="area_type" property="areaType" jdbcType="VARCHAR" />
     <result column="area" property="area" jdbcType="VARCHAR" />
@@ -15,6 +15,7 @@
     <result column="url3" property="url3" jdbcType="VARCHAR" />
     <result column="url4" property="url4" jdbcType="VARCHAR" />
     <result column="url5" property="url5" jdbcType="VARCHAR" />
+    <result column="url6" property="url6" jdbcType="VARCHAR" />
     <result column="views" property="views" jdbcType="INTEGER" />
     <result column="views4online" property="views4online" jdbcType="INTEGER" />
     <result column="likes" property="likes" jdbcType="INTEGER" />
@@ -23,7 +24,7 @@
     <result column="created" property="created" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, tid, type, area_type, area, name,is_on, imgSrc, url1, url2, url3, url4, url5, views,
+    id, eid, type, area_type, area, name,is_on, imgSrc, url1, url2, url3, url4, url5,url6, views,
     views4online,likes,collects, updated, created
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -37,16 +38,16 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.awesome.model.Tvs" >
-    insert into tvs (id, tid, type, 
+    insert into tvs (id, eid, type, 
       area_type, area, name, is_on,
       imgSrc, url1, url2, 
-      url3, url4, url5, views, 
+      url3, url4, url5,url6, views,
       views4online, updated, created
       )
-    values (#{id,jdbcType=INTEGER}, #{tid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{eid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
       #{areaType,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},#{is_on,jdbcType=INTEGER},
       #{imgsrc,jdbcType=VARCHAR}, #{url1,jdbcType=VARCHAR}, #{url2,jdbcType=VARCHAR}, 
-      #{url3,jdbcType=VARCHAR}, #{url4,jdbcType=VARCHAR}, #{url5,jdbcType=VARCHAR}, #{views,jdbcType=INTEGER}, 
+      #{url3,jdbcType=VARCHAR}, #{url4,jdbcType=VARCHAR}, #{url5,jdbcType=VARCHAR},#{url6,jdbcType=VARCHAR}, #{views,jdbcType=INTEGER},
       #{views4online,jdbcType=INTEGER}, #{updated,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -56,8 +57,8 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="tid != null" >
-        tid,
+      <if test="eid != null" >
+        eid,
       </if>
       <if test="type != null" >
         type,
@@ -92,6 +93,9 @@
       <if test="url5 != null" >
         url5,
       </if>
+      <if test="url5 != null" >
+        url6,
+      </if>
       <if test="views != null" >
         views,
       </if>
@@ -115,8 +119,8 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="tid != null" >
-        #{tid,jdbcType=VARCHAR},
+      <if test="eid != null" >
+        #{eid,jdbcType=VARCHAR},
       </if>
       <if test="type != null" >
         #{type,jdbcType=VARCHAR},
@@ -151,6 +155,9 @@
       <if test="url5 != null" >
         #{url5,jdbcType=VARCHAR},
       </if>
+      <if test="url6 != null" >
+        #{url6,jdbcType=VARCHAR},
+      </if>
       <if test="views != null" >
         #{views,jdbcType=INTEGER},
       </if>
@@ -174,8 +181,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.awesome.model.Tvs" >
     update tvs
     <set >
-      <if test="tid != null" >
-        tid = #{tid,jdbcType=VARCHAR},
+      <if test="eid != null" >
+        eid = #{eid,jdbcType=VARCHAR},
       </if>
       <if test="type != null" >
         type = #{type,jdbcType=VARCHAR},
@@ -210,6 +217,9 @@
       <if test="url5 != null" >
         url5 = #{url5,jdbcType=VARCHAR},
       </if>
+      <if test="url6 != null" >
+        url6 = #{url6,jdbcType=VARCHAR},
+      </if>
       <if test="views != null" >
         views = #{views,jdbcType=INTEGER},
       </if>
@@ -227,7 +237,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.awesome.model.Tvs" >
     update tvs
-    set tid = #{tid,jdbcType=VARCHAR},
+    set eid = #{eid,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
       area_type = #{areaType,jdbcType=VARCHAR},
       area = #{area,jdbcType=VARCHAR},
@@ -239,6 +249,7 @@
       url3 = #{url3,jdbcType=VARCHAR},
       url4 = #{url4,jdbcType=VARCHAR},
       url5 = #{url5,jdbcType=VARCHAR},
+      url6 = #{url6,jdbcType=VARCHAR},
       views = #{views,jdbcType=INTEGER},
       views4online = #{views4online,jdbcType=INTEGER},
       updated = #{updated,jdbcType=TIMESTAMP},
