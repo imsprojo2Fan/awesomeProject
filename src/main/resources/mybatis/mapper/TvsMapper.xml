@@ -278,4 +278,18 @@
   <select id="searchByKey" parameterType="Map" resultType="Map">
     select * from tvs where ${key} = #{value}
   </select>
+
+  <select id="searchByOrder" parameterType="Map" resultType="Map">
+    select <include refid="Base_Column_List" />
+    from tvs where 1=1
+    <if test="key !=null and key!='' ">
+      and ${key} = #{value}
+    </if>
+    order by ${col} ${orderType}
+
+    <if test="pageSize !=null and pageSize!='' ">
+      LIMIT 0,${pageSize}
+    </if>
+
+  </select>
 </mapper>

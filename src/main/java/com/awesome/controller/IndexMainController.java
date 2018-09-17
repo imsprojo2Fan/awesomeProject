@@ -344,6 +344,31 @@ public class IndexMainController {
 	}
 
 	/**
+	 * 查询排序
+	 * @return
+	 */
+	@ApiOperation(value="查询", notes="获取列表")
+	@ResponseBody
+	@RequestMapping(value = "/tv/list4TVOrder", method = RequestMethod.POST)
+	public Object list4TVOrder(HttpServletRequest request,HttpSession session,HttpServletResponse response){
+
+		init();
+		Map map = new HashMap();
+
+		String col = request.getParameter("col");
+		if(!"views".equals(col)&&!"comments".equals(col)&&!"likes".equals(col)&&!"collects".equals(col)){
+			r.setMsg("col error!");
+			return r;
+		}
+
+		map.put("col",col);
+		map.put("orderType","desc");
+		map.put("pageSize",12);
+		List rList = tvsService.searchByOrder(map);
+		return rList;
+	}
+
+	/**
 	 * 查询剧集详情
 	 * @return
 	 */

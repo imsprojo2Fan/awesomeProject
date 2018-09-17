@@ -12,10 +12,10 @@ $(function () {
         $('#logo').css("margin-left","38%");
         $('#aside').hide();
         $('#pageWrap').hide();
-        $('#iframe').css("height","27vh");
+        $('#iframe').css("height","205px");
         $('.loading-wrap').css("width","90%");
         $('.loader').css("margin-left","-30px");
-        $('.loading-wrap').css("height","27vh");
+        $('.loading-wrap').css("height","205px");
         $('.loading-wrap').css("top","6px");
         //$("[data-toggle='tooltip']").tooltip();
         //隐藏喜欢和收藏
@@ -190,49 +190,11 @@ function getItem(eid) {
         }
 
         //默认播放
-        var iframeUrl = "";
-        if(isPhone()){//移动端
-            //设置iframe
-            // GlobalVideoSrc = phoneSrc+"?rel=0&amp;autoplay=1";
-            iframeUrl = GlobalItem.url4;//默认播放url1
-            if(iframeUrl){
-                iframeUrl = "/iframe?url="+iframeUrl+"?rel=0&amp;autoplay=1";
-                $('#frameLoading').show();
-                $('#myFrame').attr("src",iframeUrl);
-                $('#tipPlay').show();
-                $('#line0').css("background-color","#6195FF");
-                $('#line0').css("color","#ffffff");
-                //添加观看历史
-                history();
-            }else{//移动端地址为空时显示资源不可播放
-                $('#frameLoading').hide();
-                $('#tipLoading').show();
-            }
-        }else{
-            //设置iframe
-            // GlobalVideoSrc = phoneSrc+"?rel=0&amp;autoplay=1";
-            iframeUrl = GlobalItem.url1;//默认播放url1
-            if(iframeUrl){
-                if(iframeUrl.indexOf(".flv")>0||iframeUrl.indexOf(".m3u8")>0){
-                    iframeUrl = iframeUrl.split("url=")[1];
-                    iframeUrl = "/iframe?url="+iframeUrl;
-                }
-                $('#frameLoading').show();
-                $('#myFrame').attr("src",iframeUrl);
-                $('#tipPlay').show();
-                $('#line0').css("background-color","#6195FF");
-                $('#line0').css("color","#ffffff");
-                //添加观看历史
-                history();
-            }else{//移动端地址为空时显示资源不可播放
-                $('#frameLoading').hide();
-                $('#tipLoading').show();
-            }
-        }
+        setUrl(0);
 
     });
 
-    $("#preloader").fadeOut(200);
+
 
     //渲染观看历史
     renderHistory();
@@ -310,7 +272,7 @@ function aside(col) {
     }
 
     //获取最多观看数据
-    $.post("/index/resource/list4order",{col:col},function (r) {
+    $.post("/index/tv/list4TVOrder",{col:col},function (r) {
         //console.log(r);
         $('#popularWrap').html("");
         if(r.length==0){
@@ -335,15 +297,13 @@ function aside(col) {
 
             }
 
-            var imgSrc = ""+obj.imgSrc2;
+            var imgSrc = ""+obj.imgSrc;
             var error = "../image/error1.png";
-            $('#popularWrap').append('<div class="widget-post">\n' +
-                '\t\t\t\t\t\t<a onclick="getItem('+obj.id+')" href="javascript:void(0);">\n' +
-                '\t\t\t\t\t\t\t<img style="width: 20%" onerror=src="'+error+'" src="'+imgSrc+'" alt="图片加载失败"> '+obj.name+'\n' +
+            $('#popularWrap').append('<div class="widget-post" style="border:1px solid #eee;height: 60px;line-height:60px;margin-bottom: 5px;">\n' +
+                '\t\t\t\t\t\t<a onclick="getItem(\''+obj.eid+'\')" href="javascript:void(0);" >\n' +
+                '\t\t\t\t\t\t\t<img style="width:30%;margin-left: 15px;" onerror=src="'+error+'" src="'+imgSrc+'" alt="图片加载失败"> '+icon+dCount+'\n' +
                 '\t\t\t\t\t\t</a>\n' +
-                '\t\t\t\t\t\t<ul class="blog-meta">\n' +
-                '\t\t\t\t\t\t\t<li>'+icon+dCount+'</li>\n' +
-                '\t\t\t\t\t\t</ul>\n' +
+                '\t\t\t\t\t\t\n' +
                 '\t\t\t\t\t</div>');
         }
     });
@@ -470,6 +430,8 @@ function setUrl(index) {
         scrollTop: 0
     }, 300);
 
+    $('#frameLoading').show();
+
     var dom = $('#myFrame').clone();
     $('#iframeWrap').html("");
     $('#iframeWrap').html(dom);
@@ -483,7 +445,6 @@ function setUrl(index) {
             $('#frameLoading').hide();
         }
     }
-
 
     var iframeUrl = "";
     //移除选中状态
@@ -583,8 +544,6 @@ function setUrl(index) {
 
     if(index==0){
         iframeUrl = GlobalItem.url1;
-        //$('#line1').css("background-color","#6195FF");
-        //$('#line1').css("color","#ffffff");
     }else if(index==1){
         iframeUrl = GlobalItem.url2;
     }else if(index==2){
@@ -597,6 +556,13 @@ function setUrl(index) {
         iframeUrl = GlobalItem.url6;
     }
     if(isPhone()){//移动端
+        if(index==0){
+            iframeUrl = GlobalItem.url4;
+        }else if(index==1){
+            iframeUrl = GlobalItem.url5;
+        }else if(index==2){
+            iframeUrl = GlobalItem.url6;
+        }
         if(iframeUrl){
             iframeUrl = "/iframe?url="+iframeUrl;
             iframeUrl = iframeUrl+"?rel=0&amp;autoplay=1";
@@ -615,7 +581,6 @@ function setUrl(index) {
                 //iframeUrl = iframeUrl.split("url=")[1];
                 iframeUrl = "/iframe?url="+iframeUrl;
             }
-            iframeUrl = iframeUrl+"";
             $('#frameLoading').show();
             $('#myFrame').attr("src",iframeUrl);
             $('#tipPlay').show();
@@ -721,8 +686,6 @@ function getDateDiff (dateStr) {
     }
 }
 
-
-
 function getQueryString(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = window.location.search.substr(1).match(reg);
@@ -801,18 +764,18 @@ function renderHistory() {
             for(var i=0;i<dataArr.length;i++){
                 var obj = dataArr[i];
                 //var jsonObj = JSON.parse(obj);
-                var name = obj.name;
+                var name = obj.name.trim();
                 if(name.length>7){
-                    name = name.substring(0,7)+"...";
+                    name = name.substring(0,6);
                 }
                 var title = name;
                 if(obj.sequence>1){
                     title = name+"-"+obj.sequence;
                 }
                 $('#historyWrap').append('<li style="padding: 0px 0px">\n' +
-                    '\t\t\t\t\t\t\t\t<a style="padding: 10px 10px;font-size: 12px;" href="javascript:toHistory(\''+obj.eid+','+obj.type+'\')">\n' +
-                    '\t\t\t\t\t\t\t\t\t'+title+'\n' +
-                    '\t\t\t\t\t\t\t\t\t<span style="font-size: 10px;">[ '+obj.viewTime+' ]</span>\n' +
+                    '\t\t\t\t\t\t\t\t<a style="padding: 10px 10px;" href="javascript:toHistory(\''+obj.eid+','+obj.type+'\')">\n' +
+                    '\t\t\t\t\t\t\t\t\t<span style="font-size:13px;">'+title+'</span>\n' +
+                    '\t\t\t\t\t\t\t\t\t<span style="font-size: 9px;">['+obj.viewTime+']</span>\n' +
                     '\t\t\t\t\t\t\t\t</a>\n' +
                     '\t\t\t\t\t\t\t</li>')
             }

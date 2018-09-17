@@ -64,4 +64,9 @@ public class TvsServiceImpl implements TvsService {
 	public List<Map<String, Object>> searchByKey(Map<String, Object> qMap) {
 		return tvsMapper.searchByKey(qMap);
 	}
+
+	@Override
+	public List<Map<String, Object>> searchByOrder(Map<String, Object> qMap) {
+		return tvsMapper.searchByOrder(qMap);
+	}
 }

@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 	<meta name="keywords" content="电影分享,VIP视频,电视,综艺,动漫,在线视频,经典电影,无广告">
 	<link rel="shortcut icon" href="../image/icon.png">
@@ -52,7 +52,7 @@
 
 		.loading-wrap{
 			width:44vw;
-			height:70vh;
+			height:580px;
 			background-color:#ffffff;
 			position:absolute;
 			left:16px;
@@ -109,6 +109,10 @@
 		.sm-padding {
 			padding-top: 15px;
 			padding-bottom: 15px;
+		}
+
+		.widget-post :hover{
+			border:1px solid #6195FF;
 		}
 
 	</style>
@@ -208,7 +212,7 @@
 				<!-- Main -->
 				<main id="main" class="col-md-9">
 					<div class="single">
-						<div id="iframe" style="border:0px solid #eee;height:70vh;display: block;">
+						<div id="iframe" style="border:0px solid #eee;height:580px;display: block;">
 							<div id="frameLoading" class="loading-wrap" style="display: block">
 								<div class="loader" >
 									<div style="color: #6195FF" class="la-pacman la-2x">
@@ -238,7 +242,7 @@
 
 						</div>
 
-						<div id="tipPlay" class="blog-tags" style="margin-top: 10px;margin-bottom:10px;display: none;border-top: 1px solid #eee">如果长时间未播放,可以刷新页面试试喔.</div>
+						<div id="tipPlay" class="blog-tags" style="margin-top: 10px;margin-bottom:10px;display: none;border-top: 1px solid #eee">如果长时间未播放,可以刷新页面试试,或反馈给我们.</div>
 						<!-- 分类 -->
 						<div class="blog-tags" style="margin-top: 30px">
 							<div ><h5>分类：</h5><span id="tagWrap"></span></div>

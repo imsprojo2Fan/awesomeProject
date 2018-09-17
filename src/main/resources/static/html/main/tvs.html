@@ -40,6 +40,12 @@
             -khtml-opacity: 0.85;
             opacity: 0.85;
         }
+        .form-group{
+            margin-bottom:0px;
+        }
+        .table.dataTable thead th, table.dataTable td{
+            text-align: center;
+        }
     </style>
 </head>
 <body style="padding-bottom: 8%">
@@ -86,6 +92,7 @@
                             <thead>
                             <tr>
                                 <th>频道名称</th>
+                                <th>播放状态</th>
                                 <th>所属类型</th>
                                 <th>所属地区</th>
                                 <th>创建时间</th>
@@ -115,13 +122,13 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group" style="margin-bottom: 12px;">
                                     <label class="col-sm-2 control-label form-label">所属类型</label>
                                     <div class="col-sm-6">
                                         <select id="typeSelect" class="selectpicker" >
                                             <option selected value="综合">综合</option>
                                             <option value="新闻">新闻</option>
-                                            <option value="新闻">综艺</option>
+                                            <option value="综艺">综艺</option>
                                             <option value="财经">财经</option>
                                             <option value="体育">体育</option>
                                             <option value="其他">其他</option>
@@ -130,15 +137,15 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label form-label">所属地区分类</label>
+                                <div class="form-group" style="margin-bottom: 12px;">
+                                    <label class="col-sm-2 control-label form-label">地区分类</label>
                                     <div class="col-sm-6">
                                         <select id="areaSelect" class="selectpicker" >
                                             <option selected value="新闻">央视</option>
-                                            <option value="新闻">省视</option>
-                                            <option value="财经">地方</option>
-                                            <option value="体育">港澳台</option>
-                                            <option value="其他">海外</option>
+                                            <option value="省视">省视</option>
+                                            <option value="地方">地方</option>
+                                            <option value="港澳台">港澳台</option>
+                                            <option value="海外">海外</option>
 
                                         </select>
                                     </div>
@@ -147,7 +154,7 @@
                                 <div class="form-group">
                                     <label for="imgSrc" class="col-sm-2 control-label form-label">图片地址</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control"  style="ime-mode:disabled" id="imgSrc"  placeholder="图片地址">
+                                        <input type="text" class="form-control" value="http://awesome.zooori.cn/pic/tv/"  style="ime-mode:disabled" id="imgSrc"  placeholder="http://awesome.zooori.cn/pic/tv/">
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
@@ -242,6 +249,9 @@
                         <p class="form-control-static" >频道名称：<span id="detail_name"></span></p>
                     </div>
                     <div class="col-sm-offset-1">
+                        <p class="form-control-static" >播放状态：<span id="detail_isOn"></span></p>
+                    </div>
+                    <div class="col-sm-offset-1">
                         <p class="form-control-static" >唯一识别：<span id="detail_eid"></span></p>
                     </div>
                     <div class="col-sm-offset-1">
@@ -325,13 +335,23 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="col-sm-2 control-label form-label">播放状态</label>
+                            <div class="col-sm-6">
+                                <select id="edit_isOn" class="selectpicker" >
+                                    <option selected value="1">播放</option>
+                                    <option value="0">下架</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 12px;">
                             <label class="col-sm-2 control-label form-label">所属类型</label>
                             <div class="col-sm-6">
                                 <select id="edit_typeSelect" class="selectpicker" >
                                     <option selected value="综合">综合</option>
                                     <option value="新闻">新闻</option>
-                                    <option value="新闻">综艺</option>
+                                    <option value="综艺">综艺</option>
                                     <option value="财经">财经</option>
                                     <option value="体育">体育</option>
                                     <option value="其他">其他</option>
@@ -340,15 +360,15 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label form-label">所属地区分类</label>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="col-sm-2 control-label form-label">地区分类</label>
                             <div class="col-sm-6">
                                 <select id="edit_areaSelect" class="selectpicker" >
                                     <option selected value="央视">央视</option>
-                                    <option value="新闻">省视</option>
-                                    <option value="财经">地方</option>
-                                    <option value="体育">港澳台</option>
-                                    <option value="其他">海外</option>
+                                    <option value="省视">省视</option>
+                                    <option value="地方">地方</option>
+                                    <option value="港澳台">港澳台</option>
+                                    <option value="海外">海外</option>
 
                                 </select>
                             </div>
@@ -357,7 +377,7 @@
                         <div class="form-group">
                             <label for="edit_imgSrc" class="col-sm-2 control-label form-label">图片地址</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control"  style="ime-mode:disabled" id="edit_imgSrc"  placeholder="图片地址">
+                                <input type="text" class="form-control"  style="ime-mode:disabled" id="edit_imgSrc"  placeholder="http://awesome.zooori.cn/pic/tv/">
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -490,21 +510,29 @@ Data Tables
             "processing": true,
             serverSide: true,
             //bSort:false,//排序
-            "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0,1,2,4] }],//指定哪些列不排序
-            "order": [[ 3, "desc" ]],//默认排序
+            "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0,1,2,3,5] }],//指定哪些列不排序
+            "order": [[ 4, "desc" ]],//默认排序
             ajax: {
                 url: '/main/tvs/list',
                 type: 'POST'
             },
             columns: [
                 { data: 'name'},
+                { data: 'is_on',"render":function (data) {
+                        if(!data){
+                            data = "<span style='color: #ff0f00'>下架</span>";
+                        }else{
+                            data = "<span style='color: #6195FF'>播放</span>"
+                        }
+                        return data;
+                    } },
                 { data: 'type',"render":function (data) {
                         if(!data){
                             data = "暂未填写";
                         }
                         return data;
                     } },
-                { data: 'areaType',"render":function (data) {
+                { data: 'area_type',"render":function (data) {
                         if(!data){
                             data = "暂未填写";
                         }
@@ -539,6 +567,13 @@ Data Tables
             rowData = myTable.row($(this).closest('tr')).data();
             console.log(rowData);
             $('#detail_name').html(rowData.name);
+            var isOn = rowData.is_on;
+            if(isOn==1){
+                isOn = "播放";
+            }else{
+                isOn = "下架";
+            }
+            $('#detail_isOn').html(isOn);
             $('#detail_eid').html(rowData.eid);
             var type = rowData.type;
             $('#detail_type').html(type);
@@ -572,6 +607,14 @@ Data Tables
             $('#edit_id').val(rowData.id);
             $('#edit_name').val(rowData.name);
             $('#edit_eid').val(rowData.eid);
+            var isOn = rowData.is_on;
+           /* if(isOn==1){
+                isOn = "播放";
+            }else{
+                isOn = "下架"
+            }*/
+            $("#edit_isOn").selectpicker('val',isOn);//默认选中 value=“1” 的option
+            $("#edit_isOn").selectpicker('refresh');
             var type = rowData.type;
             $("#edit_typeSelect").selectpicker('val',type);//默认选中 value=“1” 的option
             $("#edit_typeSelect").selectpicker('refresh');
@@ -659,6 +702,7 @@ Data Tables
 
     function edit(){
         var name = $('#edit_name').val().trim();
+        var isOn = $('#edit_isOn').val();
         var type = $('#edit_typeSelect').val().trim();
         var areaType = $('#edit_areaSelect').val().trim();
         var imgSrc = $('#edit_imgSrc').val().trim();
@@ -677,6 +721,7 @@ Data Tables
             data : {
                 id:$('#edit_id').val(),
                 name:name,
+                is_on:isOn,
                 type:type,
                 areaType:areaType,
                 imgsrc:imgSrc,
@@ -741,6 +786,7 @@ Data Tables
         });
         $(".selectpicker").selectpicker('val',1);//下拉框选中 value=“1” 的option
         $(".selectpicker").selectpicker('refresh');
+        $('#imgSrc').val("http://awesome.zooori.cn/pic/tv/");
     }
 
     function refresh() {

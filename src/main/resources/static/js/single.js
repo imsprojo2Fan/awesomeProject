@@ -48,8 +48,8 @@ $(function () {
         $('#logo').css("margin-left","38%");
         $('#aside').hide();
         $('#pageWrap').hide();
-        $('#iframe').css("height","30vh");
-        $('.loading-wrap').css("height","27vh");
+        $('#iframe').css("height","205px");
+        $('.loading-wrap').css("height","205px");
         $('.loading-wrap').css("width","85%");
         //$("[data-toggle='tooltip']").tooltip();
         //隐藏喜欢和收藏
@@ -1029,18 +1029,18 @@ function renderHistory() {
             for(var i=0;i<dataArr.length;i++){
                 var obj = dataArr[i];
                 //var jsonObj = JSON.parse(obj);
-                var name = obj.name;
+                var name = obj.name.trim();
                 if(name.length>7){
-                    name = name.substring(0,7)+"...";
+                    name = name.substring(0,6);
                 }
                 var title = name;
                 if(obj.sequence>1){
                     title = name+"-"+obj.sequence;
                 }
                 $('#historyWrap').append('<li style="padding: 0px 0px">\n' +
-                    '\t\t\t\t\t\t\t\t<a style="padding: 10px 10px;font-size: 12px;" href="javascript:toHistory(\''+obj.eid+','+obj.type+'\')">\n' +
-                    '\t\t\t\t\t\t\t\t\t'+title+'\n' +
-                    '\t\t\t\t\t\t\t\t\t<span style="font-size: 10px;">[ '+obj.viewTime+' ]</span>\n' +
+                    '\t\t\t\t\t\t\t\t<a style="padding: 10px 10px;" href="javascript:toHistory(\''+obj.eid+','+obj.type+'\')">\n' +
+                    '\t\t\t\t\t\t\t\t\t<span style="font-size:13px;">'+title+'</span>\n' +
+                    '\t\t\t\t\t\t\t\t\t<span style="font-size: 9px;">['+obj.viewTime+']</span>\n' +
                     '\t\t\t\t\t\t\t\t</a>\n' +
                     '\t\t\t\t\t\t\t</li>')
             }

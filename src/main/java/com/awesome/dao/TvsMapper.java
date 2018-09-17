@@ -23,4 +23,6 @@ public interface TvsMapper {
     List<Map<String,Object>> listByPage(Map<String,Object> qMap);
 
     List<Map<String,Object>> searchByKey(Map<String,Object> qMap);
+
+    List<Map<String,Object>> searchByOrder(Map<String,Object> qMap);
 }
