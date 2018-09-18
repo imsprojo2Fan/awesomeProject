@@ -546,8 +546,12 @@ function switchWindow() {
                 }else{
                     var videoSrc = obj.videoSrc;
                     if(videoSrc.indexOf(".flv")>0||videoSrc.indexOf(".m3u8")>0){
-                        videoSrc = videoSrc.split("url=")[1];
-                        videoSrc = "/iframe?url="+videoSrc;
+                        if(videoSrc.indexOf("url=")>0){
+                            videoSrc = "/iframe?url="+videoSrc.split("url=")[1];
+                        }else{
+                            videoSrc = "/iframe?url="+videoSrc;
+                        }
+
                     }
                     GlobalVideoSrc = videoSrc+"?rel=0&amp;autoplay=1";
                 }
@@ -716,7 +720,7 @@ function toSeries(index) {
     $('#tipPlay').hide();
     var obj = GlobalDataArr[index];
     GlobalItem = obj;
-    console.log(obj);
+    //console.log(obj);
     //$('#seriesParent').hide();
     //$('#backList').show();
     //$('#urlWrap').show();
@@ -746,8 +750,12 @@ function toSeries(index) {
     }else{
         var videoSrc = obj.videoSrc;
         if(videoSrc.indexOf(".flv")>0||videoSrc.indexOf(".m3u8")>0){
-            videoSrc = videoSrc.split("url=")[1];
-            videoSrc = "/iframe?url="+videoSrc;
+            if(videoSrc.indexOf("url=")>0){
+                videoSrc = "/iframe?url="+videoSrc.split("url=")[1];
+            }else{
+                videoSrc = "/iframe?url="+videoSrc;
+            }
+
         }
         GlobalVideoSrc = videoSrc+"?rel=0&amp;autoplay=1";
     }
@@ -856,7 +864,7 @@ function toBDCloud() {
 
 function list4comment(id,pageNow,pageSize) {
     $.post("/index/comment/list",{id:id,pageNow:pageNow,pageSize:pageSize},function (r) {
-        console.log(r);
+        //console.log(r);
         var dataArr = r.data;
         $('#comments').html("("+r.count+")");
         $('#commentWrap').html("");
@@ -1057,4 +1065,13 @@ function toHistory(eid) {
     }else{
         window.location.href = "/singleTV?tid="+eid;
     }
+}
+
+String.prototype.endWith=function(endStr){
+    var d=this.length-endStr.length;
+    return (d>=0&&this.lastIndexOf(endStr)==d)
+}
+
+function toMoreTV() {
+    window.location.href = "/listTV";
 }

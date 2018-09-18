@@ -138,7 +138,7 @@
 				<li><a href="javascript:toMore(2)">电视剧</a></li>
 				<li><a href="javascript:toMore(3)">综艺</a></li>
 				<li><a href="javascript:toMore(4)">动漫</a></li>
-				<li><a href="javascript:window.location.href='/listTV'">电视直播</a></li>
+				<li><a href="javascript:toMoreTV()">电视直播</a></li>
 				<li><a href="javascript:request()">留言求片</a></li>
 				<li class="has-dropdown"><a href="javascript:void(0)">观看历史</a>
 					<ul class="dropdown" style="padding-top: 10px" id="historyWrap">
@@ -269,7 +269,7 @@
 						<input type="hidden" id="PageSize" runat="server" value="16" />
 						<input type="hidden" id="countindex" runat="server" value="10"/>
 						<!--设置最多显示的页码数 可以手动设置 默认为6-->
-						<input type="hidden" id="visiblePages" runat="server" value="6" />
+						<input type="hidden" id="visiblePages" runat="server" value="8" />
 					</div>
 				</form>
 			</div>

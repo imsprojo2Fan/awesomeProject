@@ -259,7 +259,7 @@ function category() {
                 var type = i+1;
                 $('#categoryWrap').append('<a onclick="toMore('+type+')" href="javascript:void(0)">'+title+'<span>('+obj+')</span></a>');
             }else{
-                $('#categoryWrap').append('<a  href="#">电视直播<span>('+obj+')</span></a>');
+                $('#categoryWrap').append('<a  href="javascript:toMoreTV()">电视直播<span>('+obj+')</span></a>');
             }
         }
     });
@@ -299,12 +299,7 @@ function aside(col) {
 
             var imgSrc = ""+obj.imgSrc;
             var error = "../image/error1.png";
-            $('#popularWrap').append('<div class="widget-post" style="border:1px solid #eee;height: 60px;line-height:60px;margin-bottom: 5px;">\n' +
-                '\t\t\t\t\t\t<a onclick="getItem(\''+obj.eid+'\')" href="javascript:void(0);" >\n' +
-                '\t\t\t\t\t\t\t<img style="width:30%;margin-left: 15px;" onerror=src="'+error+'" src="'+imgSrc+'" alt="图片加载失败"> '+icon+dCount+'\n' +
-                '\t\t\t\t\t\t</a>\n' +
-                '\t\t\t\t\t\t\n' +
-                '\t\t\t\t\t</div>');
+            $('#popularWrap').append('<div ><div onclick="getItem(\''+obj.eid+'\')" class="asideWrap"><div class="asideItem">'+obj.name+'</div></div><span style="float:right;margin-top:-34px;margin-right:6px;color:#6195FF">'+icon+dCount+'</span></div>');
         }
     });
     $("[data-toggle='tooltip']").tooltip();
@@ -792,5 +787,9 @@ function toHistory(eid) {
     }else{
         window.location.href = "/singleTV?eid="+eid;
     }
+}
+
+function toMoreTV() {
+    window.location.href = "/listTV";
 }
 

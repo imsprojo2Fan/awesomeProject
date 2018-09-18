@@ -513,6 +513,17 @@ public class IndexMainController {
 			message.setTo("imsprojo2fan@foxmail.com");
 			message.setSubject("[看风了风]留言求片");
 			String md5Mail = Md5Util.getMD5WithSalt(email);
+			if(type.equals("1")){
+				type = "电影";
+			}else if(type.equals("2")){
+				type = "电视剧";
+			}else if(type.equals("3")){
+				type = "综艺节目";
+			}else if(type.equals("4")){
+				type = "动漫";
+			}else{
+				type = "电视频道";
+			}
 			String link = "ip:"+ip+"\n昵称:"+nickName+"\n邮箱:"+email+"\n类型:"+type+"\n描述:"+description;
 			message.setText(link);
 			sendMail.asyncMethod(message,qMap,md5Mail,-1);

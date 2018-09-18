@@ -27,7 +27,7 @@ function loadpage() {
                 exeData(num);
                 pageNow = num;
                 console.log("---"+num);
-                listItem(pageNow,16);
+                listItem(pageNow,48);
             }
         }
     });

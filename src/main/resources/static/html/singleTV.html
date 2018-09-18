@@ -77,12 +77,14 @@
 
 		.order a {
 			display: inline-block;
-			padding: 6px 13px;
+			padding: 6px 0px;
+			width: 87px;
 			font-size: 14px;
 			margin: 2px 0px;
 			background: #F4F4F4;
 			color: #10161A;
 			cursor: pointer;
+			text-align: center;
 		}
 		.order a:hover {
 			color: #FFF;
@@ -113,6 +115,17 @@
 
 		.widget-post :hover{
 			border:1px solid #6195FF;
+		}
+
+		.asideWrap :hover{
+			border:1px solid #6195FF;
+		}
+
+		.asideItem{
+			margin-bottom:5px;
+			cursor: pointer;
+			border:1px solid #eee;
+			padding:8px 6px;
 		}
 
 	</style>
@@ -165,7 +178,7 @@
 					<li><a href="javascript:toMore(2)">电视剧</a></li>
 					<li><a href="javascript:toMore(3)">综艺</a></li>
 					<li><a href="javascript:toMore(4)">动漫</a></li>
-					<li><a href="javascript:window.location.href='/listTV'">电视直播</a></li>
+					<li><a href="javascript:toMoreTV()">电视直播</a></li>
 					<li class="has-dropdown"><a href="javascript:void(0)">观看历史</a>
 						<ul class="dropdown" style="padding-top: 10px" id="historyWrap">
 							<!--<li style="padding: 0px 0px">

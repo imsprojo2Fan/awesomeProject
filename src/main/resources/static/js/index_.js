@@ -155,7 +155,7 @@ $(document).ready(function(){
                 n4++;
                 if(n4===1&&$('#tv2more').is(":hidden")){//获取电视列表
                     console.log("---获取电视列表");
-                    $.post("/index/resource/list4tv",{pageNow:1,pageSize:12},function (r) {
+                    $.post("/index/resource/list4tv",{pageNow:1,pageSize:24},function (r) {
                         //console.log(r);
                         $('#tvWrap').html("");
                         var dataArr = r.data;
@@ -171,10 +171,10 @@ $(document).ready(function(){
                                 }
                                 var imgSrc = ""+obj.imgSrc;
                                 var error = "../image/error1.png";
+
+
                                 $('#tvWrap').append('<div title="'+obj.name+'" class="col-sm-3">\n' +
                                     '\t\t\t\t\t<div onclick="toTVDetail(\''+obj.eid+'\')" class="about">\n' +
-                                    '\t\t\t\t\t\t<!--<i class="fa fa-cogs"></i>-->\n' +
-                                    '\t\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive lazy" style="min-height: 120px;" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
                                     '\t\t\t\t\t\t<h3>'+name+'</h3>\n' +
                                     '\t\t\t\t\t\t<a href="javascript:void(0)">前往观看</a>\n' +
                                     '\t\t\t\t\t</div>\n' +

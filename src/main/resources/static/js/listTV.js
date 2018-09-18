@@ -103,20 +103,19 @@ $(function () {
                                     if(i==0){
                                         RefreshId = obj.id;
                                     }
+                                    var name = obj.name;
+                                    /*if(name.length>9){
+                                        name = name.substring(0,9)+"...";
+                                    }*/
                                     var imgSrc = ""+obj.imgSrc;
                                     var error = "../image/error1.png";
                                     var imgId = "IMG-"+i;
-                                    $(listDom.children[0]).before('<div class="col-sm-3" style="width: 95%;margin: 0 auto">' +
-                                        '<div onclick="toDetail('+obj.type+','+obj.id+')" class="blog">' +
-                                        '<div class="blog-img">' +
-                                        '<img id="'+imgId+'" onerror=src="'+error+'" style="width: 85%;margin: 0 auto" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">' +
-                                        '</div>' +
-                                        '<div class="blog-content">' +
-                                        '<br/><h4>'+obj.name+'</h4>' +
-                                        '<a href="javascript:void(0)">查看详情</a>' +
-                                        '</div>' +
-                                        '</div>' +
-                                        '</div>');
+                                    $(listDom.children[0]).before('<div title="'+obj.name+'" class="col-sm-3">\n' +
+                                        '\t\t\t\t\t<div onclick="toTVDetail(\''+obj.eid+'\')" class="about">\n' +
+                                        '\t\t\t\t\t\t<h3>'+name+'</h3>\n' +
+                                        '\t\t\t\t\t\t<a href="javascript:void(0)">前往观看</a>\n' +
+                                        '\t\t\t\t\t</div>\n' +
+                                        '\t\t\t\t</div>');
                                 }
                             });
                             miniRefresh.resetSecretGarden();
@@ -149,18 +148,17 @@ $(function () {
                             if(GlobalPageNow==1&&i==0){
                                 RefreshId = obj.id;
                             }
+                            var name = obj.name;
+                            /*if(name.length>9){
+                                name = name.substring(0,9)+"...";
+                            }*/
                             var imgSrc = ""+obj.imgSrc;
                             var error = "../image/error1.png";
                             var imgId = "IMG-"+i;
-                            $('#listData').append('<div class="col-sm-3" style="width: 95%;margin: 0 auto">\n' +
-                                '\t\t\t\t\t<div onclick="toTVDetail(\''+obj.eid+'\')" class="blog">\n' +
-                                '\t\t\t\t\t\t<div class="blog-img">\n' +
-                                '\t\t\t\t\t\t\t<img id="'+imgId+'" onerror=src="'+error+'" style="width: 85%;min-height:120px;margin: 0 auto" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
-                                '\t\t\t\t\t\t</div>\n' +
-                                '\t\t\t\t\t\t<div class="blog-content">\n' +
-                                '\t\t\t\t\t\t\t<br/><h4>'+obj.name+'</h4>\n' +
-                                '\t\t\t\t\t\t\t<a href="javascript:void(0)">前往观看</a>\n' +
-                                '\t\t\t\t\t\t</div>\n' +
+                            $('#listData').append('<div title="'+obj.name+'" class="col-sm-3">\n' +
+                                '\t\t\t\t\t<div onclick="toTVDetail(\''+obj.eid+'\')" class="about">\n' +
+                                '\t\t\t\t\t\t<h3>'+name+'</h3>\n' +
+                                '\t\t\t\t\t\t<a href="javascript:void(0)">前往观看</a>\n' +
                                 '\t\t\t\t\t</div>\n' +
                                 '\t\t\t\t</div>');
                         }
@@ -190,10 +188,10 @@ $(function () {
             GlobalKey = unescape(document.cookie.split("searchTV=")[1].split(";")[0]);
             deleteCookie("searchTV","/");
             //查询列表
-            list4search(1,24,GlobalKey);
+            list4search(1,48,GlobalKey);
         }else{
             //分页获取资源列表
-            listItem(1,24);
+            listItem(1,48);
         }
     }
 
@@ -204,7 +202,7 @@ $(function () {
 
 function listItem(pageNow,pageSize) {
 
-    preLoading();
+    //preLoading();
     $("#preloader").fadeIn();
     $.post("/index/resource/list4tv",{pageNow:pageNow,pageSize:pageSize},function (r) {
         //console.log(r);
@@ -219,22 +217,17 @@ function listItem(pageNow,pageSize) {
         for(var i=0;i<dataArr.length;i++){
             var obj = dataArr[i];
             var name = obj.name;
-            if(name.length>9){
-                name = name.substring(0,9)+"...";
+            if(name.length>7){
+                name = name.substring(0,7)+"...";
             }
             var imgSrc = ""+obj.imgSrc;
             //var description = obj.description.substring(0,15)+"...";
             var imgId = "IMG-"+i;
             var error = "../image/error1.png";
-            $('#itemWrap').append('<div class="col-sm-3">\n' +
-                '\t\t\t\t\t<div title="'+obj.name+'" onclick="toTVDetail(\''+obj.eid+'\')" class="blog">\n' +
-                '\t\t\t\t\t\t<div class="blog-img">\n' +
-                '\t\t\t\t\t\t\t<img id="'+imgId+'" onerror=src="'+error+'" class="img-responsive lazy" data-original="'+imgSrc+'"  src="'+imgSrc+'" alt="图片加载失败">\n' +
-                '\t\t\t\t\t\t</div>\n' +
-                '\t\t\t\t\t\t<div class="blog-content">\n' +
-                '\t\t\t\t\t\t\t<h5>'+name+'</h5>\n' +
-                '\t\t\t\t\t\t\t<a href="javascript:void(0)">前往观看</a>\n' +
-                '\t\t\t\t\t\t</div>\n' +
+            $('#itemWrap').append('<div title="'+obj.name+'" class="col-sm-3">\n' +
+                '\t\t\t\t\t<div onclick="toTVDetail(\''+obj.eid+'\')" class="about">\n' +
+                '\t\t\t\t\t\t<h3>'+name+'</h3>\n' +
+                '\t\t\t\t\t\t<a href="javascript:void(0)">前往观看</a>\n' +
                 '\t\t\t\t\t</div>\n' +
                 '\t\t\t\t</div>');
         }
@@ -259,12 +252,14 @@ function listItem(pageNow,pageSize) {
             $('.img-responsive').css("margin","0 auto");
         }
 
+        $("#preloader").fadeOut(200);
+
     });
 }
 
 function list4search(pageNow,pageSize,key) {
 
-    preLoading();
+    //preLoading();
 
     if(isPhone()){
         GlobalPageNow = 0;
@@ -284,21 +279,20 @@ function list4search(pageNow,pageSize,key) {
             if(dataArr.length==0){
                 $('#itemWrap').html("<p>暂无数据</p>");
             }
+            var name = obj.name;
+            if(name.length>7){
+                name = name.substring(0,7)+"...";
+            }
             for(var i=0;i<dataArr.length;i++){
                 var obj = dataArr[i];
                 var imgSrc = ""+obj.imgSrc;
                 //var description = obj.description.substring(0,15)+"...";
                 var error = "../image/error1.png";
                 var imgId = "IMG-"+i;
-                $('#itemWrap').append('<div class="col-sm-3">\n' +
-                    '\t\t\t\t\t<div onclick="toTVDetail(\''+obj.eid+'\')" class="blog">\n' +
-                    '\t\t\t\t\t\t<div class="blog-img">\n' +
-                    '\t\t\t\t\t\t\t<img id="'+imgId+'" onerror=src="'+error+'" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
-                    '\t\t\t\t\t\t</div>\n' +
-                    '\t\t\t\t\t\t<div class="blog-content">\n' +
-                    '\t\t\t\t\t\t\t<h5>'+obj.name+'</h5>\n' +
-                    '\t\t\t\t\t\t\t<a href="javascript:void(0)">前往观看</a>\n' +
-                    '\t\t\t\t\t\t</div>\n' +
+                $('#itemWrap').append('<div title="'+obj.name+'" class="col-sm-3">\n' +
+                    '\t\t\t\t\t<div onclick="toTVDetail(\''+obj.eid+'\')" class="about">\n' +
+                    '\t\t\t\t\t\t<h3>'+name+'</h3>\n' +
+                    '\t\t\t\t\t\t<a href="javascript:void(0)">前往观看</a>\n' +
                     '\t\t\t\t\t</div>\n' +
                     '\t\t\t\t</div>')
             }
@@ -371,7 +365,7 @@ function aside(col) {
     }
 
     //获取最多观看数据
-    $.post("/index/resource/list4order",{col:col},function (r) {
+    $.post("/index/tv/list4TVOrder",{col:col},function (r) {
         //console.log(r);
         $('#popularWrap').html("");
         if(r.length==0){
@@ -396,18 +390,12 @@ function aside(col) {
 
             }
 
-            var imgSrc = ""+obj.imgSrc2;
+            var imgSrc = ""+obj.imgSrc;
             var error = "../image/error1.png";
-            $('#popularWrap').append('<div class="widget-post">\n' +
-                '\t\t\t\t\t\t<a onclick="toDetail('+obj.type+','+obj.id+')" href="javascript:void(0);">\n' +
-                '\t\t\t\t\t\t\t<img style="width: 20%" onerror=src="'+error+'" src="'+imgSrc+'" alt="图片加载失败"> '+obj.name+'\n' +
-                '\t\t\t\t\t\t</a>\n' +
-                '\t\t\t\t\t\t<ul class="blog-meta">\n' +
-                '\t\t\t\t\t\t\t<li>'+icon+dCount+'</li>\n' +
-                '\t\t\t\t\t\t</ul>\n' +
-                '\t\t\t\t\t</div>');
+            $('#popularWrap').append('<div ><div onclick="getItem(\''+obj.eid+'\')" class="asideWrap"><div class="asideItem">'+obj.name+'</div></div><span style="float:right;margin-top:-34px;margin-right:6px;color:#6195FF">'+icon+dCount+'</span></div>');
         }
     });
+    $("[data-toggle='tooltip']").tooltip();
 
 }
 
@@ -449,13 +437,15 @@ function preLoading() {
         scrollTop: 0
     }, 300);
 
-    var interval = setInterval(function () {
+    $("#preloader").fadeOut(200);
+
+    /*var interval = setInterval(function () {
         var imgHeight = $('#IMG-0').height();
         if(imgHeight>10){
             $("#preloader").fadeOut(200);
             window.clearInterval(interval);
         }
-    },10);
+    },10);*/
 }
 
 function renderHistory() {
