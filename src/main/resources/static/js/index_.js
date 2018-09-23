@@ -311,7 +311,6 @@ function toTVDetail(eid) {
             window.location.href = "/singleTV?eid="+eid;
         }
     });
-
 }
 
 function sub() {

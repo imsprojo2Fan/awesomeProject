@@ -407,7 +407,11 @@ function aside(col) {
 }
 
 function toTVDetail(eid) {
-    window.location.href = "/singleTV?eid="+eid;
+    $.post("/setSession",{eid:eid},function (r) {
+        if(r.code==1){
+            window.location.href = "/singleTV?eid="+eid;
+        }
+    });
 }
 
 function searchResource() {
