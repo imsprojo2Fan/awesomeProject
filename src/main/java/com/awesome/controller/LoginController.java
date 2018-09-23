@@ -23,7 +23,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.Callable;
@@ -73,7 +75,16 @@ public class LoginController {
 	}
 	@ApiIgnore//使用该注解忽略这个API
 	@RequestMapping(value = "/singleTV")
-	public String singleTV() {
+	public String singleTV(HttpSession session, HttpServletResponse response) {
+		String eid = (String) session.getAttribute("eid");
+		if(StringUtils.isEmpty(eid)){
+			try {
+				response.sendRedirect("/");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
 		return "/html/singleTV.html";
 	}
 
@@ -84,8 +95,18 @@ public class LoginController {
 	}
 	@ApiIgnore//使用该注解忽略这个API
 	@RequestMapping(value = "/single")
-	public String single() {
+	public String single(HttpSession session, HttpServletResponse response) {
+		String type = (String) session.getAttribute("type");
+		if(StringUtils.isEmpty(type)){
+			try {
+				response.sendRedirect("/");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
 		return "/html/single.html";
+
 	}
 	@ApiIgnore//使用该注解忽略这个API
 	@RequestMapping(value = "/login")
@@ -115,7 +136,7 @@ public class LoginController {
 	@ApiIgnore//使用该注解忽略这个API
 	@RequestMapping(value = "/setSession")
 	@ResponseBody
-	public Object setSession(String type,String itemId,HttpSession session){
+	public Object setSession(String type,String itemId,HttpSession session,String eid){
 
 		if(!StringUtils.isEmpty(type)){
 			session.setAttribute("type",type);
@@ -123,6 +144,9 @@ public class LoginController {
 
 		if(!StringUtils.isEmpty(itemId)){
 			session.setAttribute("itemId",itemId);
+		}
+		if(!StringUtils.isEmpty(eid)){
+			session.setAttribute("eid",eid);
 		}
 		r.setCode(1);
 		return r;

@@ -480,6 +480,11 @@ function setUrl(index) {
             }
         }
     }else{
+
+        if(!GlobalItem.url1){
+            index = 3;//url1为空时则使用url4
+        }
+
         for(var j=0;j<6;j++){
             var func;
             var title;

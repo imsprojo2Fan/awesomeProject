@@ -188,6 +188,32 @@ $(document).ready(function(){
                         }
 
                     });
+                    $.post("/index/resource/list4tv",{pageNow:1,pageSize:100,type:"轮播"},function (r) {
+                        //console.log(r);
+                        $('#classicWrap').html("");
+                        var dataArr = r.data;
+                        if(dataArr.length==0){
+                            $('#classicWrap').html("<p>暂无资源</p>");
+
+                        }else{
+                            for(var i=0;i<dataArr.length;i++){
+                                var obj = dataArr[i];
+                                var name = obj.name;
+                                if(name.length>8){
+                                    name = name.substring(0,8)+"...";
+                                }
+
+                                $('#classicWrap').append('<div title="'+obj.name+'" class="col-sm-3">\n' +
+                                    '\t\t\t\t\t<div onclick="toTVDetail(\''+obj.eid+'\')" class="about">\n' +
+                                    '\t\t\t\t\t\t<h3>'+name+'</h3>\n' +
+                                    '\t\t\t\t\t\t<a href="javascript:void(0)">前往观看</a>\n' +
+                                    '\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t</div>');
+                            }
+
+                        }
+
+                    });
                 }
             }
         }
@@ -280,7 +306,12 @@ function toDetail(type,itemId) {
 }
 
 function toTVDetail(eid) {
-    window.location.href = "/singleTV?eid="+eid;
+    $.post("/setSession",{eid:eid},function (r) {
+        if(r.code==1){
+            window.location.href = "/singleTV?eid="+eid;
+        }
+    });
+
 }
 
 function sub() {

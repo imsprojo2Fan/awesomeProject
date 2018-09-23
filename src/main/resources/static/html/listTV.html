@@ -57,15 +57,17 @@
 			background-color: #6195FF;
 			border-color: #6195FF;
 		}
-        .order a {
-            display: inline-block;
-            padding: 6px 13px;
-            font-size: 14px;
-            margin: 2px 0px;
-            background: #F4F4F4;
-            color: #10161A;
-            cursor: pointer;
-        }
+		.order a {
+			display: inline-block;
+			padding: 6px 0px;
+			width: 87px;
+			font-size: 14px;
+			margin: 2px 0px;
+			background: #F4F4F4;
+			color: #10161A;
+			cursor: pointer;
+			text-align: center;
+		}
         .order a:hover {
             color: #FFF;
             background-color: #6195FF;
@@ -195,6 +197,10 @@
 
 		<!-- Row -->
 		<div class="row">
+
+			<div id="typeSelect" class="col-md-9" style="margin-left: 15px;margin-bottom: 6px;">
+				<div class="order"><div style="float:left;width: 4px;height:34px;margin-top: 2px;background: #6195FF"></div><a href="javascript:listByType('')">所有频道</a><a href="javascript:listByType('央视')">央视频道</a><a href="javascript:listByType('省视')">卫视频道</a><a href="javascript:listByType('地方')">地方频道</a><a href="javascript:listByType('数字信号')">数字信号</a><a href="javascript:listByType('港澳台')">港澳台TV</a><a href="javascript:listByType('海外')">海外频道</a><a href="javascript:listByType('轮播')">经典轮播</a></div>
+			</div>
 
 			<!-- Main -->
 			<div class="col-md-9">

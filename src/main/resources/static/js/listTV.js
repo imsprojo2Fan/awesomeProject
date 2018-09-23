@@ -4,6 +4,7 @@ var GlobalPageNow = 0;
 var listDom;
 var miniRefresh;
 var GlobalKey;
+var GlobalType;
 $(function () {
 
     //禁止内置浏览器整个网页被拉动---------------------------------------start
@@ -59,6 +60,8 @@ $(function () {
     GlobalKey = getCookieValue("search");
 
     if(isPhone()){//移动端
+        //隐藏类型选择
+        $('#typeSelect').hide();
         $('#header').hide();
         $('#aside').hide();
         $('#items').hide();
@@ -191,7 +194,9 @@ $(function () {
             list4search(1,48,GlobalKey);
         }else{
             //分页获取资源列表
-            listItem(1,48);
+            listItem(1,48,"");
+            category();
+            aside("views");
         }
     }
 
@@ -204,7 +209,7 @@ function listItem(pageNow,pageSize) {
 
     //preLoading();
     $("#preloader").fadeIn();
-    $.post("/index/resource/list4tv",{pageNow:pageNow,pageSize:pageSize},function (r) {
+    $.post("/index/resource/list4tv",{pageNow:pageNow,pageSize:pageSize,areaType:GlobalType},function (r) {
         //console.log(r);
 
         $('#tab2').html("电视列表");
@@ -212,13 +217,14 @@ function listItem(pageNow,pageSize) {
         $('#itemWrap').html("");
         var dataArr = r.data;
         if(dataArr.length==0){
+            $('#itemWrap').css("text-align","center");
             $('#itemWrap').html("<p>暂无数据</p>");
         }
         for(var i=0;i<dataArr.length;i++){
             var obj = dataArr[i];
             var name = obj.name;
-            if(name.length>7){
-                name = name.substring(0,7)+"...";
+            if(name.length>6){
+                name = name.substring(0,5)+"...";
             }
             var imgSrc = ""+obj.imgSrc;
             //var description = obj.description.substring(0,15)+"...";
@@ -243,10 +249,6 @@ function listItem(pageNow,pageSize) {
             });
         }
 
-        category();
-
-        aside("views");
-
         if(isPhone()){//重置手机端图片样式
             $('.img-responsive').css("max-width","75%");
             $('.img-responsive').css("margin","0 auto");
@@ -255,6 +257,11 @@ function listItem(pageNow,pageSize) {
         $("#preloader").fadeOut(200);
 
     });
+}
+
+function listByType(type) {
+    GlobalType = type;
+    listItem(1,24);
 }
 
 function list4search(pageNow,pageSize,key) {

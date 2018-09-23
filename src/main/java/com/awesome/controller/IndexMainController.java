@@ -81,17 +81,20 @@ public class IndexMainController {
 		String start = request.getParameter("pageNow");
 		String length = request.getParameter("pageSize");
 		String searchKey = request.getParameter("key");
-		String detailType = request.getParameter("detailType");
+		String type = request.getParameter("type");
+		String areaType = request.getParameter("areaType");
 		if(!StringUtils.isEmpty(start)){
 			PAGE_NOW = Integer.parseInt(start);
 		}
 		if(!StringUtils.isEmpty(length)){
 			PAGE_SIZE = Integer.parseInt(length);
 		}
+
 		qMap.put("pageNow",(PAGE_NOW-1)*PAGE_SIZE);
 		qMap.put("pageSize",PAGE_SIZE);
 		qMap.put("searchKey",searchKey);
-		qMap.put("detailType",detailType);
+		qMap.put("type",type);
+		qMap.put("areaType",areaType);
 		qMap.put("sortCol","created");
 		qMap.put("sortType","desc");
 

@@ -4,6 +4,7 @@ var GlobalPageNow = 0;
 var listDom;
 var miniRefresh;
 var GlobalKey;
+var GlobalType;
 $(function () {
 
     //禁止内置浏览器整个网页被拉动---------------------------------------start
@@ -41,7 +42,7 @@ $(function () {
     //禁止内置浏览器整个网页被拉动---------------------------------------end
 
 
-    $('.order a').on('click',function () {
+    $('.widget .order a').on('click',function () {
         var txt = $(this).html();
         var col;
         if(txt==="最多观看"){
@@ -206,7 +207,7 @@ function listItem(pageNow,pageSize) {
 
     preLoading();
     $("#preloader").fadeIn();
-    $.post("/index/resource/list",{pageNow:pageNow,pageSize:pageSize},function (r) {
+    $.post("/index/resource/list",{pageNow:pageNow,pageSize:pageSize,detailType:GlobalType},function (r) {
         //console.log(r);
 
         var tab = "";
@@ -227,6 +228,7 @@ function listItem(pageNow,pageSize) {
         $('#itemWrap').html("");
         var dataArr = r.data;
         if(dataArr.length==0){
+            $('#itemWrap').css("text-align","center");
             $('#itemWrap').html("<p>暂无数据</p>");
         }
         for(var i=0;i<dataArr.length;i++){
@@ -273,6 +275,11 @@ function listItem(pageNow,pageSize) {
         }
 
     });
+}
+
+function listByType(type) {
+    GlobalType = type;
+    listItem(1,16);
 }
 
 function list4search(pageNow,pageSize,key) {

@@ -262,12 +262,24 @@
     <if test="searchKey !=null and searchKey!=''">
       and (name like '%${searchKey}%')
     </if>
+    <if test="type !=null and type!=''">
+      and (type like '%${type}%')
+    </if>
+    <if test="areaType !=null and areaType!=''">
+      and (area_type like '%${areaType}%')
+    </if>
   </select>
 
   <select id="listByPage" parameterType="Map" resultType="Map">
     select * from tvs where 1=1
     <if test="searchKey !=null and searchKey!=''">
       and (name like '%${searchKey}%')
+    </if>
+    <if test="type !=null and type!=''">
+      and (type like '%${type}%')
+    </if>
+    <if test="areaType !=null and areaType!=''">
+      and (area_type like '%${areaType}%')
     </if>
     <if test="sortCol !=null and sortCol!='' ">
       Order by ${sortCol} ${sortType}
