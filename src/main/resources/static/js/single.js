@@ -58,6 +58,11 @@ $(function () {
         $('#downloadWrap').hide();
     }
 
+    /*var fls = flashChecker();
+    if(!fls.f) {
+        window.location.href = "http://get.adobe.com/cn/flashplayer/";
+    }*/
+
     var myFrame = document.getElementById('myFrame');
     GlobalFrame = myFrame;
     myFrame.onload = myFrame.onreadystatechange = function () {
@@ -96,6 +101,38 @@ $(function () {
 
 
 });
+
+
+//flash版本检测
+
+function flashChecker() {
+    var hasFlash = 0;　　　　 //是否安装了flash
+    var flashVersion = 0;　　 //flash版本
+
+    if(document.all) {
+        var swf = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+        if(swf) {
+            hasFlash = 1;
+            VSwf = swf.GetVariable("$version");
+            flashVersion = parseInt(VSwf.split(" ")[1].split(",")[0]);
+        }
+    } else {
+        if(navigator.plugins && navigator.plugins.length > 0) {
+            var swf = navigator.plugins["Shockwave Flash"];
+            if(swf) {
+                hasFlash = 1;
+                var words = swf.description.split(" ");
+                for(var i = 0; i < words.length; ++i) {
+                    if(isNaN(parseInt(words[i]))) continue;
+                    flashVersion = parseInt(words[i]);
+                }
+            }
+        }
+    }
+    return { f: hasFlash, v: flashVersion };
+}
+
+
 
 function getItem(id) {
 
@@ -173,9 +210,7 @@ function getItem(id) {
                         GlobalVideoSrc = "";
                     }else{
                         if(phoneSrc.indexOf(".flv")>0||phoneSrc.indexOf(".m3u8")>0){
-                            if(phoneSrc.indexOf("url=")>0){
-                                phoneSrc = "/iframe?url="+phoneSrc.split("url=")[1];
-                            }
+                            phoneSrc = "/iframe?url="+phoneSrc;
                         }
 
                         GlobalVideoSrc = phoneSrc+"?rel=0&amp;autoplay=1";
@@ -183,7 +218,7 @@ function getItem(id) {
                 }else{
                     var videoSrc = obj.videoSrc;
                     if(videoSrc.indexOf(".flv")>0||videoSrc.indexOf(".m3u8")>0){
-                        videoSrc = videoSrc.split("url=")[1];
+                        //videoSrc = videoSrc.split("url=")[1];
                         videoSrc = "/iframe?url="+videoSrc;
                     }
                     GlobalVideoSrc = videoSrc+"?rel=0&amp;autoplay=1";
@@ -602,12 +637,13 @@ function switchWindow() {
         scrollTop: 0
     }, 300);
 }
-
+var url;
 function share() {
     //debugger
     var dom = $('#qrcode').clone();
     $(dom).css("display","block");
     $(dom).css("margin","0 auto");
+    $(dom).after('<p>'+url+'</p>');
     swal({
         title: "<p>长按扫码/保存分享</p>",
         text:'',
@@ -618,7 +654,7 @@ function share() {
 }
 
 function makeCode(rid) {
-    var url = "https://interesting.zooori.cn/index/resource/share?v="+rid;
+    url = "http://awesome.zooori.cn/index/resource/share?v="+rid;
     var qrcode = new QRCode("qrcode", {
         text: url,
         width: 128,
@@ -632,7 +668,7 @@ function makeCode(rid) {
 function report() {
     swal({
         title: '资源不可播？',
-        text: '扫描右下角二维码进分享群直接反馈',
+        text: '提交或扫描右下角二维码直接告诉我',
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#6195FF',

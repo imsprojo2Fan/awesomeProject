@@ -23,6 +23,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -75,14 +76,9 @@ public class LoginController {
 	}
 	@ApiIgnore//使用该注解忽略这个API
 	@RequestMapping(value = "/singleTV")
-	public String singleTV(HttpSession session, HttpServletResponse response) {
-		String eid = (String) session.getAttribute("eid");
-		if(StringUtils.isEmpty(eid)){
-			try {
-				response.sendRedirect("/");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+	public String singleTV(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		if(request.getSession(false)==null){
+			response.sendRedirect("/");
 			return null;
 		}
 		return "/html/singleTV.html";
@@ -95,16 +91,13 @@ public class LoginController {
 	}
 	@ApiIgnore//使用该注解忽略这个API
 	@RequestMapping(value = "/single")
-	public String single(HttpSession session, HttpServletResponse response) {
-		String type = (String) session.getAttribute("type");
-		if(StringUtils.isEmpty(type)){
-			try {
-				response.sendRedirect("/");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+	public String single(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		if(request.getSession(false)==null){
+			response.sendRedirect("/");
 			return null;
 		}
+
 		return "/html/single.html";
 
 	}

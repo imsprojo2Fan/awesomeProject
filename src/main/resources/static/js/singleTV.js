@@ -343,7 +343,7 @@ function makeCode(eid) {
 function report() {
     swal({
         title: '资源不可播？',
-        text: '扫描右下角二维码进分享群直接反馈',
+        text: '提交或扫描右下角二维码直接告诉我',
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#6195FF',
