@@ -108,7 +108,7 @@ $(function () {
                                     var error = "../image/error1.png";
                                     var imgId = "IMG-"+i;
                                     $(listDom.children[0]).before('<div class="col-sm-3" style="width: 95%;margin: 0 auto">' +
-                                        '<div onclick="toDetail('+obj.type+','+obj.id+')" class="blog">' +
+                                        '<div onclick="toDetail(\''+obj.eid+'\')" class="blog">' +
                                         '<div class="blog-img">' +
                                         '<img id="'+imgId+'" onerror=src="'+error+'" style="width: 85%;margin: 0 auto" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">' +
                                         '</div>' +
@@ -154,7 +154,7 @@ $(function () {
                             var error = "../image/error1.png";
                             var imgId = "IMG-"+i;
                             $('#listData').append('<div class="col-sm-3" style="width: 95%;margin: 0 auto">\n' +
-                                '\t\t\t\t\t<div onclick="toDetail('+obj.type+','+obj.id+')" class="blog">\n' +
+                                '\t\t\t\t\t<div onclick="toDetail(\''+obj.eid+'\')" class="blog">\n' +
                                 '\t\t\t\t\t\t<div class="blog-img">\n' +
                                 '\t\t\t\t\t\t\t<img id="'+imgId+'" onerror=src="'+error+'" style="width: 85%;margin: 0 auto" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
                                 '\t\t\t\t\t\t</div>\n' +
@@ -242,7 +242,7 @@ function listItem(pageNow,pageSize) {
             var imgId = "IMG-"+i;
             var error = "../image/error1.png";
             $('#itemWrap').append('<div class="col-sm-3">\n' +
-                '\t\t\t\t\t<div title="'+obj.name+'" onclick="toDetail('+obj.type+','+obj.id+')" class="blog">\n' +
+                '\t\t\t\t\t<div title="'+obj.name+'" onclick="toDetail(\''+obj.eid+'\')" class="blog">\n' +
                 '\t\t\t\t\t\t<div class="blog-img">\n' +
                 '\t\t\t\t\t\t\t<img id="'+imgId+'" onerror=src="'+error+'" class="img-responsive lazy" data-original="'+imgSrc+'"  src="'+imgSrc+'" alt="图片加载失败">\n' +
                 '\t\t\t\t\t\t</div>\n' +
@@ -311,7 +311,7 @@ function list4search(pageNow,pageSize,key) {
                 var error = "../image/error1.png";
                 var imgId = "IMG-"+i;
                 $('#itemWrap').append('<div class="col-sm-3">\n' +
-                    '\t\t\t\t\t<div onclick="toDetail('+obj.type+','+obj.id+')" class="blog">\n' +
+                    '\t\t\t\t\t<div onclick="toDetail(\''+obj.eid+'\')" class="blog">\n' +
                     '\t\t\t\t\t\t<div class="blog-img">\n' +
                     '\t\t\t\t\t\t\t<img id="'+imgId+'" onerror=src="'+error+'" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
                     '\t\t\t\t\t\t</div>\n' +
@@ -419,7 +419,7 @@ function aside(col) {
             var imgSrc = ""+obj.imgSrc2;
             var error = "../image/error1.png";
             $('#popularWrap').append('<div class="widget-post">\n' +
-                '\t\t\t\t\t\t<a onclick="toDetail('+obj.type+','+obj.id+')" href="javascript:void(0);">\n' +
+                '\t\t\t\t\t\t<a onclick="toDetail(\''+obj.eid+'\')" href="javascript:void(0);">\n' +
                 '\t\t\t\t\t\t\t<img style="width: 20%" onerror=src="'+error+'" src="'+imgSrc+'" alt="图片加载失败"> '+obj.name+'\n' +
                 '\t\t\t\t\t\t</a>\n' +
                 '\t\t\t\t\t\t<ul class="blog-meta">\n' +
@@ -431,12 +431,13 @@ function aside(col) {
 
 }
 
-function toDetail(type,itemId) {
-    $.post("/setSession",{type:type,itemId:itemId},function (r) {
+function toDetail(itemId) {
+    window.location.href = "/single?v="+itemId;
+    /*$.post("/setSession",{type:type,itemId:itemId},function (r) {
         if(r.code==1){
             window.location.href = "/single";
         }
-    });
+    });*/
 }
 
 function searchResource() {

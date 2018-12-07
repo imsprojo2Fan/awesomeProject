@@ -76,6 +76,11 @@ public class ResourceServiceImpl implements ResourceService {
 	}
 
 	@Override
+	public List<Map<String, Object>> listItem4wx(Map<String, Object> qMap) {
+		return mapper.listItem4wx(qMap);
+	}
+
+	@Override
 	public List<Map<String, Object>> list4refresh(Map<String, Object> qMap) {
 		return mapper.list4refresh(qMap);
 	}

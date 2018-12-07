@@ -88,8 +88,8 @@ $(function () {
         $('#tip').html("["+txt+"]");
         aside(col);
     });
-
-    getItem("");
+    var itemId = GetQueryString("v");
+    getItem(itemId);
 
     $("img.lazy").lazyload({
         effect : "fadeIn",
@@ -142,7 +142,7 @@ function getItem(id) {
 
     //preLoading();
 
-    $.post("/index/resource/list4item",{id,id},function (r) {
+    $.post("/index/resource/list4item",{v:id},function (r) {
         //debugger
         var tab = "";
         var types = r.type;
@@ -403,10 +403,8 @@ function getItem(id) {
                 }*/
             }
         }
-        if(!id){
-            category();
-            aside("views");
-        }
+        category();
+        aside("views");
         //获取评论列表
         list4comment(GlobalId,1,1000);
         makeCode(GlobalRid);
@@ -524,7 +522,7 @@ function aside(col) {
             var imgSrc = ""+obj.imgSrc2;
             var error = "../image/error1.png";
             $('#popularWrap').append('<div class="widget-post">\n' +
-                '\t\t\t\t\t\t<a onclick="getItem('+obj.id+')" href="javascript:void(0);">\n' +
+                '\t\t\t\t\t\t<a onclick="getItem(\''+obj.eid+'\')" href="javascript:void(0);">\n' +
                 '\t\t\t\t\t\t\t<img style="width: 20%" onerror=src="'+error+'" src="'+imgSrc+'" alt="图片加载失败"> '+obj.name+'\n' +
                 '\t\t\t\t\t\t</a>\n' +
                 '\t\t\t\t\t\t<ul class="blog-meta">\n' +

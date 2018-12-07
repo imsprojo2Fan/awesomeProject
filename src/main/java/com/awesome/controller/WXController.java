@@ -1,6 +1,5 @@
 package com.awesome.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.awesome.config.JsonResult;
 import com.awesome.model.*;
@@ -87,7 +86,7 @@ public class WXController {
 	@RequestMapping(value = "/resource/list", method = RequestMethod.POST)
 	public Object getList (HttpServletRequest request, HttpSession session, HttpServletResponse response, @RequestBody Map<String, Object> params){
 
-		Map qMap = new HashMap();
+		Map<String, Object> qMap = new HashMap<String, Object>();
 		Map backMap = new HashMap<>();
 		List<Map<String,Object>> rList;
 
@@ -122,7 +121,7 @@ public class WXController {
 		qMap.put("sortCol","created");
 		qMap.put("sortType","desc");
 
-		List cList = service.listAllCount(qMap);
+		List<Map<String, Object>> cList = service.listAllCount(qMap);
 		rList = service.listByPage(qMap);
 		backMap.put("type",type);
 		backMap.put("recordsTotal",cList.size());
@@ -224,7 +223,7 @@ public class WXController {
 		qMap.put("searchKey",searchKey);
 		qMap.put("detailType",detailType);
 
-		List cList = service.listAllCount(qMap);
+		List<Map<String, Object>> cList = service.listAllCount(qMap);
 		rList = service.listByPage(qMap);
 		backMap.put("recordsTotal",cList.size());
 		backMap.put("data",rList);
@@ -243,14 +242,14 @@ public class WXController {
 	public Object category(){
 
 		init();
-		List list = new ArrayList();
+		List<Integer> list = new ArrayList<>();
 
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 
 		for(int i=1;i<5;i++){
 			map.put("key","type");
 			map.put("value",i);
-			List tList = service.searchByKey(map);
+			List<Map<String, Object>> tList = service.searchByKey(map);
 			list.add(tList.size());
 		}
 		return list;
@@ -266,7 +265,7 @@ public class WXController {
 	public Object searchByOrder(HttpServletResponse response,@RequestBody Map<String, Object> params,HttpSession session){
 
 		init();
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 		String type = (String) session.getAttribute("type");
 		if(StringUtils.isEmpty(type)){
 			type = "1";
@@ -286,7 +285,7 @@ public class WXController {
 		map.put("col",col);
 		map.put("orderType","desc");
 		map.put("pageSize",7);
-		List rList = service.searchByOrder(map);
+		List<Map<String, Object>> rList = service.searchByOrder(map);
 		return rList;
 	}
 
@@ -305,7 +304,7 @@ public class WXController {
 		JSONObject rJson = new JSONObject(params);
 		String id = rJson.getString("id");
 
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 
 		String type = rJson.getString("type");
 		if(StringUtils.isEmpty(type)){
@@ -324,7 +323,7 @@ public class WXController {
 
 		map.put("type",type);
 		map.put("id",itemId);
-		rList = service.list4item(map);
+		rList = service.listItem4wx(map);
 		if(rList.size()>0){
 			Map rMap = rList.get(0);
 			int lid = (int) rMap.get("id");

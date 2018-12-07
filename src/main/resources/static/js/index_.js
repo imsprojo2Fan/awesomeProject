@@ -54,7 +54,7 @@ $(document).ready(function(){
                                 var imgSrc = ""+obj.imgSrc2;
                                 var error = "../image/error1.png";
                                 $('#seriesWrap').append('<div title="'+obj.name+'" class="col-sm-3">\n' +
-                                    '\t\t\t\t\t<div onclick="toDetail('+obj.type+','+obj.id+')" class="about">\n' +
+                                    '\t\t\t\t\t<div onclick="toDetail(\''+obj.eid+'\')" class="about">\n' +
                                     '\t\t\t\t\t\t<!--<i class="fa fa-cogs"></i>-->\n' +
                                     '\t\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
                                     '\t\t\t\t\t\t<h3>'+name+'</h3>\n' +
@@ -93,7 +93,7 @@ $(document).ready(function(){
                                 var imgSrc = ""+obj.imgSrc2;
                                 var error = "../image/error1.png";
                                 $('#varietyWrap').append('<div title="'+obj.name+'" class="col-sm-3">\n' +
-                                    '\t\t\t\t\t<div onclick="toDetail('+obj.type+','+obj.id+')" class="about">\n' +
+                                    '\t\t\t\t\t<div onclick="toDetail(\''+obj.eid+'\')" class="about">\n' +
                                     '\t\t\t\t\t\t<!--<i class="fa fa-cogs"></i>-->\n' +
                                     '\t\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
                                     '\t\t\t\t\t\t<h3>'+name+'</h3>\n' +
@@ -132,7 +132,7 @@ $(document).ready(function(){
                                 var imgSrc = ""+obj.imgSrc2;
                                 var error = "../image/error1.png";
                                 $('#animateWrap').append('<div title="'+obj.name+'" class="col-sm-3">\n' +
-                                    '\t\t\t\t\t<div onclick="toDetail('+obj.type+','+obj.id+')" class="about">\n' +
+                                    '\t\t\t\t\t<div onclick="toDetail(\''+obj.eid+'\')" class="about">\n' +
                                     '\t\t\t\t\t\t<!--<i class="fa fa-cogs"></i>-->\n' +
                                     '\t\t\t\t\t\t<img onerror=src="'+error+'" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
                                     '\t\t\t\t\t\t<h3>'+name+'</h3>\n' +
@@ -257,7 +257,7 @@ $(function () {
                 //var description = obj.description.substring(0,15)+"...";
                 var imgId = "IMG-"+i;
                 $('#movieWrap').append('<div title="'+obj.name+'" class="col-sm-3">\n' +
-                    '\t\t\t\t\t<div onclick="toDetail('+obj.type+','+obj.id+')" class="about">\n' +
+                    '\t\t\t\t\t<div onclick="toDetail(\''+obj.eid+'\')" class="about">\n' +
                     '\t\t\t\t\t\t<!--<i class="fa fa-cogs"></i>-->\n' +
                     '\t\t\t\t\t\t<img id="'+imgId+'" onerror=src="'+error+'" class="img-responsive lazy" data-original="'+imgSrc+'" src="'+imgSrc+'" alt="图片加载失败">\n' +
                     '\t\t\t\t\t\t<h3>'+name+'</h3>\n' +
@@ -297,12 +297,13 @@ function toMoreTV() {
     window.location.href = "/listTV";
 }
 
-function toDetail(type,itemId) {
-    $.post("/setSession",{type:type,itemId:itemId},function (r) {
+function toDetail(itemId) {
+    window.location.href = "/single?v="+itemId;
+    /*$.post("/setSession",{type:type,itemId:itemId},function (r) {
         if(r.code==1){
-            window.location.href = "/single";
+            window.location.href = "/single?itemId="+itemId+"&type="+type;
         }
-    });
+    });*/
 }
 
 function toTVDetail(eid) {

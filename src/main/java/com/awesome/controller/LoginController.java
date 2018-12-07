@@ -3,6 +3,7 @@ package com.awesome.controller;
 import com.alibaba.fastjson.JSON;
 import com.awesome.config.JsonResult;
 import com.awesome.model.User;
+import com.awesome.service.ResourceService;
 import com.awesome.util.Md5Util;
 import com.awesome.service.UserService;
 import com.awesome.util.SendMailUtil;
@@ -50,6 +51,9 @@ public class LoginController {
 	private UserService userService;
 
 	@Autowired
+	private ResourceService service;
+
+	@Autowired
 	private SendMailUtil sendMail;
 
 	Map<String,Object> qMap = new HashMap<>();
@@ -91,14 +95,17 @@ public class LoginController {
 	}
 	@ApiIgnore//使用该注解忽略这个API
 	@RequestMapping(value = "/single")
-	public String single(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-		if(request.getSession(false)==null){
-			response.sendRedirect("/");
-			return null;
+	public String single(String v, HttpServletResponse response) throws IOException {
+		System.out.println(v);
+		Map map = new HashMap();
+		map.put("eid",v);
+		rList = service.list4item(map);
+		if(rList.size()==0){
+			response.sendRedirect("/404");
 		}
-
-		return "/html/single.html";
+		ValueOperations<String,Object> redis = redisTemplate.opsForValue();
+		redis.set(v,rList);//redis缓存
+		return "/html/single.html?itemId="+v;
 
 	}
 	@ApiIgnore//使用该注解忽略这个API

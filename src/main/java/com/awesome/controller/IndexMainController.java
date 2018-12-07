@@ -8,13 +8,14 @@ import com.awesome.util.SendMailUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,6 +54,9 @@ public class IndexMainController {
 	@Autowired
 	private SendMailUtil sendMail;
 
+	@Autowired
+	private RedisTemplate<String,Object> redisTemplate;
+
 	Map<String,Object> qMap = new HashMap<>();
 	List<List> tempList = new ArrayList<>();
 	List<String> mdList = new ArrayList<>();
@@ -74,7 +78,7 @@ public class IndexMainController {
 	@RequestMapping(value = "/resource/list4tv", method = RequestMethod.POST)
 	public Object list4tv(HttpServletRequest request){
 
-		Map qMap = new HashMap();
+		Map<String, Object> qMap = new HashMap<String, Object>();
 		Map backMap = new HashMap<>();
 		List<Map<String,Object>> rList;
 
@@ -116,7 +120,7 @@ public class IndexMainController {
 	@RequestMapping(value = "/resource/list", method = RequestMethod.POST)
 	public Object getList (HttpServletRequest request, HttpSession session){
 
-		Map qMap = new HashMap();
+		Map<String, Object> qMap = new HashMap<>();
 		Map backMap = new HashMap<>();
 		List<Map<String,Object>> rList;
 
@@ -148,7 +152,7 @@ public class IndexMainController {
 		qMap.put("sortCol","created");
 		qMap.put("sortType","desc");
 
-		List cList = service.listAllCount(qMap);
+		List<Map<String, Object>> cList = service.listAllCount(qMap);
 		rList = service.listByPage(qMap);
 		backMap.put("type",type);
 		backMap.put("recordsTotal",cList.size());
@@ -209,7 +213,7 @@ public class IndexMainController {
 			session.setAttribute("itemId",rList.get(0).get("id").toString());
 			session.setAttribute("type",rList.get(0).get("type"));
 			//跳转single.html
-			response.sendRedirect("/single");
+			response.sendRedirect("/single?v="+eid);
 			return null;
 
 		}else{
@@ -279,7 +283,7 @@ public class IndexMainController {
 		qMap.put("searchKey",searchKey);
 		qMap.put("detailType",detailType);
 
-		List cList = service.listAllCount(qMap);
+		List<Map<String, Object>> cList = service.listAllCount(qMap);
 		rList = service.listByPage(qMap);
 		backMap.put("recordsTotal",cList.size());
 		backMap.put("data",rList);
@@ -298,14 +302,14 @@ public class IndexMainController {
 	public Object category(){
 
 		init();
-		List list = new ArrayList();
+		List<Integer> list = new ArrayList<Integer>();
 
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 
 		for(int i=1;i<5;i++){
 			map.put("key","type");
 			map.put("value",i);
-			List tList = service.searchByKey(map);
+			List<Map<String, Object>> tList = service.searchByKey(map);
 			list.add(tList.size());
 		}
 
@@ -325,7 +329,7 @@ public class IndexMainController {
 	public Object searchByOrder(HttpServletRequest request,HttpSession session,HttpServletResponse response){
 
 		init();
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 		String type = (String) session.getAttribute("type");
 		if(StringUtils.isEmpty(type)){
 			type="1";
@@ -342,7 +346,7 @@ public class IndexMainController {
 		map.put("col",col);
 		map.put("orderType","desc");
 		map.put("pageSize",7);
-		List rList = service.searchByOrder(map);
+		List<Map<String, Object>> rList = service.searchByOrder(map);
 		return rList;
 	}
 
@@ -356,7 +360,7 @@ public class IndexMainController {
 	public Object list4TVOrder(HttpServletRequest request,HttpSession session,HttpServletResponse response){
 
 		init();
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<>();
 
 		String col = request.getParameter("col");
 		if(!"views".equals(col)&&!"comments".equals(col)&&!"likes".equals(col)&&!"collects".equals(col)){
@@ -367,7 +371,7 @@ public class IndexMainController {
 		map.put("col",col);
 		map.put("orderType","desc");
 		map.put("pageSize",12);
-		List rList = tvsService.searchByOrder(map);
+		List<Map<String, Object>> rList = tvsService.searchByOrder(map);
 		return rList;
 	}
 
@@ -382,7 +386,7 @@ public class IndexMainController {
 
 		init();
 
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<>();
 
 		map.put("key","eid");
 		map.put("value",eid);
@@ -408,41 +412,31 @@ public class IndexMainController {
 	@ApiOperation(value="查询", notes="获取列表")
 	@ResponseBody
 	@RequestMapping(value = "/resource/list4item", method = RequestMethod.POST)
-	public Object list4item(HttpSession session,String id,HttpServletResponse response){
+	public Object list4item(String v,HttpServletResponse response){
 
 		init();
 
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<>();
 
-		String type = (String) session.getAttribute("type");
-		if(StringUtils.isEmpty(type)){
-			try {
-				response.sendRedirect("/");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return null;
-		}
-		String itemId = "";
-		if(!StringUtils.isEmpty(id)){
-			itemId = id;
-			session.setAttribute("itemId",id);
+		ValueOperations<String,Object> redis = redisTemplate.opsForValue();
+		Object obj = redis.get(v);
+		if(!StringUtils.isEmpty(obj)){
+			rList = (List<Map<String, Object>>) obj;
 		}else{
-			itemId = (String) session.getAttribute("itemId");
-			if(StringUtils.isEmpty(itemId)){
+			map.put("eid",v);
+			rList = service.list4item(map);
+			if(rList.size()==0){
 				try {
-					response.sendRedirect("/");
+					response.sendRedirect("/404");
+					return null;
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				return null;
 			}
 		}
 
-		map.put("type",type);
-		map.put("id",itemId);
-		rList = service.list4item(map);
-		if(rList.size()>0){
+
+		if(rList.size()>0){//新增查看记录
 			Map rMap = rList.get(0);
 			int lid = (int) rMap.get("id");
 			int count = (int) rMap.get("views");
@@ -452,7 +446,7 @@ public class IndexMainController {
 			service.updateByPrimaryKeySelective(resource);
 		}
 
-		backMap.put("type",type);
+		backMap.put("type",rList.get(0).get("type"));
 		backMap.put("data",rList);
 		return backMap;
 	}

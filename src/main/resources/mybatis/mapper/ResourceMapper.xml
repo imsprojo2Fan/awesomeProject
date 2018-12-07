@@ -349,9 +349,14 @@
 
   </select>
 
-  <select id="list4item" parameterType="Map" resultType="Map">
+  <select id="listItem4wx" parameterType="Map" resultType="Map">
     select r.*,s.*
     from resource r,series s where r.type=${type} and r.eid = s.rid and r.id=${id}
+  </select>
+
+  <select id="list4item" parameterType="Map" resultType="Map">
+    select r.*,s.*
+    from resource r,series s where r.eid = s.rid and r.eid=#{eid}
   </select>
 
   <select id="list4refresh" parameterType="Map" resultType="Map">

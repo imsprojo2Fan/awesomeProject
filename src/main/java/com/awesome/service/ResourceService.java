@@ -34,5 +34,7 @@ public interface ResourceService {
 
 	List<Map<String,Object>> list4item(Map<String,Object> qMap);
 
+	List<Map<String,Object>> listItem4wx(Map<String,Object> qMap);
+
 	List<Map<String,Object>> list4refresh(Map<String,Object> qMap);
 }
