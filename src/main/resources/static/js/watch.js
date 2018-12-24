@@ -481,7 +481,7 @@ function category() {
                 $('#categoryWrap').append('<a onclick="toMore('+type+')" href="javascript:void(0)">'+title+'<span>('+obj+')</span></a>');
             }else{
                 var url = "/listTV";
-                $('#categoryWrap').append('<a  href="javascript:window.location.href='+url+'">电视直播<span>('+obj+')</span></a>');
+                $('#categoryWrap').append('<a  href="javascript:toMoreTV()">电视直播<span>('+obj+')</span></a>');
             }
         }
     });
@@ -1097,7 +1097,7 @@ function toHistory(eid) {
     if(parseInt(type)){
         window.location.href = "/index/resource/share?v="+eid;
     }else{
-        window.location.href = "/singleTV?tid="+eid;
+        window.location.href = "/tv?tid="+eid;
     }
 }
 

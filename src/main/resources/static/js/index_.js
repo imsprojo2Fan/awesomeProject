@@ -298,10 +298,10 @@ function toMoreTV() {
 }
 
 function toDetail(itemId) {
-    window.location.href = "/single?v="+itemId;
+    window.location.href = "/watch?v="+itemId;
     /*$.post("/setSession",{type:type,itemId:itemId},function (r) {
         if(r.code==1){
-            window.location.href = "/single?itemId="+itemId+"&type="+type;
+            window.location.href = "/watch?itemId="+itemId+"&type="+type;
         }
     });*/
 }
@@ -309,7 +309,7 @@ function toDetail(itemId) {
 function toTVDetail(eid) {
     $.post("/setSession",{eid:eid},function (r) {
         if(r.code==1){
-            window.location.href = "/singleTV?eid="+eid;
+            window.location.href = "/tv?eid="+eid;
         }
     });
 }
@@ -390,6 +390,6 @@ function toHistory(eid) {
     if(parseInt(type)){
         window.location.href = "/index/resource/share?v="+eid;
     }else{
-        window.location.href = "/singleTV?eid="+eid;
+        window.location.href = "/tv?eid="+eid;
     }
 }

@@ -79,13 +79,13 @@ public class LoginController {
 		return "/html/listTV.html";
 	}
 	@ApiIgnore//使用该注解忽略这个API
-	@RequestMapping(value = "/singleTV")
+	@RequestMapping(value = "/tv")
 	public String singleTV(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		if(request.getSession(false)==null){
 			response.sendRedirect("/");
 			return null;
 		}
-		return "/html/singleTV.html";
+		return "/html/tv.html";
 	}
 
 	@ApiIgnore//使用该注解忽略这个API
@@ -94,7 +94,7 @@ public class LoginController {
 		return "/html/list.html";
 	}
 	@ApiIgnore//使用该注解忽略这个API
-	@RequestMapping(value = "/single")
+	@RequestMapping(value = "/watch")
 	public String single(String v, HttpServletResponse response) throws IOException {
 		System.out.println(v);
 		Map map = new HashMap();
@@ -105,7 +105,7 @@ public class LoginController {
 		}
 		ValueOperations<String,Object> redis = redisTemplate.opsForValue();
 		redis.set(v,rList);//redis缓存
-		return "/html/single.html?itemId="+v;
+		return "/html/watch.html?itemId="+v;
 
 	}
 	@ApiIgnore//使用该注解忽略这个API

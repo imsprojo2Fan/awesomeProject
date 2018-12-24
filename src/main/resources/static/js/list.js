@@ -432,10 +432,10 @@ function aside(col) {
 }
 
 function toDetail(itemId) {
-    window.location.href = "/single?v="+itemId;
+    window.location.href = "/watch?v="+itemId;
     /*$.post("/setSession",{type:type,itemId:itemId},function (r) {
         if(r.code==1){
-            window.location.href = "/single";
+            window.location.href = "/watch";
         }
     });*/
 }
@@ -527,7 +527,7 @@ function toHistory(eid) {
     if(parseInt(type)){
         window.location.href = "/index/resource/share?v="+eid;
     }else{
-        window.location.href = "/singleTV?tid="+eid;
+        window.location.href = "/tv?tid="+eid;
     }
 }
 

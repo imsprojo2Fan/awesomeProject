@@ -329,7 +329,7 @@ function share() {
 }
 
 function makeCode(eid) {
-    var url = "http://awesome.zooori.cn/singleTV?eid="+eid;
+    var url = "http://awesome.zooori.cn/tv?eid="+eid;
     var qrcode = new QRCode("qrcode", {
         text: url,
         width: 128,
@@ -790,7 +790,7 @@ function toHistory(eid) {
     if(parseInt(type)){
         window.location.href = "/index/resource/share?v="+eid;
     }else{
-        window.location.href = "/singleTV?eid="+eid;
+        window.location.href = "/tv?eid="+eid;
     }
 }
 

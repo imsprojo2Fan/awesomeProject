@@ -7,7 +7,7 @@
 5.static文件夹下Kode.rar为前端使用框架
 6.uri为"/main/**"下的地址均需要验证登录
 7.add、edit、delete验证是否有权限操作
-8.运行指令 nohup java -jar awesome-0.0.29.jar /dev/null 2>&1 &
+8.运行指令 nohup java -jar awesome-0.0.30.jar /dev/null 2>&1 &
   -->更改jar包文件名、pro生产环境
 
 9.windows查看端口
