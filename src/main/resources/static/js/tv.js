@@ -77,6 +77,7 @@ function getItem(eid) {
         console.log(r);
         var obj = r.data[0];
         GlobalItem = obj;
+        $('title').html(obj.name);
         $('#tab3').html(obj.name);
         //设置分类
         $('#tagWrap').html('<a href="javascript:void(0)"><i class="fa fa-tag"></i>'+obj.area_type

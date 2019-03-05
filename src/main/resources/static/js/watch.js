@@ -169,6 +169,7 @@ function getItem(id) {
             GlobalRid = obj.eid;
             GlobalName = obj.name;
             var bdUrl = obj.bdUrl;
+            $('title').html(obj.name);
             $('#tab3').html(obj.name);
             $('#name').html(obj.name);
             var imgSrc = ""+obj.imgSrc2;
@@ -652,7 +653,7 @@ function share() {
 }
 
 function makeCode(rid) {
-    url = "http://awesome.zooori.cn/index/resource/share?v="+rid;
+    url = "http://awesome.zooori.cn/index/resource/watch?v="+rid;
     var qrcode = new QRCode("qrcode", {
         text: url,
         width: 128,
